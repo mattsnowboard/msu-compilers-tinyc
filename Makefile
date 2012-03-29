@@ -1,4 +1,4 @@
-SRCS := 
+SRCS := functions.cpp SymbolTable.cpp
 OBJS := $(SRCS:%.cpp=%.o)
 
 CXXFLAGS = -Wall
@@ -26,11 +26,11 @@ test:	t1 t2 t3 t4
 #	$@	target name
 #	$^	source files
 #
-tinyc:		$(OBJS) y.tab.o lex.yy.o symbol.o
-	gcc -o $@ $^
+tinyc:		$(OBJS) tinyc.o y.tab.o lex.yy.o symbol.o
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
-#	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o simplecalc
-
+tinyc.o: tinyc.cpp y.tab.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c tinyc.cpp
 
 # Bison options:
 #	-v	Generate micro.output showing states of LALR parser
@@ -51,9 +51,6 @@ lex.yy.c: tinyc.l y.tab.h
 
 lex.yy.o: lex.yy.c
 	gcc -c lex.yy.c
-
-#tinyc.o: tinyc.cpp y.tab.h
-#	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c tinyc.cpp
 
 
 ########################################
