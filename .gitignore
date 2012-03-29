@@ -1,0 +1,18 @@
+*.o
+*.tar.gz
+lex.yy*
+y.tab.*
+y.output
+\#*#
+# the name of the executable
+tinyc
+# make depend stuff
+.D_TARGET
+.deps
+# submission
+tinyc_team6.tgz
+# dotfiles
+*.dot
+*.png
+# assembly files 
+*.s
