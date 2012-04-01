@@ -14,12 +14,14 @@ extern int lineno;  /* defined in micro.y */
 
 ("write") {return WRITE;}
 ("int")   {return INT;}
+("return") {return RETURN;}
 
 [0-9]+ { yylval.ival = atoi(yytext); return NUM; }
 
 [a-zA-Z]+[a-zA-Z0-9]* { yylval.sval = strdup(yytext); return VAR;}
 
-("("|")"|"*"|"-"|"+"|"/"|"}"|"{"|","|";") {return yytext[0];}
+("("|")"|"*"|"-"|"+"|"/"|"}"|"{"|",") {return yytext[0];}
+(";") {return DELIM;}
 ("=") {return ASSIGN;}
 
 [ \t]* {/* ignore blank lines */}
