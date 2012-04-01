@@ -15,14 +15,7 @@ public:
 
     virtual void Execute()
     {
-       if (_value) {
-            SymbolTable &s = SymbolTable::GetInstance();
-            // create a new Value of the current Expr value
-            // that new Value will be owned by SymbolTable
-            // But this owns its _value pointer now
-            _value->Evaluate();
-            s.AddVar(_name, new Value(_value->Get()));
-        }
+       
 	}
 
     virtual AssignStmt* Clone()
@@ -49,7 +42,6 @@ public:
 
     ~AssignStmt()
     {
-        // actually, we do need to own _value
         if (_value) {
             delete _value;
         }

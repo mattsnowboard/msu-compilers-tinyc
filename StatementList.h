@@ -6,7 +6,7 @@
 
 /**
  * This class holds a list of statements.
- * It is a helpful wrapper around std::list for If and While blocks
+ * It is a helpful wrapper around std::list
  */
 class StatementList
 {

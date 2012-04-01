@@ -2,8 +2,7 @@
 #define _PROGRAM_H
 
 #include <list>
-#include <deque>
-#include "Statement.h"
+#include "FunctionBlock.h"
 
 #include "StatementVisitor.h"
 
@@ -12,34 +11,22 @@ class Program
 public:
     Program()
     {
-        _curr = _stmts.begin();
     }
     
     /**
-     * Execute next Statment
+     * Add a FunctionBlock to the Program and take ownership
+     * @param FunctionBlock* f
      */
-    void ExecuteTop()
+    void AddFunction(FunctionBlock *f)
     {
-        // execute top of stack and increment the iterator
-        if (_curr != _stmts.end()) {
-            (*_curr++)->Execute();
-        }
+        _funcs.push_back(f);
     }
 
-    /**
-     * Add a Statement to the Program and take ownership
-     * @param Statement s
-     */
-    void AddStatement(Statement *s)
-    {
-        _stmts.push_back(s);
-    }
+    typedef std::list<const FunctionBlock*> ListT;
 
-    typedef std::list<const Statement*> ProgramListT;
-
-    ProgramListT GetStatements() const
+    ListT GetFunctions() const
     {
-        std::list<const Statement*> cret(_stmts.begin(), _stmts.end());
+        ListT cret(_funcs.begin(), _funcs.end());
         return cret;
     }
 
@@ -50,20 +37,17 @@ public:
 
     ~Program()
     {
-        while (!_stmts.empty()) {
-            Statement *s = _stmts.back();
-            if (s) {
-                delete s;
+        while (!_funcs.empty()) {
+            FunctionBlock *f = _funcs.back();
+            if (f) {
+                delete f;
             }
-            _stmts.pop_back();
+            _funcs.pop_back();
         }
     }
 
 private:
-    // treated like a stack but allow iteration
-    std::deque<Statement*> _stmts;
-    // current statement to execute
-    std::deque<Statement*>::iterator _curr;
+    std::list<FunctionBlock*> _funcs;
 };
 
 #endif

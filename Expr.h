@@ -14,6 +14,7 @@ public:
 
     virtual void Execute()
     {
+        // could remove this probably
         Evaluate();
         std::cout << "Answer: " << *this << std::endl;
     }
@@ -22,7 +23,7 @@ public:
 
     virtual Expr* Clone() = 0;
 
-    virtual double Get() const { return _value; }
+    virtual int Get() const { return _value; }
 
     /**
      * Print an arbitrary expression to a stream
