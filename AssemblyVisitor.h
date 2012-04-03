@@ -44,6 +44,8 @@ public:
     virtual void Visit(const WriteStmt &w);
     virtual void Visit(const DeclStmt &d);
     virtual void Visit(const ReturnStmt &r);
+    
+    virtual void Visit(const FuncCall &f);
 
 private:
 	void Visit(const Binary &b);

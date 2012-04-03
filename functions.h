@@ -75,4 +75,60 @@ void * CreateWriteStmt(void *expr);
  */
 void * CreateAssignStatement(const char *name, void *expr);
 
+
+/**
+ * Functions that I've identified may need to be created.
+ * 
+ * Everything below added on or after Tue, Apr 3, 2012 
+ * 
+ */
+
+/**
+ * Create a Return Statement
+ * @param Exp*
+ * #reteturn Expr* (ReturnStatement)
+ */
+void * CreateReturn(void *expr);
+
+/**
+ * Create a Declaration Statement
+ * @param char* name
+ * @return *Statement (DeclStatement)
+ */
+void * CreateDeclaration(const char *name);
+
+/**
+ * Add a declaration to a declaration list
+ * @param type* type (for memory size)
+ * @param DeclStatement* decl
+ * @return a list of declarations sharing the same type
+ */
+void * AddDeclarationToList(void *type ,void *decl);
+
+/**
+ * Add and expression to an expression list
+ * @param *exprList (to add to)
+ * @param *expr
+ * @return ListT
+ */
+void * AddExprToList(void *exprList, void *expr);
+
+/**
+ * Create a Function Block
+ * @param char* name
+ * @param ParamDefList* params
+ * @return *FunctionBlock
+ */
+void * CreateFunctionBlock(const char *name,void *paramList);
+
+/**
+ * Create a Function call
+ * @param char* name (of function to call)
+ * @param ExprList* params
+ */
+void * CreateFunctionCall(const char *name, void *paramlist);
+void * CreateParameterList(void *paramlist, void *param);
+void * CreateParameter(void *decl, void *name);
+
+
 #endif

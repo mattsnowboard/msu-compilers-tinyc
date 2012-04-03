@@ -19,6 +19,14 @@
 #include "AssignStmt.h"
 #include "WriteStmt.h"
 
+#include "AssemblyVisitor.h"
+#include "DeclStatement.h"
+#include "ExprList.h"
+#include "FuncCall.h"
+#include "FunctionBlock.h"
+#include "ParamDefList.h"
+#include "ReturnStatement.h"
+
 extern "C" {
 #include "functions.h"    
 }
@@ -93,4 +101,68 @@ extern "C" void * CreateAssignStatement(const char *name, void *expr)
     return asn;
 }
 
+/**
+ * Everything below added on or after Tue, Apr 3, 2012 
+ */
 
+
+void * CreateReturn(void *expr)
+{
+    ReturnStmt * rtns = new ReturnStmt( (Expr*)expr);
+    return rtns;
+}
+
+
+void * CreateDeclaration(const char *name)
+{
+    DeclStmt * dcls = new DeclStmt( name);
+    return dcls;
+}
+
+//
+//@TODO
+//How are parameters defined, to be added to the list
+//and in the .y file?
+void * CreateParameterList(void *paramlist, void *param)
+{
+    
+  ParamDefList *s = (ParamDefList *) paramlist;
+  //s->AddItem(param);
+  return s;   
+}
+
+//
+//@TODO 
+//Should we create a special parameter class? 
+//would that be easier to add to a list?
+void * CreateParameter(void *decl, void *name)
+{
+    
+}
+
+void * AddDeclarationToList(void *type ,void *decl)
+{
+    
+}
+
+
+void * AddExprToList(void *exprList, void *expr)
+{
+    ExprList *el = (ExprList *)exprList;
+    el->AddItem((Expr*) expr);
+    return el;
+}
+
+
+void * CreateFunctionBlock(const char *name,void *paramList)
+{
+    FunctionBlock * fb = new FunctionBlock(name, (ParamDefList*) paramList);
+    return fb;
+}
+
+
+void * CreateFunctionCall(const char *name, void *paramlist)
+{
+    FuncCall * theCall = new FuncCall(name, (ExprList*) paramlist);
+    return theCall;
+}
