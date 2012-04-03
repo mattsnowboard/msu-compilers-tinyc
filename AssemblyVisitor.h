@@ -8,6 +8,7 @@
 class Program;
 class FunctionBlock;
 
+class Binary;
 class Add;
 class Divide;
 class Multiply;
@@ -48,7 +49,7 @@ public:
     virtual void Visit(const FuncCall &f);
 
 private:
-	void Visit(const Binary &b);
+	void Visit(const Binary &b, const std::string &op);
 
     std::ostream &_out;
 };

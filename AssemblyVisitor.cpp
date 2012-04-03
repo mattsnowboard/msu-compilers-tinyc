@@ -1,7 +1,11 @@
 #include "AssemblyVisitor.h"
 
+#include <stdexcept>
+
 #include "Program.h"
 #include "FunctionBlock.h"
+
+#include "Binary.h"
 
 void AssemblyVisitor::Visit(const Program & p)
 {
@@ -93,10 +97,22 @@ void AssemblyVisitor::Visit(const FuncCall & f)
 
 }
 
-void AssemblyVisitor::Visit(const Binary &b)
+void AssemblyVisitor::Visit(const Binary &b, const std::string &op)
 {
-	_out << "pop ?" << std::endl;
-	_out << "pop ?" << std::endl;
-	// do some op
-	_out << "push ?" << std::endl;
+    // get the two children results
+    const Expr *l = b.GetLeft();
+    const Expr *r = b.GetRight();
+    if (!l || !r) {
+        // WTF, exception
+        throw std::runtime_error("Could not evaluated binary expression");
+    }
+    l->Accept(*this);
+    r->Accept(*this);
+    // grab results into registers
+	_out << "\tpopl %edx" << std::endl; // right
+	_out << "\tpopl %eax" << std::endl; // left
+    // do op
+    _out << "\t" << op << " %eax, %edx" << std::endl;
+    // push result
+	_out << "push %eax" << std::endl;
 }
