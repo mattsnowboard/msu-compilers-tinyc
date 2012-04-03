@@ -6,6 +6,11 @@
 #include "FunctionBlock.h"
 
 #include "Binary.h"
+#include "Unary.h"
+#include "Add.h"
+#include "Subtract.h"
+#include "Multiply.h"
+#include "Negate.h"
 
 void AssemblyVisitor::Visit(const Program & p)
 {
@@ -43,7 +48,7 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
 
 void AssemblyVisitor::Visit(const Add & a)
 {
-    // use a binary helper for visit left, visit right, pop, pop, add, push
+    VisitBinary(a, "addl");
 }
 
 void AssemblyVisitor::Visit(const Divide & d)
@@ -52,14 +57,17 @@ void AssemblyVisitor::Visit(const Divide & d)
 
 void AssemblyVisitor::Visit(const Multiply & m)
 {
+    VisitBinary(m, "imull");
 }
 
 void AssemblyVisitor::Visit(const Negate & n)
 {
+    VisitUnary(n, "negl");
 }
 
 void AssemblyVisitor::Visit(const Subtract & s)
 {
+    VisitBinary(s, "subl");
 }
 
 void AssemblyVisitor::Visit(const Value & v)
@@ -97,22 +105,39 @@ void AssemblyVisitor::Visit(const FuncCall & f)
 
 }
 
-void AssemblyVisitor::Visit(const Binary &b, const std::string &op)
+void AssemblyVisitor::VisitBinary(const Binary &b, const std::string &op)
 {
     // get the two children results
     const Expr *l = b.GetLeft();
     const Expr *r = b.GetRight();
     if (!l || !r) {
         // WTF, exception
-        throw std::runtime_error("Could not evaluated binary expression");
+        throw std::runtime_error("Could not evaluate binary expression");
     }
     l->Accept(*this);
     r->Accept(*this);
     // grab results into registers
 	_out << "\tpopl %edx" << std::endl; // right
 	_out << "\tpopl %eax" << std::endl; // left
-    // do op
-    _out << "\t" << op << " %eax, %edx" << std::endl;
+    // do op (example addl %edx, %eax // will do %eax = %eax + %edx)
+    _out << "\t" << op << " %edx, %eax" << std::endl;
+    // push result
+	_out << "push %eax" << std::endl;
+}
+
+void AssemblyVisitor::VisitUnary(const Unary &u, const std::string &op)
+{
+    // get the child result
+    const Expr *c = u.GetChild();
+    if (!c) {
+        // WTF, exception
+        throw std::runtime_error("Could not evaluate unary expression");
+    }
+    c->Accept(*this);
+    // grab result into register
+	_out << "\tpopl %eax" << std::endl;
+    // do op (example negl %eax // will do %eax = - %eax)
+    _out << "\t" << op << " %eax" << std::endl;
     // push result
 	_out << "push %eax" << std::endl;
 }
