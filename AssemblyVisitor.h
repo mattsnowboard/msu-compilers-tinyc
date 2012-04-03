@@ -13,6 +13,7 @@ class Binary;
 class Add;
 class Divide;
 class Multiply;
+class Modulus;
 class Negate;
 class Subtract;
 class Value;
@@ -39,6 +40,7 @@ public:
     virtual void Visit(const Multiply &m);
     virtual void Visit(const Negate &n);
     virtual void Visit(const Subtract &s);
+    virtual void Visit(const Modulus &s);
     virtual void Visit(const Value &v);
     virtual void Visit(const Variable &v);
 

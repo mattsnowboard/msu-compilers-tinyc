@@ -9,6 +9,7 @@ class Divide;
 class Multiply;
 class Negate;
 class Subtract;
+class Modulus;
 class Value;
 class Variable;
 class FuncCall;
@@ -29,6 +30,7 @@ public:
     virtual void Visit(const Multiply &m) = 0;
     virtual void Visit(const Negate &n) = 0;
     virtual void Visit(const Subtract &s) = 0;
+    virtual void Visit(const Modulus &m) = 0;
     virtual void Visit(const Value &v) = 0;
     virtual void Visit(const Variable &v) = 0;
 

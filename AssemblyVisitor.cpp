@@ -10,6 +10,8 @@
 #include "Add.h"
 #include "Subtract.h"
 #include "Multiply.h"
+#include "Divide.h"
+#include "Modulus.h"
 #include "Negate.h"
 
 void AssemblyVisitor::Visit(const Program & p)
@@ -61,6 +63,44 @@ void AssemblyVisitor::Visit(const Add & a)
 
 void AssemblyVisitor::Visit(const Divide & d)
 {
+    // I'm too lazy to make VisitBinary more generic...
+    // get the two children results
+    const Expr *l = d.GetLeft();
+    const Expr *r = d.GetRight();
+    if (!l || !r) {
+        throw std::runtime_error("Could not evaluate binary expression");
+    }
+    l->Accept(*this);
+    r->Accept(*this);
+    // grab results into registers
+	_out << "\tpopl %ebx" << std::endl; // right
+	_out << "\tpopl %eax" << std::endl; // left
+    // need to divide %eax by %ebx
+    _out << "\tcltd" << std::endl
+         << "\tidiv %ebx" << std::endl;
+    // push result
+	_out << "push %eax" << std::endl;
+}
+
+void AssemblyVisitor::Visit(const Modulus & d)
+{
+    // same as divide but return remainder
+    // get the two children results
+    const Expr *l = d.GetLeft();
+    const Expr *r = d.GetRight();
+    if (!l || !r) {
+        throw std::runtime_error("Could not evaluate binary expression");
+    }
+    l->Accept(*this);
+    r->Accept(*this);
+    // grab results into registers
+	_out << "\tpopl %ebx" << std::endl; // right
+	_out << "\tpopl %eax" << std::endl; // left
+    // need to divide %eax by %ebx
+    _out << "\tcltd" << std::endl
+         << "\tidiv %ebx" << std::endl;
+    // push result (remainder)
+	_out << "push %edx" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const Multiply & m)
