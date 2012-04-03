@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 
+#include "AssemblyVisitor.h"
 #include "Program.h"
 
 using namespace std;
@@ -41,8 +42,8 @@ int main(int argc, char **argv)
     } while (!feof(yyin));
 
     // Here is where we use a visitor to create the assembly
-    //AssemblyVisitor asmv(std::cout);
-    //asmv.Visit(program);
+    AssemblyVisitor asmv(std::cout);
+    asmv.Visit(program);
 
     return 0;
 }

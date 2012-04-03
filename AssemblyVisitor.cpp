@@ -15,6 +15,14 @@
 void AssemblyVisitor::Visit(const Program & p)
 {
     // Visit each FunctionBlock in Program
+    Program::ListT funcs = p.GetFunctions();
+    for (Program::ListT::const_iterator it = funcs.begin();
+         it != funcs.end();
+         ++it) {
+        if (*it) {
+            (*it)->Accept(*this);
+        }
+    }
 }
 
 void AssemblyVisitor::Visit(const FunctionBlock & f)
