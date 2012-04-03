@@ -36,6 +36,8 @@ public:
     virtual void Visit(const WriteStmt &w) = 0;
     virtual void Visit(const DeclStmt &d) = 0;
     virtual void Visit(const ReturnStmt &r) = 0;
+    
+    virtual void Visit(const FuncCall &f) = 0;
 };
 
 #endif

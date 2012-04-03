@@ -19,6 +19,14 @@
 #include "AssignStmt.h"
 #include "WriteStmt.h"
 
+#include "AssemblyVisitor.h"
+#include "DeclStatement.h"
+#include "ExprList.h"
+#include "FuncCall.h"
+#include "FunctionBlock.h"
+#include "ParamDefList.h"
+#include "ReturnStatement.h"
+
 extern "C" {
 #include "functions.h"    
 }

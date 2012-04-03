@@ -64,3 +64,8 @@ void AssemblyVisitor::Visit(const ReturnStmt & r)
 {
     // return statement means writing something to eax
 }
+
+void AssemblyVisitor::Visit(const FuncCall & f)
+{
+	
+}
