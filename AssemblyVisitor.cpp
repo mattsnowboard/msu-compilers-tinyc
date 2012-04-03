@@ -1,5 +1,7 @@
 #include "AssemblyVisitor.h"
 
+#include "Program.h"
+#include "FunctionBlock.h"
 
 void AssemblyVisitor::Visit(const Program & p)
 {
@@ -10,6 +12,12 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
 {
     // get the current SymbolTable and store it on a stack of symbol tables?
     // Print prolog
+    _out << ".global " << f.GetName() << std::endl
+         << ".type " << f.GetName() << ", @function" << std::endl
+         << f.GetName() << ":" << std::endl
+         << "\tpushl %ebp /* base pointer on stack */" << std::endl
+         << "\tmovl  %esp, %ebp /* change base pointer */" << std::endl;
+    
     /* .global #{FunctionName}
      * .type #{FunctionName}, @function
      * #{FunctionName}:
@@ -18,6 +26,9 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
   	 */
     // ? then visit all statements
     // Print epilog
+    _out << "\tmovl %ebp, %esp" << std::endl
+         << "\tpopl %ebp /* restore base pointer */" << std::endl
+         << "\tret" << std::endl;
     /*
      *         movl %ebp, %esp
      *         popl %ebp
