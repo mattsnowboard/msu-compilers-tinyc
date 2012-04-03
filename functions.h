@@ -119,7 +119,7 @@ void * AddExprToList(void *exprList, void *expr);
  * @param ParamDefList* params
  * @return *FunctionBlock
  */
-void * CreateFunctionBlock(void *type, const char *name,void *paramList);
+void * CreateFunctionBlock(const char *name,void *paramList);
 
 /**
  * Create a Function call

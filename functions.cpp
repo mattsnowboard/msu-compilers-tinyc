@@ -101,4 +101,55 @@ extern "C" void * CreateAssignStatement(const char *name, void *expr)
     return asn;
 }
 
+/**
+ * Everything below added on or after Tue, Apr 3, 2012 
+ */
 
+
+void * CreateReturn(void *expr)
+{
+    ReturnStmt * rtns = new ReturnStmt( (Expr*)expr);
+    return rtns;
+}
+
+
+void * CreateDeclaration(const char *name)
+{
+    DeclStmt * dcls = new DeclStmt( name);
+    return dcls;
+}
+
+void * CreateParameterList(void *paramlist, void *param)
+{
+    
+}
+
+void * CreateParameter(void *decl, void *name)
+{
+    
+}
+
+void * AddDeclarationToList(void *type ,void *decl)
+{
+    
+}
+
+
+void * AddExprToList(void *exprList, void *expr)
+{
+    
+}
+
+
+void * CreateFunctionBlock(const char *name,void *paramList)
+{
+    FunctionBlock * fb = new FunctionBlock(name, (ParamDefList*) paramList);
+    return fb;
+}
+
+
+void * CreateFunctionCall(const char *name, void *paramlist)
+{
+    FuncCall * theCall = new FuncCall(name, (ExprList*) paramlist);
+    return theCall;
+}

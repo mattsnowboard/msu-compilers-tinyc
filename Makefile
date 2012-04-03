@@ -1,4 +1,4 @@
-SRCS := functions.cpp SymbolTable.cpp
+SRCS := functions.cpp SymbolTable.cpp AssemblyVisitor.cpp tinyc.cpp
 OBJS := $(SRCS:%.cpp=%.o)
 
 CXXFLAGS = -Wall
