@@ -10,8 +10,20 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
 {
     // get the current SymbolTable and store it on a stack of symbol tables?
     // Print prolog
+    /* .global #{FunctionName}
+     * .type #{FunctionName}, @function
+     * #{FunctionName}:
+     *         pushl %ebp
+     *         movl $esp, %ebp
+  	 */
     // ? then visit all statements
     // Print epilog
+    /*
+     *         movl %ebp, %esp
+     *         popl %ebp
+     *
+     *         ret
+     */
 }
 
 void AssemblyVisitor::Visit(const Add & a)
