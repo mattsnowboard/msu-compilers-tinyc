@@ -46,6 +46,8 @@ public:
     virtual void Visit(const ReturnStmt &r);
 
 private:
+	void Visit(const Binary &b);
+
     std::ostream &_out;
 };
 

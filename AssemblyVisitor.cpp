@@ -64,3 +64,11 @@ void AssemblyVisitor::Visit(const ReturnStmt & r)
 {
     // return statement means writing something to eax
 }
+
+void AssemblyVisitor::Visit(const Binary &b)
+{
+	_out << "pop ?" << std::endl;
+	_out << "pop ?" << std::endl;
+	// do some op
+	_out << "push ?" << std::endl;
+}
