@@ -119,11 +119,22 @@ void * CreateDeclaration(const char *name)
     return dcls;
 }
 
+//
+//@TODO
+//How are parameters defined, to be added to the list
+//and in the .y file?
 void * CreateParameterList(void *paramlist, void *param)
 {
     
+  ParamDefList *s = (ParamDefList *) paramlist;
+  //s->AddItem(param);
+  return s;   
 }
 
+//
+//@TODO 
+//Should we create a special parameter class? 
+//would that be easier to add to a list?
 void * CreateParameter(void *decl, void *name)
 {
     
@@ -137,7 +148,9 @@ void * AddDeclarationToList(void *type ,void *decl)
 
 void * AddExprToList(void *exprList, void *expr)
 {
-    
+    ExprList *el = (ExprList *)exprList;
+    el->AddItem((Expr*) expr);
+    return el;
 }
 
 

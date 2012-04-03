@@ -32,7 +32,7 @@ FUNCDEF : FUNCDECL '{' FUNCBODY '}' { /* Add list of statements to func */ }
 
 FUNCBODY : DECLLIST STMTLIST RETURNSTMT { /* add these to statement list */ }
 
-FUNCDECL : TYPE VAR '(' PARAMDEFLIST ')' { /* create function def */}
+FUNCDECL : TYPE VAR '(' PARAMDEFLIST ')' { /* create function def */ /* $$ = CreateFunctionBlock($2, $3) */}
 
 PARAMDEFLIST : PARAMDEFLIST ',' DECL { /* add decl to list */ }
              | DECL { /* create param list, add decl */ }
@@ -62,7 +62,9 @@ OUTPUT : WRITE EXPRESSION  { /*$$ = CreateWriteStmt($2);*/ }
 EXPRESSION : EXPR  {/*$$ = $1;*/}
            | FUNCCALL { /* $$ = $1 */ }
 
-FUNCCALL : VAR '(' PARAMCALLLIST ')' { /* create function call expr (here var is just a symbol for the function name, not a variable) */ }
+FUNCCALL : VAR '(' PARAMCALLLIST ')' { /* create function call expr (here var is just a symbol for the function name, not a variable) */ 
+                                        /*$$ = CreateFunctionCall($1, $2);*/
+                                        }
 
 EXPR : EXPR '+' TERM  {/*$$ = CreateAdd($1, $3);*/}
 EXPR : EXPR '-' TERM {/*$$ = CreateSubtract($1, $3);*/}
