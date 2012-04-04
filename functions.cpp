@@ -125,7 +125,9 @@ extern "C" void * CreateParameterList(void *decl)
 {
     
   ParamDefList *s = new ParamDefList();
-  s->AddItem("int", ((DeclStmt*)decl)->GetName());
+  if (decl != NULL) {
+      s->AddItem("int", ((DeclStmt*)decl)->GetName());
+  }
   return s;   
 }
 

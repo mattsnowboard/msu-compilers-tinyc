@@ -185,6 +185,7 @@ void AssemblyVisitor::Visit(const DeclStmt & d)
 void AssemblyVisitor::Visit(const ReturnStmt & r)
 {
     // return statement means writing something to eax
+    _out << "\tpopl %eax" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const FuncCall & f)
