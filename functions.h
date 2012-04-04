@@ -129,6 +129,16 @@ void * CreateExprList(void *expr);
 void * CreateFunctionBlock(const char *name,void *paramList);
 
 /**
+ * Add shtuff to the Function block
+ * @param *FunctionBlock
+ * @param *StmtList
+ * @param *stmtList
+ * @param *stmt
+ * @return *Functionblock
+ */
+void * AddToFunctionBlock(void * fb, void * decls, void * stmtlist, void *rstmt);
+
+/**
  *
  */
 void * CreateFunctionDelcartion();
@@ -146,10 +156,18 @@ void * CreateFunction();
 void * CreateFunctionCall(const char *name, void *paramlist);
 
 /**
- * (ExprList*)
+ * @param *decl
+ * @return *ParamDefList
  */
-void * CreateParameterList(void *paramlist, void *param);
-void * CreateParameter(void *decl, void *name);
+void * CreateParameterList(void * decl);
+
+/**
+ * Add a declaration to a parameter list
+ * @param (ParamDefList*) list
+ * @param (DeclStmt*) decl
+ * @return *ParamDefList
+ */
+void * AddParameterToList(void *list, void *decl);
 
 /**
  * Create a Modulus function
@@ -165,4 +183,6 @@ void * CreateModulus(void * left, void * right);
  * @return *value
  */
 void * CreateInt(int num);
+
+void * AddFunctionToProgram(void * func);
 #endif

@@ -21,21 +21,19 @@ int  lineno = 1; /* number of current source line */
 %token<ival> NUM
 %token<sval> VAR
 
-%type<pval> PROGRAM FUNCDEF FUNCBODY FUNCDECL PARAMDEFLIST PARAMCALLLIST STMTLIST STMT DECLLIST ASSIGNMENT DECL OUTPUT RETURNSTMT EXPRESSION FUNCCALL EXPR TERM UNARY NUMBER TYPE
+%type<pval> PROGRAM FUNCDEF FUNCDECL PARAMDEFLIST PARAMCALLLIST STMTLIST STMT DECLLIST ASSIGNMENT DECL OUTPUT RETURNSTMT EXPRESSION FUNCCALL EXPR TERM UNARY NUMBER TYPE
 
 %%
 
-PROGRAM : PROGRAM FUNCDEF { /* Add function definition to program */}
-        | FUNCDEF { /* Create program, add function def to it*/}
+PROGRAM : PROGRAM FUNCDEF { $$ = AddFunctionToProgram($2);}
+        | FUNCDEF { $$ = AddFunctionToProgram($1);}
 
-FUNCDEF : FUNCDECL '{' FUNCBODY '}' { /* Add list of statements to func */ }
+FUNCDEF : FUNCDECL '{' DECLLIST STMTLIST RETURNSTMT '}' { $$ = AddToFunctionBlock($1, $3, $4, $5); }
 
-FUNCBODY : DECLLIST STMTLIST RETURNSTMT { /* add these to statement list */ }
+FUNCDECL : TYPE VAR '(' PARAMDEFLIST ')' {  $$ = CreateFunctionBlock($2, $4); }
 
-FUNCDECL : TYPE VAR '(' PARAMDEFLIST ')' { /* create function def */ /* $$ = CreateFunctionBlock($2, $3) */}
-
-PARAMDEFLIST : DECL { /* create param list, add decl */ }
-             |PARAMDEFLIST ',' DECL {/* $$ = CreateDeclaration()*/}
+PARAMDEFLIST : DECL { CreateParameterList($1); }
+             |PARAMDEFLIST ',' DECL { $$ = AddParameterToList($1, $3);}
              | { /* empty param list */ }
 PARAMCALLLIST : EXPR { $$ = CreateExprList($1);}
               |PARAMCALLLIST ',' EXPR { $$ = AddExprToList($1, $3); }
