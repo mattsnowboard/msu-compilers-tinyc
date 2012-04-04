@@ -1,32 +1,29 @@
 
 #include "SymbolTable.h"
-//
+
 #include "Expr.h"
 #include <map>
 #include <string>
 #include "Expr.h"
 
-void SymbolTable::AddVar(std::string Var, Expr* exprssn )
+bool SymbolTable::DoesExist(const std::string &name) const
 {
-    std::pair<std::map<std::string, Expr*>::iterator, bool> ret
-        = _VarMap.insert(std::make_pair(Var, exprssn));
+    return (_VarMap.find(name) != _VarMap.end());
+}
+
+int SymbolTable::GetOffset(const std::string &name) const
+{
+    std::map<std::string, int>::const_iterator found = _VarMap.find(name);
+    return (found->second);
+}
+
+void SymbolTable::AddVar(const std::string &name, int offset)
+{
+    std::pair<std::map<std::string, int>::iterator, bool> ret
+        = _VarMap.insert(std::make_pair(name, offset));
     if (ret.second == false) {
-        // we are overwriting, that is fine as long as we clean it up
-        Expr *cleanMe = _VarMap[Var];
-        _VarMap[Var] = exprssn;
-        delete cleanMe;
+        // we are overwriting, not sure if that matters?
     }
-
-}
-
-Expr* SymbolTable::GetVal( std::string Var )
-{
-    return _VarMap[Var];
-}
-
-bool SymbolTable::DoesExist( std::string Var )
-{
-    return (_VarMap.find(Var) != _VarMap.end());
 }
 
 void SymbolTable::Clear()
@@ -41,12 +38,13 @@ SymbolTable::~SymbolTable()
 
 void SymbolTable::Cleanup()
 {
-    for (std::map<std::string, Expr*>::iterator it = _VarMap.begin();
-         it != _VarMap.end();
-         ++it) {
-        if (it->second != NULL) {
-            delete it->second;
-        }
-    }
     _VarMap.clear();
 }
+
+
+
+
+
+
+
+

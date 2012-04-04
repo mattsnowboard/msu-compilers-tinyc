@@ -20,7 +20,7 @@
 #include "WriteStmt.h"
 
 #include "AssemblyVisitor.h"
-#include "DeclStatement.h"
+#include "DeclStmt.h"
 #include "ExprList.h"
 #include "FuncCall.h"
 #include "FunctionBlock.h"
