@@ -18,6 +18,7 @@
 #include "Value.h"
 
 #include "AssignStmt.h"
+#include "WriteStmt.h"
 
 void AssemblyVisitor::Visit(const Program & p)
 {
@@ -169,6 +170,10 @@ void AssemblyVisitor::Visit(const AssignStmt & a)
 void AssemblyVisitor::Visit(const WriteStmt & w)
 {
     // may need to evaluate the RHS, then just output "write ???"
+    Expr const *value = w.GetExpr();
+    value->Accept(*this);
+    // this will evaluate the expression with the result on the stack
+    _out << "\tcall print_int" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const DeclStmt & d)
