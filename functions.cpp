@@ -194,7 +194,7 @@ extern "C" void * CreateModulus(void * left, void * right)
 
 extern "C" void * CreateInt(int num)
 {
-    Value * val = new Value( num);
+    Value * val = new Value(num);
     return val;
 }
 
