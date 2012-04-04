@@ -17,6 +17,8 @@
 #include "Variable.h"
 #include "Value.h"
 
+#include "AssignStmt.h"
+
 void AssemblyVisitor::Visit(const Program & p)
 {
     // Visit each FunctionBlock in Program
@@ -139,6 +141,11 @@ void AssemblyVisitor::Visit(const Variable & v)
 void AssemblyVisitor::Visit(const AssignStmt & a)
 {
     // pop something and store it in some offset to ebp depending on var
+    Expr const *value = a.GetValue();
+    value->Accept(*this);
+    // after visiting the RHS of the assignment, the answer is on the stack
+    int off = _currTable->GetOffset(a.GetName());
+    _out << "\tpopl " << off << "(%ebp)" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const WriteStmt & w)
