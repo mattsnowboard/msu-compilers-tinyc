@@ -1,30 +1,18 @@
 #ifndef _SYMBOLTABLE_H
 #define _SYMBOLTABLE_H
 
-
 #include <map>
 #include <string>
-#include "Expr.h"
 
-/**
- * @todo No longer a singleton
- */
 class SymbolTable 
 {
 public:
+    SymbolTable() {}
 
-	bool DoesExist( std::string );
-	Expr * GetVal( std::string );
-	void AddVar( std::string, Expr* );
+	bool DoesExist(const std::string&) const;
+    int GetOffset(const std::string&) const;
+	void AddVar(const std::string&, int offset);
 
-    // Singleton pattern
-    static SymbolTable& GetInstance()
-    {
-        static SymbolTable instance; // Guaranteed to be destroyed.
-        // Instantiated on first use.
-        return instance;
-    }
-	
 	void Clear();
 
     ~SymbolTable();
@@ -32,11 +20,10 @@ public:
 private:
     void Cleanup();
 
-    SymbolTable() {}
     SymbolTable(const SymbolTable &);
     SymbolTable& operator=(const SymbolTable &);
 
-	std::map<std::string,Expr*> _VarMap;	
+	std::map<std::string, int> _VarMap;	
 };
 
 #endif

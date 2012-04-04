@@ -20,7 +20,7 @@ extern int lineno;  /* defined in micro.y */
 
 [a-zA-Z]+[a-zA-Z0-9]* { yylval.sval = strdup(yytext); return VAR;}
 
-("("|")"|"*"|"-"|"+"|"/"|"}"|"{"|",") {return yytext[0];}
+("("|")"|"*"|"%"|"-"|"+"|"/"|"}"|"{"|",") {return yytext[0];}
 (";") {return DELIM;}
 ("=") {return ASSIGN;}
 
