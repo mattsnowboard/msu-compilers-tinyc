@@ -26,6 +26,7 @@
 #include "FunctionBlock.h"
 #include "ParamDefList.h"
 #include "ReturnStatement.h"
+#include "Modulus.h"
 
 extern "C" {
 #include "functions.h"    
@@ -106,14 +107,14 @@ extern "C" void * CreateAssignStatement(const char *name, void *expr)
  */
 
 
-void * CreateReturn(void *expr)
+extern "C" void * CreateReturn(void *expr)
 {
     ReturnStmt * rtns = new ReturnStmt( (Expr*)expr);
     return rtns;
 }
 
 
-void * CreateDeclaration(const char *name)
+extern "C" void * CreateDeclaration(const char *name)
 {
     DeclStmt * dcls = new DeclStmt( name);
     return dcls;
@@ -123,7 +124,7 @@ void * CreateDeclaration(const char *name)
 //@TODO
 //How are parameters defined, to be added to the list
 //and in the .y file?
-void * CreateParameterList(void *paramlist, void *param)
+extern "C" void * CreateParameterList(void *paramlist, void *param)
 {
     
   ParamDefList *s = (ParamDefList *) paramlist;
@@ -135,34 +136,55 @@ void * CreateParameterList(void *paramlist, void *param)
 //@TODO 
 //Should we create a special parameter class? 
 //would that be easier to add to a list?
-void * CreateParameter(void *decl, void *name)
+extern "C" void * CreateParameter(void *decl, void *name)
 {
-    
+    return NULL;
 }
 
-void * AddDeclarationToList(void *type ,void *decl)
+extern "C" void * AddDeclarationToList(void *type ,void *decl)
 {
-    
+    return NULL;
 }
 
 
-void * AddExprToList(void *exprList, void *expr)
+extern "C" void * CreateExprList( void * expr)
+{
+    ExprList * theList = new ExprList();
+    theList->AddItem((Expr*) expr);
+    return theList;    
+}
+
+extern "C" void * AddExprToList(void *exprList, void *expr)
 {
     ExprList *el = (ExprList *)exprList;
-    el->AddItem((Expr*) expr);
+    el->AddItem((Expr*) exprList);
     return el;
 }
 
 
-void * CreateFunctionBlock(const char *name,void *paramList)
+extern "C" void * CreateFunctionBlock(const char *name,void *paramList)
 {
     FunctionBlock * fb = new FunctionBlock(name, (ParamDefList*) paramList);
     return fb;
 }
 
 
-void * CreateFunctionCall(const char *name, void *paramlist)
+extern "C" void * CreateFunctionCall(const char *name, void *paramlist)
 {
     FuncCall * theCall = new FuncCall(name, (ExprList*) paramlist);
     return theCall;
 }
+
+extern "C" void * CreateModulus(void * left, void * right)
+{
+    Modulus * mod = new Modulus((Expr*) left, (Expr*) right);
+    return mod;
+}
+
+extern "C" void * CreateInt(int num)
+{
+    Value * val = new Value( num);
+    return val;
+}
+
+

@@ -114,6 +114,13 @@ void * AddDeclarationToList(void *type ,void *decl);
 void * AddExprToList(void *exprList, void *expr);
 
 /**
+ * Create and expression list and add expr to it.
+ * @param *expr
+ * @return *Exprlist
+ */
+void * CreateExprList(void *expr);
+
+/**
  * Create a Function Block
  * @param char* name
  * @param ParamDefList* params
@@ -122,13 +129,40 @@ void * AddExprToList(void *exprList, void *expr);
 void * CreateFunctionBlock(const char *name,void *paramList);
 
 /**
+ *
+ */
+void * CreateFunctionDelcartion();
+
+/**
+ *
+ */
+void * CreateFunction();
+
+/**
  * Create a Function call
  * @param char* name (of function to call)
  * @param ExprList* params
  */
 void * CreateFunctionCall(const char *name, void *paramlist);
+
+/**
+ * (ExprList*)
+ */
 void * CreateParameterList(void *paramlist, void *param);
 void * CreateParameter(void *decl, void *name);
 
+/**
+ * Create a Modulus function
+ * @param (Expr*) left
+ * @param (Expr*) right
+ * @return Modulus function
+ */
+void * CreateModulus(void * left, void * right);
 
+/**
+ * Create an Integer
+ * @param theNumber
+ * @return *value
+ */
+void * CreateInt(int num);
 #endif

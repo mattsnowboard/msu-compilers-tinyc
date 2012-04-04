@@ -34,52 +34,50 @@ FUNCBODY : DECLLIST STMTLIST RETURNSTMT { /* add these to statement list */ }
 
 FUNCDECL : TYPE VAR '(' PARAMDEFLIST ')' { /* create function def */ /* $$ = CreateFunctionBlock($2, $3) */}
 
-PARAMDEFLIST : PARAMDEFLIST ',' DECL { /* add decl to list */ }
-             | DECL { /* create param list, add decl */ }
+PARAMDEFLIST : DECL { /* create param list, add decl */ }
+             |PARAMDEFLIST ',' DECL {/* $$ = CreateDeclaration()*/}
              | { /* empty param list */ }
-PARAMCALLLIST : PARAMCALLLIST ',' EXPR { /* add expression to list */ }
-              | EXPR { /* create list, add expression */ }
+PARAMCALLLIST : EXPR { $$ = CreateExprList($1);}
+              |PARAMCALLLIST ',' EXPR { $$ = AddExprToList($1, $3); }
               | { /* empty param list */ }
 
-STMTLIST : STMT DELIM { /* create statement list, add statement */}
-         | STMTLIST STMT DELIM { /* add new statement to list */ }
-         | STMTLIST DELIM {}
+STMTLIST : STMT DELIM { $$ = CreateStatementList($1);}
+         | STMTLIST STMT DELIM { $$ = AddStatementToList($1, $2); }
+         | STMTLIST DELIM {$$ = $1; }
 
-STMT : ASSIGNMENT  { /* Create assignment statment */ }
-     | OUTPUT { /* create a write statement */ }
+STMT : ASSIGNMENT  { $$ = $1; }
+     | OUTPUT { $$ = $1; }
 
-DECLLIST : DECL DELIM { /* create statement list, add declaration */ }
-         | DECLLIST DECL DELIM { /* add declaration */ }
-         | DECLLIST DELIM {}
+DECLLIST : DECL DELIM { $$ = CreateStatementList($1); }
+         | DECLLIST DECL DELIM { $$ = AddStatementToList($1, $2); }
+         | DECLLIST DELIM { $$ = $1;}
 
-RETURNSTMT : RETURN EXPRESSION DELIM { /* Create a return statement */ }
+RETURNSTMT : RETURN EXPRESSION DELIM { $$ = CreateReturn($2); }
            | { /* no return */}
 
-ASSIGNMENT : VAR ASSIGN EXPRESSION  { /*$$ = CreateAssignStatement($1, $3);*/ }
-DECL : TYPE VAR { /* create var declaration with type */ }
-OUTPUT : WRITE EXPRESSION  { /*$$ = CreateWriteStmt($2);*/ }
+ASSIGNMENT : VAR ASSIGN EXPRESSION  { $$ = CreateAssignStatement($1, $3); }
+DECL : TYPE VAR { $$ = CreateDeclaration($2); }
+OUTPUT : WRITE EXPRESSION  { $$ = CreateWriteStmt($2); }
 
-EXPRESSION : EXPR  {/*$$ = $1;*/}
-           | FUNCCALL { /* $$ = $1 */ }
+EXPRESSION : EXPR  {$$ = $1;}
+           | FUNCCALL {  $$ = $1; }
 
-FUNCCALL : VAR '(' PARAMCALLLIST ')' { /* create function call expr (here var is just a symbol for the function name, not a variable) */ 
-                                        /*$$ = CreateFunctionCall($1, $2);*/
-                                        }
+FUNCCALL : VAR '(' PARAMCALLLIST ')' { $$ = CreateFunctionCall($1, $3); }
 
-EXPR : EXPR '+' TERM  {/*$$ = CreateAdd($1, $3);*/}
-EXPR : EXPR '-' TERM {/*$$ = CreateSubtract($1, $3);*/}
-EXPR : TERM  {/*$$ = $1;*/}
+EXPR : EXPR '+' TERM  {$$ = CreateAdd($1, $3);}
+EXPR : EXPR '-' TERM {$$ = CreateSubtract($1, $3);}
+EXPR : TERM  {$$ = $1;}
 
-TERM : TERM '*' UNARY  {/*$$ = CreateMultiply($1, $3);*/}
-TERM : TERM '/' UNARY  {/*$$ = CreateDivide($1, $3);*/}
-TERM : UNARY  {/*$$ = $1;*/}
+TERM : TERM '*' UNARY  {$$ = CreateMultiply($1, $3);}
+TERM : TERM '/' UNARY  {$$ = CreateDivide($1, $3);}
+TERM : UNARY  {$$ = $1;}
 
-UNARY : '-' NUMBER {/*$$ = CreateNegate($2);*/}
-UNARY : NUMBER {/*$$ = $1;*/}
+UNARY : '-' NUMBER {$$ = CreateNegate($2);}
+UNARY : NUMBER {$$ = $1;}
 
-NUMBER : '(' EXPRESSION ')'  {/*$$ = $2;*/}
-NUMBER : NUM  {/*$$ = CreateDouble($1);*/}
-NUMBER : VAR  {/*$$ = CreateVariable($1);*/}
+NUMBER : '(' EXPRESSION ')'  {$$ = $2;}
+NUMBER : NUM  {$$ = CreateInt($1);}
+NUMBER : VAR  {$$ = CreateVariable($1);}
 
 TYPE : INT { /* do something? ignore since everything is an int? */ }
 
