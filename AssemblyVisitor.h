@@ -7,6 +7,7 @@
 
 class Program;
 class FunctionBlock;
+class SymbolTable;
 
 class Unary;
 class Binary;
@@ -56,6 +57,7 @@ private:
 	void VisitUnary(const Unary &b, const std::string &op);
 
     std::ostream &_out;
+    SymbolTable const *_currTable;
 };
 
 #endif

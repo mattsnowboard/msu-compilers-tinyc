@@ -30,6 +30,7 @@ void AssemblyVisitor::Visit(const Program & p)
 void AssemblyVisitor::Visit(const FunctionBlock & f)
 {
     // get the current SymbolTable and store it on a stack of symbol tables?
+    _currTable = f.GetSymbolTable();
     // Print prolog
     _out << ".global " << f.GetName() << std::endl
          << ".type " << f.GetName() << ", @function" << std::endl
@@ -37,23 +38,24 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
          << "\tpushl %ebp /* base pointer on stack */" << std::endl
          << "\tmovl  %esp, %ebp /* change base pointer */" << std::endl;
     
-    /* .global #{FunctionName}
-     * .type #{FunctionName}, @function
-     * #{FunctionName}:
-     *         pushl %ebp
-     *         movl $esp, %ebp
-  	 */
-    // ? then visit all statements
+    // make space for locals
+    StatementList const *decls = f.GetDeclarations();
+    int localCount = decls->GetStatements().size();
+    _out << "\taddl $-" << (localCount * 4) << ", %esp" << std::endl;
+
+    // visit statements
+    StatementList const *stmts = f.GetStatements();
+    StatementList::ListT slist = stmts->GetStatements();
+    for (StatementList::ListT::const_iterator it = slist.begin();
+         it != slist.end();
+         ++it) {
+        (*it)->Accept(*this);
+    }
+    
     // Print epilog
     _out << "\tmovl %ebp, %esp" << std::endl
          << "\tpopl %ebp /* restore base pointer */" << std::endl
          << "\tret" << std::endl;
-    /*
-     *         movl %ebp, %esp
-     *         popl %ebp
-     *
-     *         ret
-     */
 }
 
 void AssemblyVisitor::Visit(const Add & a)

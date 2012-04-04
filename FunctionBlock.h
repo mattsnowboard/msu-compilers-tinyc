@@ -14,7 +14,14 @@ public:
     FunctionBlock(const std::string name, ParamDefList *params) :
         _name(name), _params(params), _statements(NULL)
     {
-        
+        int paramCnt = 8;
+        ParamDefList::ListT plist = _params->GetParams();
+        for (ParamDefList::ListT::reverse_iterator it = plist.rbegin();
+             it != plist.rend();
+             ++it) {
+            _table.AddVar(*it, paramCnt);
+            paramCnt += 4;
+        }
     }
 
     virtual ~FunctionBlock()
@@ -70,9 +77,14 @@ public:
         return _statements;
     }
 
-    SymbolTable const& GetSymbolTable() const
+    StatementList const* GetDeclarations() const
     {
-        return _table;
+        return _decls;
+    }
+
+    SymbolTable const* GetSymbolTable() const
+    {
+        return &_table;
     }
 
     // Support the Visitor Pattern
