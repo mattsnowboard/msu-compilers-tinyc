@@ -14,6 +14,9 @@
 #include "Modulus.h"
 #include "Negate.h"
 
+#include "Variable.h"
+#include "Value.h"
+
 void AssemblyVisitor::Visit(const Program & p)
 {
     // Visit each FunctionBlock in Program
@@ -123,11 +126,14 @@ void AssemblyVisitor::Visit(const Subtract & s)
 void AssemblyVisitor::Visit(const Value & v)
 {
     // push on stack?
+    _out << "\tpushl $" << v.Get() << std::endl;
 }
 
 void AssemblyVisitor::Visit(const Variable & v)
 {
     // Look up in current symbol table, push some offset of ebp on stack
+    int off = _currTable->GetOffset(v.GetName());
+    _out << "\tpushl " << off << "(%ebp)" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const AssignStmt & a)
@@ -143,6 +149,7 @@ void AssemblyVisitor::Visit(const WriteStmt & w)
 void AssemblyVisitor::Visit(const DeclStmt & d)
 {
     // allocate space on stack for local, put in current symbol table?
+    // this is already done, maybe we don't need a visitor here?
 }
 
 void AssemblyVisitor::Visit(const ReturnStmt & r)
