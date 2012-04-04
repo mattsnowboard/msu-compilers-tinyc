@@ -27,9 +27,7 @@ void AssemblyVisitor::Visit(const Program & p)
          << "_start:" << std::endl
          << "\tcall main" << std::endl
          << "\tjmp exit" << std::endl
-         << ".include \"./x86asm/print_int.s\"" << std::endl
-         << ".globl main" << std::endl
-         << ".type main, @function" << std::endl;
+         << ".include \"./x86asm/print_int.s\"" << std::endl;
 
     // Visit each FunctionBlock in Program
     Program::ListT funcs = p.GetFunctions();
@@ -41,10 +39,7 @@ void AssemblyVisitor::Visit(const Program & p)
         }
     }
 
-    _out << "\tmovl %ebp, %esp" << std::endl
-         << "\tpopl %ebp /* restore old frame pointer */" << std::endl
-         << "\tret" << std::endl
-         << ".type exit, @function" << std::endl
+    _out << ".type exit, @function" << std::endl
          << "exit:" << std::endl
          << "\tmovl $0, %ebx" << std::endl
          << "\tmovl $1, %eax" << std::endl

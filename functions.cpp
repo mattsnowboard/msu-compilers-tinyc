@@ -79,7 +79,9 @@ extern "C" void * CreateVariable(const char *name)
 extern "C" void * CreateStatementList(void *stmt)
 {
     StatementList* s = new StatementList;
-    s->AddItem((Statement*)stmt);
+    if (stmt != NULL) {
+        s->AddItem((Statement*)stmt);
+    }
     return s;
 }
 
@@ -153,7 +155,9 @@ extern "C" void * AddDeclarationToList(void *type ,void *decl)
 extern "C" void * CreateExprList( void * expr)
 {
     ExprList * theList = new ExprList();
-    theList->AddItem((Expr*) expr);
+    if (expr != NULL) {
+        theList->AddItem((Expr*) expr);
+    }
     return theList;    
 }
 
@@ -175,7 +179,9 @@ extern "C" void * AddToFunctionBlock(void * fb, void * decls, void * stmtlist, v
 {
     FunctionBlock *funcblock = (FunctionBlock*) fb;
     StatementList *sl = (StatementList*) stmtlist;
-    sl->AddItem((Statement*) rstmt);
+    if (rstmt != NULL) {
+        sl->AddItem((Statement*) rstmt);
+    }
     funcblock->SetDeclarationList((StatementList*) decls);
     funcblock->SetStatementList(sl);
     return funcblock;
