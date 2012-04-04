@@ -6,11 +6,8 @@
 class Unary : public Expr
 {
 public:
-    Unary(Expr *child) : _child(child)
+    explicit Unary(Expr *child) : _child(child)
     {
-        if (_child) {
-            _child->Evaluate();
-        }
     }
     
     virtual ~Unary()

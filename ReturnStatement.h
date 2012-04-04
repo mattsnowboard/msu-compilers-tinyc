@@ -12,10 +12,6 @@ public:
         _expr(expr)
     {}
 
-    virtual void Execute()
-    {
-    }
-
     virtual ReturnStmt* Clone()
     {
         Expr *n = (_expr) ? _expr->Clone() : NULL;

@@ -13,11 +13,6 @@ public:
         _name(name), _value(value)
     {}
 
-    virtual void Execute()
-    {
-       
-	}
-
     virtual AssignStmt* Clone()
     {
         Expr *v = (_value) ? _value->Clone() : NULL;

@@ -27,7 +27,7 @@
 #include "ParamDefList.h"
 #include "ReturnStatement.h"
 #include "Modulus.h"
-
+#include <iostream>
 extern "C" {
 #include "functions.h"    
 }
@@ -164,7 +164,9 @@ extern "C" void * CreateExprList( void * expr)
 extern "C" void * AddExprToList(void *exprList, void *expr)
 {
     ExprList *el = (ExprList *)exprList;
-    el->AddItem((Expr*) exprList);
+    // Damn you Jason!!!!! haha j/p but damn damn damn
+    //el->AddItem((Expr*) exprList);
+    el->AddItem((Expr*) expr);
     return el;
 }
 
@@ -179,10 +181,11 @@ extern "C" void * AddToFunctionBlock(void * fb, void * decls, void * stmtlist, v
 {
     FunctionBlock *funcblock = (FunctionBlock*) fb;
     StatementList *sl = (StatementList*) stmtlist;
+    StatementList *dl = (StatementList*) decls;
     if (rstmt != NULL) {
         sl->AddItem((Statement*) rstmt);
     }
-    funcblock->SetDeclarationList((StatementList*) decls);
+    funcblock->SetDeclarationList(dl);
     funcblock->SetStatementList(sl);
     return funcblock;
 }

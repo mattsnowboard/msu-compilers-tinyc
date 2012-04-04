@@ -10,7 +10,11 @@ public:
 
     ParamDefList() {}
 
-    void AddItem(std::string type, std::string name) { _list.push_back(name); }
+    void AddItem(const std::string &type,
+                 const std::string &name)
+    {
+        _list.push_back(name);
+    }
 
     virtual ~ParamDefList()
     {

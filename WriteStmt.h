@@ -8,11 +8,8 @@ class WriteStmt : public Statement
 {
 public:
 
-    WriteStmt(Expr *expr) :
+    explicit WriteStmt(Expr *expr) :
         _expr(expr)
-    {}
-
-    virtual void Execute()
     {
     }
 

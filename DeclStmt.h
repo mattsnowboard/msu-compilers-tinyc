@@ -12,10 +12,6 @@ public:
         _name(name)
     {}
 
-    virtual void Execute()
-    {
-    }
-
     virtual DeclStmt* Clone()
     {
         DeclStmt *d = new DeclStmt(_name);

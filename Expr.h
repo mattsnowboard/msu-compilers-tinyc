@@ -8,22 +8,13 @@
 class Expr : public Statement
 {
 public:
-    Expr(int v = 0) : _value(v)
+    explicit Expr(int v = 0) : _value(v)
     {}
     virtual ~Expr() {}
 
-    virtual void Execute()
-    {
-        // could remove this probably
-        Evaluate();
-        std::cout << "Answer: " << *this << std::endl;
-    }
-
-    virtual void Evaluate() = 0;
+    virtual int Get() const { return _value; }
 
     virtual Expr* Clone() = 0;
-
-    virtual int Get() const { return _value; }
 
     /**
      * Print an arbitrary expression to a stream
