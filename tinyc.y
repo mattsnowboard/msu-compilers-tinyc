@@ -72,6 +72,7 @@ EXPR : TERM  {/*$$ = $1;*/}
 
 TERM : TERM '*' UNARY  {/*$$ = CreateMultiply($1, $3);*/}
 TERM : TERM '/' UNARY  {/*$$ = CreateDivide($1, $3);*/}
+TERM : TERM '%' UNARY {/* create mod */ }
 TERM : UNARY  {/*$$ = $1;*/}
 
 UNARY : '-' NUMBER {/*$$ = CreateNegate($2);*/}
