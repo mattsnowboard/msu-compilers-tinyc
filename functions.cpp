@@ -120,22 +120,23 @@ extern "C" void * CreateDeclaration(const char *name)
     return dcls;
 }
 
-//
-//@TODO
-//How are parameters defined, to be added to the list
-//and in the .y file?
-extern "C" void * CreateParameterList(void *paramlist, void *param)
+
+extern "C" void * CreateParameterList(void *decl)
 {
     
-  ParamDefList *s = (ParamDefList *) paramlist;
-  //s->AddItem(param);
+  ParamDefList *s = new ParamDefList();
+  s->AddItem("int", ((DeclStmt*)decl)->GetName());
   return s;   
 }
 
-//
-//@TODO 
-//Should we create a special parameter class? 
-//would that be easier to add to a list?
+extern "C" void * AddParameterToList(void * list, void *decl)
+{
+    ParamDefList *s = (ParamDefList*) list;
+    s->AddItem("int", ((DeclStmt*) decl)->GetName());
+    return s;
+}
+
+
 extern "C" void * CreateParameter(void *decl, void *name)
 {
     return NULL;
@@ -168,6 +169,16 @@ extern "C" void * CreateFunctionBlock(const char *name,void *paramList)
     return fb;
 }
 
+extern "C" void * AddToFunctionBlock(void * fb, void * decls, void * stmtlist, void *rstmt)
+{
+    FunctionBlock *funcblock = (FunctionBlock*) fb;
+    StatementList *sl = (StatementList*) stmtlist;
+    sl->AddItem((Statement*) rstmt);
+    funcblock->SetDeclarationList((StatementList*) decls);
+    funcblock->SetStatementList(sl);
+    return funcblock;
+}
+
 
 extern "C" void * CreateFunctionCall(const char *name, void *paramlist)
 {
@@ -187,4 +198,9 @@ extern "C" void * CreateInt(int num)
     return val;
 }
 
+extern "C" void * AddFunctionToProgram(void * func)
+{
+    program.AddFunction((FunctionBlock*) func);
+    return NULL;
+}
 
