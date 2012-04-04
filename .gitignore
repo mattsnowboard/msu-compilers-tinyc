@@ -16,6 +16,7 @@ tinyc_team6.tgz
 *.png
 # assembly files 
 *.s
+t0
 t1
 t2
 t3

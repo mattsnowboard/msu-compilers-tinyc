@@ -34,14 +34,15 @@ FUNCDECL : TYPE VAR '(' PARAMDEFLIST ')' {  $$ = CreateFunctionBlock($2, $4); }
 
 PARAMDEFLIST : DECL { CreateParameterList($1); }
              | PARAMDEFLIST ',' DECL { $$ = AddParameterToList($1, $3);}
-             | { CreateParameterList(NULL);/* empty param list */ }
+             | { $$ = CreateParameterList(NULL);/* empty param list */ }
 PARAMCALLLIST : EXPR { $$ = CreateExprList($1);}
-              |PARAMCALLLIST ',' EXPR { $$ = AddExprToList($1, $3); }
-              | { /* empty param list */ }
+              | PARAMCALLLIST ',' EXPR { $$ = AddExprToList($1, $3); }
+              | { $$ = CreateExprList(NULL); /* empty param list */ }
 
 STMTLIST : STMT DELIM { $$ = CreateStatementList($1);}
          | STMTLIST STMT DELIM { $$ = AddStatementToList($1, $2); }
          | STMTLIST DELIM {$$ = $1; }
+         | { $$ = CreateStatementList(NULL); }
 
 STMT : ASSIGNMENT  { $$ = $1; }
      | OUTPUT { $$ = $1; }
@@ -49,9 +50,10 @@ STMT : ASSIGNMENT  { $$ = $1; }
 DECLLIST : DECL DELIM { $$ = CreateStatementList($1); }
          | DECLLIST DECL DELIM { $$ = AddStatementToList($1, $2); }
          | DECLLIST DELIM { $$ = $1;}
+         | { $$ = CreateStatementList(NULL); }
 
 RETURNSTMT : RETURN EXPRESSION DELIM { $$ = CreateReturn($2); }
-           | { /* no return */}
+           | { $$ = NULL;/* no return */}
 
 ASSIGNMENT : VAR ASSIGN EXPRESSION  { $$ = CreateAssignStatement($1, $3); }
 DECL : TYPE VAR { $$ = CreateDeclaration($2); }
