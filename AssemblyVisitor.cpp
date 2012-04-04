@@ -21,6 +21,15 @@
 
 void AssemblyVisitor::Visit(const Program & p)
 {
+    _out << ".section .text" << std::endl
+         << ".globl _start" << std::endl << std::endl
+         << "_start:" << std::endl
+         << "\tcall main" << std::endl
+         << "\tjmp exit" << std::endl
+         << ".include \"./x86asm/print_int.s\"" << std::endl
+         << ".globl main" << std::endl
+         << ".type main, @function" << std::endl;
+
     // Visit each FunctionBlock in Program
     Program::ListT funcs = p.GetFunctions();
     for (Program::ListT::const_iterator it = funcs.begin();
@@ -30,6 +39,15 @@ void AssemblyVisitor::Visit(const Program & p)
             (*it)->Accept(*this);
         }
     }
+
+    _out << "\tmovl %ebp, %esp" << std::endl
+         << "\tpopl %ebp /* restore old frame pointer */" << std::endl
+         << "\tret" << std::endl
+         << ".type exit, @function" << std::endl
+         << "exit:" << std::endl
+         << "\tmovl $0, %ebx" << std::endl
+         << "\tmovl $1, %eax" << std::endl
+         << "\tint $0x80" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const FunctionBlock & f)
