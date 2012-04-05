@@ -1,0 +1,16 @@
+// this is a test for Matt's declarations anywhere
+
+int main()
+{
+    int i = 500;
+    // expect 500
+    write i;
+    int j;
+    j = i / 2;
+    // expect 250
+    write j;
+    int k = i + j - 1;
+    // expect 749
+    write k;
+    return 0;
+}

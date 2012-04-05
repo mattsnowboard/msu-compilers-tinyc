@@ -6,6 +6,7 @@ int test(int x){
 int main() {
 	int x;
 	x = 10;
+    // writing a function result, expect 11
 	write test(x);
 	return 0;
 }

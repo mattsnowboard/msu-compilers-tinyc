@@ -21,6 +21,7 @@ int main() {
 	x = 10;
 	y = 5;
 	xyz = test(x, y);
+    // expect 10 - 5 = 5 for last output
 	write xyz;
 	return 0;
 }

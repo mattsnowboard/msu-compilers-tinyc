@@ -11,6 +11,7 @@ int test(int x, int y){
 
 int main() {
 	int xyz;
+    // ERROR x and y are not declared!
 	xyz = test(x, y);
 	write xyz;
 	return 0;
