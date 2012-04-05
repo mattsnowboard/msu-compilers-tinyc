@@ -22,15 +22,6 @@ public:
         _list.clear();
     }
 
-    void Execute()
-    {
-        for (std::list<Expr*>::iterator it = _list.begin();
-             it != _list.end();
-             ++it) {
-            (*it)->Execute();
-        }
-    }
-
     ExprList* Clone()
     {
         ExprList *s = new ExprList;

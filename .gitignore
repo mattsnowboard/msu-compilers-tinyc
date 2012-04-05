@@ -4,6 +4,7 @@ lex.yy*
 y.tab.*
 y.output
 \#*#
+.gdbinit
 # the name of the executable
 tinyc
 # make depend stuff

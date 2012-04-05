@@ -13,12 +13,14 @@
 #include "Divide.h"
 #include "Modulus.h"
 #include "Negate.h"
+#include "FuncCall.h"
 
 #include "Variable.h"
 #include "Value.h"
 
 #include "AssignStmt.h"
 #include "WriteStmt.h"
+#include "ReturnStatement.h"
 
 void AssemblyVisitor::Visit(const Program & p)
 {
@@ -180,12 +182,25 @@ void AssemblyVisitor::Visit(const DeclStmt & d)
 void AssemblyVisitor::Visit(const ReturnStmt & r)
 {
     // return statement means writing something to eax
+    Expr const *val = r.GetExpr();
+    val->Accept(*this);
     _out << "\tpopl %eax" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const FuncCall & f)
 {
-
+    // visit the parameters (which will push them, then call the function
+    ExprList const* params = f.GetParams();
+    ExprList::ListT l = params->GetExprs();
+    for (ExprList::ListT::const_iterator it = l.begin();
+         it != l.end();
+         ++it) {
+        (*it)->Accept(*this);
+    }
+    // now all params are on stack
+    _out << "\tcall " << f.GetName() << std::endl;
+    // this is an expression so take the result from %eax and push it
+    _out << "\tpushl %eax" << std::endl;
 }
 
 void AssemblyVisitor::VisitBinary(const Binary &b, const std::string &op)
@@ -205,7 +220,7 @@ void AssemblyVisitor::VisitBinary(const Binary &b, const std::string &op)
     // do op (example addl %edx, %eax // will do %eax = %eax + %edx)
     _out << "\t" << op << " %edx, %eax" << std::endl;
     // push result
-	_out << "push %eax" << std::endl;
+	_out << "\tpush %eax" << std::endl;
 }
 
 void AssemblyVisitor::VisitUnary(const Unary &u, const std::string &op)

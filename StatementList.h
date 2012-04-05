@@ -26,15 +26,6 @@ public:
         _list.clear();
     }
 
-    void Execute()
-    {
-        for (std::list<Statement*>::iterator it = _list.begin();
-             it != _list.end();
-             ++it) {
-            (*it)->Execute();
-        }
-    }
-
     StatementList* Clone()
     {
         StatementList *s = new StatementList;

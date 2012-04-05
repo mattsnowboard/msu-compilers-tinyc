@@ -22,9 +22,9 @@ public:
         return f;
     }
 
-    virtual void Evaluate()
+    ExprList const* GetParams() const
     {
-
+        return _params;
     }
 
     virtual void Accept(StatementVisitor &v) const

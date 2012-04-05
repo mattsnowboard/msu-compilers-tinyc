@@ -13,8 +13,6 @@ public:
 
     virtual ~Statement() {}
 
-    virtual void Execute() = 0;
-
     // Allow copying a Statement tree
     virtual Statement* Clone() = 0;
 

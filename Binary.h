@@ -9,12 +9,6 @@ public:
     Binary(Expr *left, Expr *right) :
         _left(left), _right(right)
     {
-        if (_left) {
-            _left->Evaluate();
-        }
-        if (_right) {
-            _right->Evaluate();
-        }
     }
 
     virtual ~Binary()

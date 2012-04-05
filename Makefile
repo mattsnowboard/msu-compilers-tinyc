@@ -1,7 +1,7 @@
 SRCS := functions.cpp SymbolTable.cpp AssemblyVisitor.cpp
 OBJS := $(SRCS:%.cpp=%.o)
 
-CXXFLAGS = -Wall
+CXXFLAGS = -Wall -g
 
 DEPDIR = .deps
 df = $(DEPDIR)/$(@F)
@@ -38,7 +38,7 @@ tinyc.o: tinyc.cpp y.tab.h
 #	$^	source files
 #
 y.tab.h y.tab.c:	tinyc.y
-	bison --yacc -v -d $^
+	bison --yacc -v -d $^  --report=state
 
 # bison --yacc --defines expression.y --report=state
 

@@ -17,10 +17,6 @@ public:
         return b;
     }
 
-    virtual void Evaluate()
-    {
-    }
-
     virtual void Accept(StatementVisitor &v) const
     {
         v.Visit(*this);

@@ -12,7 +12,7 @@ class FunctionBlock
 {
 public:
     FunctionBlock(const std::string name, ParamDefList *params) :
-        _name(name), _params(params), _statements(NULL)
+        _name(name), _params(params), _statements(NULL), _decls(NULL)
     {
         int paramCnt = 8;
         ParamDefList::ListT plist = _params->GetParams();
@@ -40,7 +40,7 @@ public:
     void SetDeclarationList(StatementList *sl)
     {
         if (_decls != NULL) {
-            delete _decls;
+            throw std::runtime_error("Declaration list already set!");
         }
         _decls = sl;
         int localCnt = -4;
@@ -48,7 +48,7 @@ public:
         for (StatementList::ListT::const_iterator it = stmts.begin();
              it != stmts.end();
              ++it) {
-            DeclStmt const* d = dynamic_cast<DeclStmt const*>(*it);
+            DeclStmt const* d = (DeclStmt const*)(*it);
             _table.AddVar(d->GetName(), localCnt);
             localCnt -= 4;
         }
@@ -57,7 +57,7 @@ public:
     void SetStatementList(StatementList *sl)
     {
         if (_statements != NULL) {
-            delete _statements;
+            throw std::runtime_error("Statement list already set!");
         }
         _statements = sl;
     }

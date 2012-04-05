@@ -8,7 +8,7 @@
 class Variable : public Expr
 {
 public:
-    Variable(const std::string &s) : _name(s) {}
+    explicit Variable(const std::string &s) : _name(s) {}
 
     std::string GetName() const { return _name; }
 
@@ -16,11 +16,6 @@ public:
     {
         Variable *v = new Variable(_name);
         return v;
-    }
-
-    virtual void Evaluate()
-    {
-
     }
 
     virtual void Accept(StatementVisitor &v) const

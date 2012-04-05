@@ -17,16 +17,6 @@ public:
         return b;
     }
 
-    virtual void Evaluate()
-    {
-        if (_left && _right) {
-            _left->Evaluate();
-            _right->Evaluate();
-            // Don't care about divide by zero??
-            _value = _left->Get() / _right->Get();
-        }
-    }
-
     virtual void Accept(StatementVisitor &v) const
     {
         v.Visit(*this);
