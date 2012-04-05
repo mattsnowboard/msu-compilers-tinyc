@@ -18,7 +18,7 @@ public:
     virtual FuncCall* Clone()
     {
         ExprList *l = (_params) ? _params->Clone() : NULL;
-        FuncCall *f = new FuncCall(_name, l);
+        FuncCall *f = new FuncCall(_name, l, _line);
         return f;
     }
 

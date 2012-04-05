@@ -10,7 +10,7 @@ public:
 
     virtual Value* Clone()
     {
-        return new Value(_value);
+        return new Value(_value, _line);
     }
     
     virtual void Accept(StatementVisitor &v) const

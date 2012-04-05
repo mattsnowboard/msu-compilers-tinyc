@@ -28,7 +28,7 @@ extern int lineno;  /* defined in micro.y */
 "\n"    ++lineno; /* Keep track of line number for errors */
 \r     {}
 
-"//".*\n	{/*ignore comments*/}
+"//".*\n	{++lineno;/*ignore comments*/}
 
 . {
     fprintf(stderr,

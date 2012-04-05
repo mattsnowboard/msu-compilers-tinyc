@@ -13,7 +13,7 @@ public:
     {
         Expr *l = (_left) ? _left->Clone() : NULL;
         Expr *r = (_right) ? _right->Clone() : NULL;
-        Subtract *b = new Subtract(l, r);
+        Subtract *b = new Subtract(l, r, _line);
         return b;
     }
 

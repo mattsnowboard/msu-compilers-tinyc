@@ -13,7 +13,7 @@ public:
     {
         Expr *l = (_left) ? _left->Clone() : NULL;
         Expr *r = (_right) ? _right->Clone() : NULL;
-        Divide *b = new Divide(l, r);
+        Divide *b = new Divide(l, r, _line);
         return b;
     }
 
