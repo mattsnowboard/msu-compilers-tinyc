@@ -1,10 +1,15 @@
 
-int sub(int x, int y) { 
+int sub(int x, int y) {
+	write x;
+	write y; 
 	x = x - y; //returns x-y
+	write x;
 	return x;
 }
 
 int test(int x, int y){
+	write x;
+	write y;
 	return sub(x, y); // should return sub(x,y)
 }
 
