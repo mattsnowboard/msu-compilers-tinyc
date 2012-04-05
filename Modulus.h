@@ -13,7 +13,7 @@ public:
     {
         Expr *l = (_left) ? _left->Clone() : NULL;
         Expr *r = (_right) ? _right->Clone() : NULL;
-        Modulus *b = new Modulus(l, r);
+        Modulus *b = new Modulus(l, r, _line);
         return b;
     }
 

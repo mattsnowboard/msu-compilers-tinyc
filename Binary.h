@@ -6,8 +6,8 @@
 class Binary : public Expr
 {
 public:
-    Binary(Expr *left, Expr *right) :
-        _left(left), _right(right)
+    Binary(Expr *left, Expr *right, int line) :
+        Expr(line), _left(left), _right(right)
     {
     }
 

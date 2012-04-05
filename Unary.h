@@ -6,7 +6,8 @@
 class Unary : public Expr
 {
 public:
-    explicit Unary(Expr *child, int lineNum) : Expr(lineNum), _child(child)
+    explicit Unary(Expr *child, int lineNum) :
+        Expr(lineNum), _child(child)
     {
     }
     
