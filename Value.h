@@ -6,7 +6,7 @@
 class Value : public Expr
 {
 public:
-    explicit Value(int v) : Expr(v) {}
+    explicit Value(int v, int lineNum) : Expr(v, lineNum) {}
 
     virtual Value* Clone()
     {

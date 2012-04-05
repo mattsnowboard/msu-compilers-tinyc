@@ -8,7 +8,8 @@
 class Variable : public Expr
 {
 public:
-    explicit Variable(const std::string &s) : _name(s) {}
+    explicit Variable(const std::string &s, int lineNum) :
+        Expr(lineNum), _name(s) {}
 
     std::string GetName() const { return _name; }
 

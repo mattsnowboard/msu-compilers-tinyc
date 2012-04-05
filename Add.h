@@ -6,8 +6,8 @@
 class Add : public Binary
 {
 public:
-    Add(Expr *left, Expr *right) :
-        Binary(left, right) {}
+    Add(Expr *left, Expr *right, int lineNum) :
+        Binary(left, right, lineNum) {}
 
     virtual Add* Clone()
     {

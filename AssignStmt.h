@@ -9,14 +9,14 @@ class AssignStmt : public Statement
 {
 public:
 
-    AssignStmt(const std::string &name, Expr *value) :
-        _name(name), _value(value)
+    AssignStmt(const std::string &name, Expr *value, int lineNum) :
+        Statement(lineNum), _name(name), _value(value)
     {}
 
     virtual AssignStmt* Clone()
     {
         Expr *v = (_value) ? _value->Clone() : NULL;
-        AssignStmt *a = new AssignStmt(_name, v);
+        AssignStmt *a = new AssignStmt(_name, v, _line);
         return a;
     }
 
