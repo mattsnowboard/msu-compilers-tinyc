@@ -16,6 +16,7 @@ class FuncCall;
 
 class WriteStmt;
 class AssignStmt;
+class DecAssignStmt;
 class DeclStmt;
 class ReturnStmt;
 
@@ -35,6 +36,7 @@ public:
     virtual void Visit(const Variable &v) = 0;
 
     virtual void Visit(const AssignStmt &a) = 0;
+    virtual void Visit(const DecAssignStmt &a) = 0;
     virtual void Visit(const WriteStmt &w) = 0;
     virtual void Visit(const DeclStmt &d) = 0;
     virtual void Visit(const ReturnStmt &r) = 0;

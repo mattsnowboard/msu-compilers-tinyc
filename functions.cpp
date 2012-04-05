@@ -17,6 +17,7 @@
 
 #include "SymbolTable.h"
 #include "AssignStmt.h"
+#include "DecAssignStmt.h"
 #include "WriteStmt.h"
 
 #include "AssemblyVisitor.h"
@@ -104,6 +105,12 @@ extern "C" void * CreateAssignStatement(const char *name, void *expr, int lineno
     return asn;
 }
 
+extern "C" void * CreateDecAssignStatement(const char *name, void *expr, int lineno)
+{
+    DecAssignStmt* asn = new DecAssignStmt(name, (Expr*)expr, lineno);
+    return asn;
+}
+
 /**
  * Everything below added on or after Tue, Apr 3, 2012 
  */
@@ -163,15 +170,10 @@ extern "C" void * CreateFunctionBlock(const char *name,void *paramList, int line
     return fb;
 }
 
-extern "C" void * AddToFunctionBlock(void * fb, void * decls, void * stmtlist, void *rstmt)
+extern "C" void * AddToFunctionBlock(void * fb, void * stmtlist)
 {
     FunctionBlock *funcblock = (FunctionBlock*) fb;
     StatementList *sl = (StatementList*) stmtlist;
-    StatementList *dl = (StatementList*) decls;
-    if (rstmt != NULL) {
-        sl->AddItem((Statement*) rstmt);
-    }
-    funcblock->SetDeclarationList(dl);
     funcblock->SetStatementList(sl);
     return funcblock;
 }

@@ -74,6 +74,13 @@ void * CreateWriteStmt(void *expr, int lineno);
  * @return Statement* (AssignStmt)
  */
 void * CreateAssignStatement(const char *name, void *expr, int lineno);
+/**
+ * Create Declare and Assignment Statement
+ * @param char* name
+ * @param Expr*
+ * @return Statement* (DecAssignStmt)
+ */
+void * CreateDecAssignStatement(const char *name, void *expr, int lineno);
 
 
 /**
@@ -132,11 +139,9 @@ void * CreateFunctionBlock(const char *name,void *paramList, int lineno);
  * Add shtuff to the Function block
  * @param *FunctionBlock
  * @param *StmtList
- * @param *stmtList
- * @param *stmt
  * @return *Functionblock
  */
-void * AddToFunctionBlock(void * fb, void * decls, void * stmtlist, void *rstmt);
+void * AddToFunctionBlock(void * fb, void *stmtlist);
 
 /**
  *

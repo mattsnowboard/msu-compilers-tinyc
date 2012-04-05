@@ -21,14 +21,14 @@ int  lineno = 1; /* number of current source line */
 %token<ival> NUM
 %token<sval> VAR
 
-%type<pval> PROGRAM FUNCDEF FUNCDECL PARAMDEFLIST PARAMCALLLIST STMTLIST STMT DECLLIST ASSIGNMENT DECL OUTPUT RETURNSTMT EXPRESSION FUNCCALL EXPR TERM UNARY NUMBER TYPE
+%type<pval> PROGRAM FUNCDEF FUNCDECL PARAMDEFLIST PARAMCALLLIST STMTLIST STMT ASSIGNMENT DECL OUTPUT RETURNSTMT EXPRESSION FUNCCALL EXPR TERM UNARY NUMBER TYPE DECASSIGN
 
 %%
 
 PROGRAM : PROGRAM FUNCDEF { $$ = AddFunctionToProgram($2);}
         | FUNCDEF { $$ = AddFunctionToProgram($1);}
 
-FUNCDEF : FUNCDECL '{' DECLLIST STMTLIST RETURNSTMT '}' { $$ = AddToFunctionBlock($1, $3, $4, $5); }
+FUNCDEF : FUNCDECL '{' STMTLIST '}' { $$ = AddToFunctionBlock($1, $3); }
 
 FUNCDECL : TYPE VAR '(' PARAMDEFLIST ')' {  $$ = CreateFunctionBlock($2, $4, lineno); }
 
@@ -46,16 +46,16 @@ STMTLIST : STMT DELIM { $$ = CreateStatementList($1);}
 
 STMT : ASSIGNMENT  { $$ = $1; }
      | OUTPUT { $$ = $1; }
+     | DECL { $$ = $1; }
+     | DECASSIGN { $$ = $1; }
+     | RETURNSTMT { $$ = $1; }
 
-DECLLIST : DECL DELIM { $$ = CreateStatementList($1); }
-         | DECLLIST DECL DELIM { $$ = AddStatementToList($1, $2); }
-         | DECLLIST DELIM { $$ = $1;}
-         | { $$ = CreateStatementList(NULL); }
+RETURNSTMT : RETURN EXPRESSION { $$ = CreateReturn($2, lineno); }
 
-RETURNSTMT : RETURN EXPRESSION DELIM { $$ = CreateReturn($2, lineno); }
-           | { $$ = NULL;/* no return */}
-
-ASSIGNMENT : VAR ASSIGN EXPRESSION  { $$ = CreateAssignStatement($1, $3, lineno); }
+DECASSIGN : TYPE VAR ASSIGN EXPRESSION {
+    $$ = CreateDecAssignStatement($2, $4, lineno); }
+ASSIGNMENT : VAR ASSIGN EXPRESSION  {
+    $$ = CreateAssignStatement($1, $3, lineno); }
 DECL : TYPE VAR { $$ = CreateDeclaration($2, lineno); }
 OUTPUT : WRITE EXPRESSION  { $$ = CreateWriteStmt($2, lineno); }
 

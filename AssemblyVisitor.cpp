@@ -60,9 +60,10 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
          << "\tmovl  %esp, %ebp /* change base pointer */" << std::endl;
     
     // make space for locals
-    StatementList const *decls = f.GetDeclarations();
-    int localCount = decls->GetStatements().size();
-    _out << "\taddl $-" << (localCount * 4) << ", %esp" << std::endl;
+    int localCount = f.GetVariableSpace();
+    if (localCount != 0) {
+        _out << "\taddl $" << (localCount) << ", %esp" << std::endl;
+    }
 
     // visit statements
     StatementList const *stmts = f.GetStatements();
@@ -165,6 +166,26 @@ void AssemblyVisitor::Visit(const AssignStmt & a)
     Expr const *value = a.GetValue();
     value->Accept(*this);
     // after visiting the RHS of the assignment, the answer is on the stack
+    if (!_currTable->DoesExist(a.GetName())) {
+        std::cerr << "FATAL: Undefined variable: " << a.GetName()
+                  << ", on line " << a.GetLine() << std::endl;
+        throw std::logic_error("Undefined variable");
+    }
+    int off = _currTable->GetOffset(a.GetName());
+    _out << "\tpopl " << off << "(%ebp)" << std::endl;
+}
+
+void AssemblyVisitor::Visit(const DecAssignStmt & a)
+{
+    // pop something and store it in some offset to ebp depending on var
+    Expr const *value = a.GetValue();
+    value->Accept(*this);
+    // after visiting the RHS of the assignment, the answer is on the stack
+    if (!_currTable->DoesExist(a.GetName())) {
+        std::cerr << "FATAL: Undefined variable: " << a.GetName()
+                  << ", on line " << a.GetLine() << std::endl;
+        throw std::logic_error("Undefined variable");
+    }
     int off = _currTable->GetOffset(a.GetName());
     _out << "\tpopl " << off << "(%ebp)" << std::endl;
 }

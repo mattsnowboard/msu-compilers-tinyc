@@ -46,6 +46,7 @@ public:
     virtual void Visit(const Variable &v);
 
     virtual void Visit(const AssignStmt &a);
+    virtual void Visit(const DecAssignStmt &a);
     virtual void Visit(const WriteStmt &w);
     virtual void Visit(const DeclStmt &d);
     virtual void Visit(const ReturnStmt &r);
