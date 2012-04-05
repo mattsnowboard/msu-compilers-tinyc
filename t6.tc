@@ -1,0 +1,11 @@
+int sub(int x, int y) { 
+	x = x - y;
+	return x;
+}
+
+int main() {
+	int xyz;
+	xyz = 10 % 5;
+	write xyz;
+	return 0;
+}

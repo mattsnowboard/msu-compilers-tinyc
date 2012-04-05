@@ -1,0 +1,12 @@
+
+int many(int x) { 
+	x = x * 2 + 4 % 3 / 2;
+	return x;
+}
+
+int main() {
+	int xyz;
+	xyz = many(5);
+	write xyz;
+	return 0;
+}
