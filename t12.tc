@@ -6,6 +6,6 @@ int test(int x){
 int main() {
 	int x;
 	x = 10;
-	write test1(x, y);
+	write test(x);
 	return 0;
 }
