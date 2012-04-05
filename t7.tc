@@ -1,6 +1,6 @@
 int add(int x, int y){
 	x = x + y;
-	return x
+	return x;
 }
 
 int sub(int x, int y) { 
@@ -10,7 +10,7 @@ int sub(int x, int y) {
 	//and this will mean that nothing is done to
 	//x
 	z = add(x, y);
-	return x;
+	return z;
 }
 
 int main() {

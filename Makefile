@@ -16,11 +16,17 @@ MAKEDEPEND = $(CXX) $(CPPFLAGS) -MM -o $(df).d $<
 all:	test	
 
 # Generate and run all test files
-test:	t1 t2 t3 t4 
+test:	t0 t1 t2 t3 t4 t5 t6 t7 t8 t9
+	./t0
 	./t1
 	./t2
 	./t3
 	./t4
+	./t5
+	./t6
+	./t7
+	./t8
+	./t9
 
 # Build our tiny Compiler using bison and flex files
 #	$@	target name
