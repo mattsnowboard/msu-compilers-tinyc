@@ -1,0 +1,32 @@
+
+int sub(int x, int y) {
+	write x;
+	write y; 
+	x = x - y; //returns x-y
+	write x;
+	return x;
+}
+
+int test(int x){
+	return x + 1;
+}
+
+int test1(int x, int y){
+	write x;
+	write y;
+	return sub(test(x), y); // should return sub(x,y)
+}
+
+
+
+
+int main() {
+	int x;
+	int y;
+	int xyz;
+	x = 10;
+	y = 5;
+	xyz = test1(x, y);
+	write xyz;
+	return 0;
+}
