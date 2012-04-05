@@ -8,7 +8,7 @@
 class Expr : public Statement
 {
 public:
-    explicit Expr(int v = 0) : _value(v)
+    explicit Expr(int lineNum, int v = 0) : Statement(lineNum), _value(v)
     {}
     virtual ~Expr() {}
 

@@ -6,8 +6,8 @@
 class Divide : public Binary
 {
 public:
-    Divide(Expr *left, Expr *right) :
-        Binary(left, right) {}
+    Divide(Expr *left, Expr *right, int lineNum) :
+        Binary(left, right, lineNum) {}
 
     virtual Divide* Clone()
     {

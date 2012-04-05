@@ -11,8 +11,12 @@
 class FunctionBlock
 {
 public:
-    FunctionBlock(const std::string name, ParamDefList *params) :
-        _name(name), _params(params), _statements(NULL), _decls(NULL)
+    FunctionBlock(const std::string name, ParamDefList *params, int lineNum) :
+        _line(lineNum),
+        _name(name),
+        _params(params),
+        _statements(NULL),
+        _decls(NULL)
     {
         int paramCnt = 8;
         ParamDefList::ListT plist = _params->GetParams();
@@ -93,10 +97,16 @@ public:
         v.Visit(*this);
     }
 
+    int GetLine() const
+    {
+        return _line;
+    }
+
 private:
     FunctionBlock(const FunctionBlock &s);
     FunctionBlock& operator=(const FunctionBlock &s);
 
+    int _line;
     std::string _name;
     ParamDefList *_params;
     StatementList *_statements;

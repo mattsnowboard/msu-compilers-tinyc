@@ -8,13 +8,13 @@ class DeclStmt : public Statement
 {
 public:
 
-    DeclStmt(const std::string &name) :
-        _name(name)
+    DeclStmt(const std::string &name, int lineNum) :
+        Statement(lineNum), _name(name)
     {}
 
     virtual DeclStmt* Clone()
     {
-        DeclStmt *d = new DeclStmt(_name);
+        DeclStmt *d = new DeclStmt(_name, _line);
         return d;
     }
 

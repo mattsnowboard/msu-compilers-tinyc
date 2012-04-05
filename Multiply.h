@@ -6,8 +6,8 @@
 class Multiply : public Binary
 {
 public:
-    Multiply(Expr *left, Expr *right) :
-        Binary(left, right) {}
+    Multiply(Expr *left, Expr *right, int lineNum) :
+        Binary(left, right, lineNum) {}
 
     virtual Multiply* Clone()
     {

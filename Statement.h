@@ -9,7 +9,7 @@
 class Statement
 {
 public:
-    Statement() {}
+    Statement(int lineNum = 0) : _line(lineNum) {}
 
     virtual ~Statement() {}
 
@@ -18,6 +18,14 @@ public:
 
     // Support the Visitor Pattern
     virtual void Accept(StatementVisitor &v) const = 0;
+
+    int GetLine() const
+    {
+        return _line;
+    }
+
+protected:
+    int _line;
 
 private:
     Statement(const Statement &s);

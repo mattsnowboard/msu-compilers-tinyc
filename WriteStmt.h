@@ -8,15 +8,15 @@ class WriteStmt : public Statement
 {
 public:
 
-    explicit WriteStmt(Expr *expr) :
-        _expr(expr)
+    explicit WriteStmt(Expr *expr, int lineNum) :
+        Statement(lineNum), _expr(expr)
     {
     }
 
     virtual WriteStmt* Clone()
     {
         Expr *n = (_expr) ? _expr->Clone() : NULL;
-        WriteStmt *w = new WriteStmt(n);
+        WriteStmt *w = new WriteStmt(n, _line);
         return w;
     }
 

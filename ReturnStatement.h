@@ -8,14 +8,14 @@ class ReturnStmt : public Statement
 {
 public:
 
-    ReturnStmt(Expr *expr) :
-        _expr(expr)
+    ReturnStmt(Expr *expr, int lineNum) :
+        Statement(lineNum), _expr(expr)
     {}
 
     virtual ReturnStmt* Clone()
     {
         Expr *n = (_expr) ? _expr->Clone() : NULL;
-        ReturnStmt *r = new ReturnStmt(n);
+        ReturnStmt *r = new ReturnStmt(n, _line);
         return r;
     }
 

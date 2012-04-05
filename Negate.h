@@ -6,7 +6,7 @@
 class Negate : public Unary
 {
 public:
-    explicit Negate(Expr *child) : Unary(child) {}
+    explicit Negate(Expr *child, int lineNum) : Unary(child, lineNum) {}
 
     virtual Negate* Clone()
     {
