@@ -164,8 +164,6 @@ extern "C" void * CreateExprList( void * expr)
 extern "C" void * AddExprToList(void *exprList, void *expr)
 {
     ExprList *el = (ExprList *)exprList;
-    // Damn you Jason!!!!! haha j/p but damn damn damn
-    //el->AddItem((Expr*) exprList);
     el->AddItem((Expr*) expr);
     return el;
 }
