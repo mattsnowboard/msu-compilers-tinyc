@@ -100,7 +100,7 @@ extern "C" void * CreateWriteStmt(void *expr, int lineno)
 
 extern "C" void * CreateAssignStatement(const char *name, void *expr, int lineno)
 {
-    AssignStmt* asn = new AssignStmt(name, (Expr*)expr);
+    AssignStmt* asn = new AssignStmt(name, (Expr*)expr, lineno);
     return asn;
 }
 

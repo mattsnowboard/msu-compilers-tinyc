@@ -136,7 +136,7 @@ void * CreateFunctionBlock(const char *name,void *paramList, int lineno);
  * @param *stmt
  * @return *Functionblock
  */
-void * AddToFunctionBlock(void * fb, void * decls, void * stmtlist, void *rstmt, int lineno);
+void * AddToFunctionBlock(void * fb, void * decls, void * stmtlist, void *rstmt);
 
 /**
  *
