@@ -6,47 +6,47 @@
  * @param Expr*
  * @return Expr* (Negate)
  */
-void * CreateNegate(void *expr);
+void * CreateNegate(void *expr, int lineno);
 /**
  * Create Add node
  * @param Expr* left
  * @param Expr* right
  * @return Expr* (Add)
  */
-void * CreateAdd(void *left, void *right);
+void * CreateAdd(void *left, void *right, int lineno);
 /**
  * Create Subtract node
  * @param Expr* left
  * @param Expr* right
  * @return Expr* (Subtract)
  */
-void * CreateSubtract(void *left, void *right);
+void * CreateSubtract(void *left, void *right, int lineno);
 /**
  * Create Divide node
  * @param Expr* left
  * @param Expr* right
  * @return Expr* (Divide)
  */
-void * CreateDivide(void *left, void *right);
+void * CreateDivide(void *left, void *right, int lineno);
 /**
  * Create Multiply node
  * @param Expr* left
  * @param Expr* right
  * @return Expr* (Multiply)
  */
-void * CreateMultiply(void *left, void *right);
+void * CreateMultiply(void *left, void *right, int lineno);
 /**
  * Create Value node
  * @param int i
  * @return Expr* (Value)
  */
-void * CreateNumber(int i);
+void * CreateNumber(int i, int lineno);
 /**
  * Create Variable node
  * @param char* name
  * @return Expr* (Variable)
  */
-void * CreateVariable(const char *name);
+void * CreateVariable(const char *name, int lineno);
 /**
  * Create a StatementList with a single statement
  * @param Statement* stmt
@@ -66,14 +66,14 @@ void * AddStatementToList(void *stmtlist, void *stmt);
  * @param Numerical* expr
  * @return Statement* (WriteStmt)
  */
-void * CreateWriteStmt(void *expr);
+void * CreateWriteStmt(void *expr, int lineno);
 /**
  * Create Assignment Statement
  * @param char* name
  * @param Expr*
  * @return Statement* (AssignStmt)
  */
-void * CreateAssignStatement(const char *name, void *expr);
+void * CreateAssignStatement(const char *name, void *expr, int lineno);
 
 
 /**
@@ -88,14 +88,14 @@ void * CreateAssignStatement(const char *name, void *expr);
  * @param Exp*
  * #reteturn Expr* (ReturnStatement)
  */
-void * CreateReturn(void *expr);
+void * CreateReturn(void *expr, int lineno);
 
 /**
  * Create a Declaration Statement
  * @param char* name
  * @return *Statement (DeclStatement)
  */
-void * CreateDeclaration(const char *name);
+void * CreateDeclaration(const char *name, int lineno);
 
 /**
  * Add a declaration to a declaration list
@@ -126,7 +126,7 @@ void * CreateExprList(void *expr);
  * @param ParamDefList* params
  * @return *FunctionBlock
  */
-void * CreateFunctionBlock(const char *name,void *paramList);
+void * CreateFunctionBlock(const char *name,void *paramList, int lineno);
 
 /**
  * Add shtuff to the Function block
@@ -136,7 +136,7 @@ void * CreateFunctionBlock(const char *name,void *paramList);
  * @param *stmt
  * @return *Functionblock
  */
-void * AddToFunctionBlock(void * fb, void * decls, void * stmtlist, void *rstmt);
+void * AddToFunctionBlock(void * fb, void * decls, void * stmtlist, void *rstmt, int lineno);
 
 /**
  *
@@ -153,7 +153,7 @@ void * CreateFunction();
  * @param char* name (of function to call)
  * @param ExprList* params
  */
-void * CreateFunctionCall(const char *name, void *paramlist);
+void * CreateFunctionCall(const char *name, void *paramlist, int lineno);
 
 /**
  * @param *decl
@@ -175,14 +175,14 @@ void * AddParameterToList(void *list, void *decl);
  * @param (Expr*) right
  * @return Modulus function
  */
-void * CreateModulus(void * left, void * right);
+void * CreateModulus(void * left, void * right, int lineno);
 
 /**
  * Create an Integer
  * @param theNumber
  * @return *value
  */
-void * CreateInt(int num);
+void * CreateInt(int num, int lineno);
 
 void * AddFunctionToProgram(void * func);
 #endif
