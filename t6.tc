@@ -5,7 +5,7 @@ int sub(int x, int y) {
 
 int main() {
 	int xyz;
-	xyz = 10 % 5;
+	xyz = 10 % 5; //tests modulo with a function declaration that is never used
 	write xyz;
 	return 0;
 }

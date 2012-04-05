@@ -1,6 +1,6 @@
 
 int many(int x) { 
-	x = x * 2 + 4 % 3 / 2;
+	x = x * 2 + 4 % 3 / 2; //shouldn't break, and do in order of operands
 	return x;
 }
 

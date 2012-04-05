@@ -4,8 +4,11 @@ int add(int x, int y){
 }
 
 int sub(int x, int y) { 
-	x = x - y;
 	int z;
+	x = x - y;
+	//should be legal to call add here,
+	//and this will mean that nothing is done to
+	//x
 	z = add(x, y);
 	return x;
 }

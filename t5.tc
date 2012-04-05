@@ -4,7 +4,7 @@ int sub() {
 
 int main() {
 	int xyz;
-	xyz = sub(50+5, 5);
+	xyz = sub(); // tests a function with no parameters
 	write xyz;
 	return 0;
 }
