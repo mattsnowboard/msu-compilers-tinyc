@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdexcept>
 
 #include "AssemblyVisitor.h"
 #include "Program.h"
@@ -43,7 +44,12 @@ int main(int argc, char **argv)
 
     // Here is where we use a visitor to create the assembly
     AssemblyVisitor asmv(std::cout);
-    asmv.Visit(program);
+    try {
+        asmv.Visit(program);
+    } catch (std::exception &e) {
+        std::cerr << "Compilation error, stopping..." << std::endl;
+        return 1;
+    }
 
     return 0;
 }

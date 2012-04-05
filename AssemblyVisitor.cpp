@@ -150,6 +150,10 @@ void AssemblyVisitor::Visit(const Value & v)
 void AssemblyVisitor::Visit(const Variable & v)
 {
     // Look up in current symbol table, push some offset of ebp on stack
+    if (!_currTable->DoesExist(v.GetName())) {
+        std::cerr << "Undefined variable: " << v.GetName() << std::endl;
+        throw std::logic_error("Undefined variable");
+    }
     int off = _currTable->GetOffset(v.GetName());
     _out << "\tpushl " << off << "(%ebp)" << std::endl;
 }
