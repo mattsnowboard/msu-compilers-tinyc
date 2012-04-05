@@ -30,10 +30,10 @@ PROGRAM : PROGRAM FUNCDEF { $$ = AddFunctionToProgram($2);}
 
 FUNCDEF : FUNCDECL '{' DECLLIST STMTLIST RETURNSTMT '}' { $$ = AddToFunctionBlock($1, $3, $4, $5); }
 
-FUNCDECL : TYPE VAR '(' PARAMDEFLIST ')' {  $$ = CreateFunctionBlock($2, $4); }
+FUNCDECL : TYPE VAR '(' PARAMDEFLIST ')' {  $$ = CreateFunctionBlock($2, $4, lineno); }
 
 PARAMDEFLIST : DECL { $$ = CreateParameterList($1); }
-             | PARAMDEFLIST ',' DECL { $$ = AddParameterToList($1, $3);}
+             | PARAMDEFLIST ',' DECL { $$ = AddParameterToList($1, $3, lineno);}
              | { $$ = CreateParameterList(NULL);/* empty param list */ }
 PARAMCALLLIST : EXPRESSION { $$ = CreateExprList($1);}
               | PARAMCALLLIST ',' EXPRESSION { $$ = AddExprToList($1, $3); }
@@ -52,33 +52,33 @@ DECLLIST : DECL DELIM { $$ = CreateStatementList($1); }
          | DECLLIST DELIM { $$ = $1;}
          | { $$ = CreateStatementList(NULL); }
 
-RETURNSTMT : RETURN EXPRESSION DELIM { $$ = CreateReturn($2); }
+RETURNSTMT : RETURN EXPRESSION DELIM { $$ = CreateReturn($2, lineno); }
            | { $$ = NULL;/* no return */}
 
-ASSIGNMENT : VAR ASSIGN EXPRESSION  { $$ = CreateAssignStatement($1, $3); }
-DECL : TYPE VAR { $$ = CreateDeclaration($2); }
-OUTPUT : WRITE EXPRESSION  { $$ = CreateWriteStmt($2); }
+ASSIGNMENT : VAR ASSIGN EXPRESSION  { $$ = CreateAssignStatement($1, $3, lineno); }
+DECL : TYPE VAR { $$ = CreateDeclaration($2, lineno); }
+OUTPUT : WRITE EXPRESSION  { $$ = CreateWriteStmt($2, lineno); }
 
 EXPRESSION : EXPR  {$$ = $1;}
            | FUNCCALL {  $$ = $1; }
 
-FUNCCALL : VAR '(' PARAMCALLLIST ')' { $$ = CreateFunctionCall($1, $3); }
+FUNCCALL : VAR '(' PARAMCALLLIST ')' { $$ = CreateFunctionCall($1, $3, lineno); }
 
-EXPR : EXPR '+' TERM  {$$ = CreateAdd($1, $3);}
-EXPR : EXPR '-' TERM {$$ = CreateSubtract($1, $3);}
+EXPR : EXPR '+' TERM  {$$ = CreateAdd($1, $3, lineno);}
+EXPR : EXPR '-' TERM {$$ = CreateSubtract($1, $3, lineno);}
 EXPR : TERM  {$$ = $1;}
 
-TERM : TERM '*' UNARY  {$$ = CreateMultiply($1, $3);}
-TERM : TERM '/' UNARY  {$$ = CreateDivide($1, $3);}
+TERM : TERM '*' UNARY  {$$ = CreateMultiply($1, $3, lineno);}
+TERM : TERM '/' UNARY  {$$ = CreateDivide($1, $3, lineno);}
 TERM : UNARY  {$$ = $1;}
-TERM : TERM '%' UNARY {$$ = CreateModulus($1, $3); }
+TERM : TERM '%' UNARY {$$ = CreateModulus($1, $3, lineno); }
 
-UNARY : '-' NUMBER {$$ = CreateNegate($2);}
+UNARY : '-' NUMBER {$$ = CreateNegate($2, lineno);}
 UNARY : NUMBER {$$ = $1;}
 
 NUMBER : '(' EXPRESSION ')'  {$$ = $2;}
-NUMBER : NUM  {$$ = CreateInt($1);}
-NUMBER : VAR  {$$ = CreateVariable($1);}
+NUMBER : NUM  {$$ = CreateInt($1, lineno);}
+NUMBER : VAR  {$$ = CreateVariable($1, lineno);}
 
 TYPE : INT { /* do something? ignore since everything is an int? */ }
 

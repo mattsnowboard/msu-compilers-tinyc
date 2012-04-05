@@ -34,45 +34,45 @@ extern "C" {
 
 Program program;
 
-extern "C" void * CreateNegate(void *expr)
+extern "C" void * CreateNegate(void *expr, int lineno)
 {
-    Negate *node = new Negate((Expr *)expr);
+    Negate *node = new Negate((Expr *)expr, lineno);
     return node;
 }
 
-extern "C" void * CreateAdd(void *left, void *right)
+extern "C" void * CreateAdd(void *left, void *right, int lineno)
 {
-    Add *node = new Add((Expr *)left, (Expr *)right);
+    Add *node = new Add((Expr *)left, (Expr *)right, lineno);
     return node;
 }
 
-extern "C" void * CreateSubtract(void *left, void *right)
+extern "C" void * CreateSubtract(void *left, void *right, int lineno)
 {
-    Subtract *node = new Subtract((Expr *)left, (Expr *)right);
+    Subtract *node = new Subtract((Expr *)left, (Expr *)right, lineno);
     return node;
 }
 
-extern "C" void * CreateDivide(void *left, void *right)
+extern "C" void * CreateDivide(void *left, void *right, int lineno)
 {
-    Divide *node = new Divide((Expr *)left, (Expr *)right);
+    Divide *node = new Divide((Expr *)left, (Expr *)right, lineno);
     return node;
 }
 
-extern "C" void * CreateMultiply(void *left, void *right)
+extern "C" void * CreateMultiply(void *left, void *right, int lineno)
 {
-    Multiply *node = new Multiply((Expr *)left, (Expr *)right);
+    Multiply *node = new Multiply((Expr *)left, (Expr *)right, lineno);
     return node;
 }
 
-extern "C" void * CreateNumber(int i)
+extern "C" void * CreateNumber(int i, int lineno)
 {
-    Value *node = new Value(i);
+    Value *node = new Value(i, lineno);
     return node;
 }
 
-extern "C" void * CreateVariable(const char *name)
+extern "C" void * CreateVariable(const char *name, int lineno)
 {
-    Variable *node = new Variable(name);
+    Variable *node = new Variable(name, lineno);
     return node;
 }
 
@@ -92,13 +92,13 @@ extern "C" void * AddStatementToList(void *stmtlist, void *stmt)
     return s;
 }
 
-extern "C" void * CreateWriteStmt(void *expr)
+extern "C" void * CreateWriteStmt(void *expr, int lineno)
 {
-    WriteStmt* wst = new WriteStmt((Expr*) expr);
+    WriteStmt* wst = new WriteStmt((Expr*) expr, lineno);
     return wst;
 }
 
-extern "C" void * CreateAssignStatement(const char *name, void *expr)
+extern "C" void * CreateAssignStatement(const char *name, void *expr, int lineno)
 {
     AssignStmt* asn = new AssignStmt(name, (Expr*)expr);
     return asn;
@@ -109,16 +109,16 @@ extern "C" void * CreateAssignStatement(const char *name, void *expr)
  */
 
 
-extern "C" void * CreateReturn(void *expr)
+extern "C" void * CreateReturn(void *expr, int lineno)
 {
-    ReturnStmt * rtns = new ReturnStmt( (Expr*)expr);
+    ReturnStmt * rtns = new ReturnStmt( (Expr*)expr, lineno);
     return rtns;
 }
 
 
-extern "C" void * CreateDeclaration(const char *name)
+extern "C" void * CreateDeclaration(const char *name, int lineno)
 {
-    DeclStmt * dcls = new DeclStmt( name);
+    DeclStmt * dcls = new DeclStmt( name, lineno);
     return dcls;
 }
 
@@ -140,18 +140,6 @@ extern "C" void * AddParameterToList(void * list, void *decl)
     return s;
 }
 
-
-extern "C" void * CreateParameter(void *decl, void *name)
-{
-    return NULL;
-}
-
-extern "C" void * AddDeclarationToList(void *type ,void *decl)
-{
-    return NULL;
-}
-
-
 extern "C" void * CreateExprList( void * expr)
 {
     ExprList * theList = new ExprList();
@@ -169,9 +157,9 @@ extern "C" void * AddExprToList(void *exprList, void *expr)
 }
 
 
-extern "C" void * CreateFunctionBlock(const char *name,void *paramList)
+extern "C" void * CreateFunctionBlock(const char *name,void *paramList, int lineno)
 {
-    FunctionBlock * fb = new FunctionBlock(name, (ParamDefList*) paramList);
+    FunctionBlock * fb = new FunctionBlock(name, (ParamDefList*) paramList, lineno);
     return fb;
 }
 
@@ -189,21 +177,21 @@ extern "C" void * AddToFunctionBlock(void * fb, void * decls, void * stmtlist, v
 }
 
 
-extern "C" void * CreateFunctionCall(const char *name, void *paramlist)
+extern "C" void * CreateFunctionCall(const char *name, void *paramlist, int lineno)
 {
-    FuncCall * theCall = new FuncCall(name, (ExprList*) paramlist);
+    FuncCall * theCall = new FuncCall(name, (ExprList*) paramlist, lineno);
     return theCall;
 }
 
-extern "C" void * CreateModulus(void * left, void * right)
+extern "C" void * CreateModulus(void * left, void * right, int lineno)
 {
-    Modulus * mod = new Modulus((Expr*) left, (Expr*) right);
+    Modulus * mod = new Modulus((Expr*) left, (Expr*) right, lineno);
     return mod;
 }
 
-extern "C" void * CreateInt(int num)
+extern "C" void * CreateInt(int num, int lineno)
 {
-    Value * val = new Value(num);
+    Value * val = new Value(num, lineno);
     return val;
 }
 
