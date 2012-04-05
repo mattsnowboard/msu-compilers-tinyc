@@ -15,7 +15,7 @@ public:
 
     virtual Variable* Clone()
     {
-        Variable *v = new Variable(_name);
+        Variable *v = new Variable(_name, _line);
         return v;
     }
 

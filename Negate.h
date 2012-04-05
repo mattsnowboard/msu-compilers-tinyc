@@ -11,7 +11,7 @@ public:
     virtual Negate* Clone()
     {
         Expr *c = (_child) ? _child->Clone() : NULL;
-        Negate *u = new Negate(c);
+        Negate *u = new Negate(c, _line);
         return u;
     }
 

@@ -33,7 +33,7 @@ FUNCDEF : FUNCDECL '{' DECLLIST STMTLIST RETURNSTMT '}' { $$ = AddToFunctionBloc
 FUNCDECL : TYPE VAR '(' PARAMDEFLIST ')' {  $$ = CreateFunctionBlock($2, $4, lineno); }
 
 PARAMDEFLIST : DECL { $$ = CreateParameterList($1); }
-             | PARAMDEFLIST ',' DECL { $$ = AddParameterToList($1, $3, lineno);}
+             | PARAMDEFLIST ',' DECL { $$ = AddParameterToList($1, $3);}
              | { $$ = CreateParameterList(NULL);/* empty param list */ }
 PARAMCALLLIST : EXPRESSION { $$ = CreateExprList($1);}
               | PARAMCALLLIST ',' EXPRESSION { $$ = AddExprToList($1, $3); }

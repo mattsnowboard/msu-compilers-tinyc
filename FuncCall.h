@@ -9,8 +9,8 @@
 class FuncCall : public Expr
 {
 public:
-    FuncCall(const std::string &s, ExprList *params) :
-        _name(s), _params(params)
+    FuncCall(const std::string &s, ExprList *params, int lineNum) :
+        Expr(lineNum), _name(s), _params(params)
     {}
 
     std::string GetName() const { return _name; }
@@ -18,7 +18,7 @@ public:
     virtual FuncCall* Clone()
     {
         ExprList *l = (_params) ? _params->Clone() : NULL;
-        FuncCall *f = new FuncCall(_name, l);
+        FuncCall *f = new FuncCall(_name, l, _line);
         return f;
     }
 

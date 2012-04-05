@@ -16,7 +16,7 @@ MAKEDEPEND = $(CXX) $(CPPFLAGS) -MM -o $(df).d $<
 all:	test	
 
 # Generate and run all test files
-test:	t0 t1 t2 t3 t4 t5 t6 t7 t8 t9
+test:	t0 t1 t2 t3 t4 t5 t6 t7 t8 t10
 	./t0
 	./t1
 	./t2
@@ -26,7 +26,7 @@ test:	t0 t1 t2 t3 t4 t5 t6 t7 t8 t9
 	./t6
 	./t7
 	./t8
-	./t9
+	./t10
 
 # Build our tiny Compiler using bison and flex files
 #	$@	target name
@@ -113,5 +113,5 @@ lex.yy.o: lex.yy.c
 # clean
 
 clean: 
-	$(RM) -f *.o *.s *.output t? lex.yy.c y.tab.[hc] tinyc .D_TARGET
+	$(RM) -f *.o *.s *.output t1? t? lex.yy.c y.tab.[hc] tinyc .D_TARGET
 	$(RM) -rf $(DEPDIR)
