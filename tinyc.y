@@ -79,6 +79,7 @@ UNARY : NUMBER {$$ = $1;}
 NUMBER : '(' EXPRESSION ')'  {$$ = $2;}
 NUMBER : NUM  {$$ = CreateInt($1, lineno);}
 NUMBER : VAR  {$$ = CreateVariable($1, lineno);}
+NUMBER : FUNCCALL {$$ = $1; }
 
 TYPE : INT { /* do something? ignore since everything is an int? */ }
 

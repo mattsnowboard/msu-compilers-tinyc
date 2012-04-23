@@ -88,7 +88,7 @@ echo "10"
 echo "5"
 echo "5"
 echo "5"
-echo "END"
+echo ">>END"
 make t10  >>./make.log
 ./t10
 echo
@@ -113,7 +113,18 @@ echo "Expect: "
 echo "500"
 echo "250"
 echo "749"
-echo "END"
+echo ">>END"
 make t13 >>./make.log
 ./t13
+echo
+
+becho "********************************************************************************"
+echo "Test 14: function call in expression (bug fix from Project4)"
+echo "Expect:"
+echo "21"
+echo "55"
+echo "-43"
+echo ">>END"
+make t14 >>./make.log
+./t14
 echo

@@ -16,7 +16,7 @@ MAKEDEPEND = $(CXX) $(CPPFLAGS) -MM -o $(df).d $<
 all:	test	
 
 # Generate and run all test files
-test:	t0 t1 t2 t3 t4 t5 t6 t7 t8 t10 t11 t12 t13
+test:	tinyc
 	chmod +x run_tests.sh
 	./run_tests.sh
 

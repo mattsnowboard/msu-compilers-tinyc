@@ -1,0 +1,25 @@
+
+int foo(int x, int y) {
+	x = x - y;
+	return x;
+}
+
+int bar(int x){
+	return x + 1;
+}
+
+int baz() {
+    return 11;
+}
+
+int main() {
+	int x;
+	int y;
+	x = 10 + baz();
+	y = 5 * baz();
+	int xyz = foo(bar(baz()), y);
+    write x;
+    write y;
+	write xyz;
+	return 0;
+}
