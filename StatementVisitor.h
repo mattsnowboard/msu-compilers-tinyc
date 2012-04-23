@@ -20,6 +20,9 @@ class DecAssignStmt;
 class DeclStmt;
 class ReturnStmt;
 
+class LessThan;
+class GreaterThan;
+
 class StatementVisitor
 {
 public:
@@ -42,6 +45,9 @@ public:
     virtual void Visit(const ReturnStmt &r) = 0;
     
     virtual void Visit(const FuncCall &f) = 0;
+
+    virtual void Visit(const LessThan &l) = 0;
+    virtual void Visit(const GreaterThan &g) = 0;
 };
 
 #endif

@@ -6,17 +6,17 @@
 class LessThan : public Binary
 {
 public:
-    LessThan(Numerical *left, Numerical *right) :
-        Binary(left, right) {}
+    LessThan(Expr *left, Expr *right, int lineNum) :
+        Binary(left, right, lineNum) {}
 
     virtual LessThan* Clone()
     {
-        Numerical *l = (_left) ? _left->Clone() : NULL;
-        Numerical *r = (_right) ? _right->Clone() : NULL;
-        LessThan *b = new LessThan(l, r);
+        Expr *l = (_left) ? _left->Clone() : NULL;
+        Expr *r = (_right) ? _right->Clone() : NULL;
+        LessThan *b = new LessThan(l, r, _line);
         return b;
     }
-
+/*
     virtual void Evaluate()
     {
         if (_left && _right) {
@@ -25,7 +25,7 @@ public:
             _value = (_left->Get() < _right->Get()) ? 1 : 0;
         }
     }
-
+*/
     virtual void Accept(StatementVisitor &v) const
     {
         v.Visit(*this);

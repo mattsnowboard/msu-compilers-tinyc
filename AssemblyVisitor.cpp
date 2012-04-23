@@ -22,6 +22,9 @@
 #include "WriteStmt.h"
 #include "ReturnStatement.h"
 
+#include "LessThan.h"
+#include "GreaterThan.h"
+
 void AssemblyVisitor::Visit(const Program & p)
 {
     _out << ".section .text" << std::endl
@@ -140,6 +143,19 @@ void AssemblyVisitor::Visit(const Negate & n)
 void AssemblyVisitor::Visit(const Subtract & s)
 {
     VisitBinary(s, "subl");
+}
+
+void AssemblyVisitor::Visit(const GreaterThan &g)
+{
+    //@TODO find the proper assembly command
+    VisitBinary(g, "**TODO**");
+}
+
+void AssemblyVisitor::Visit(const LessThan &l)
+{
+
+    //@TODO find the proper assembly command
+    VisitBinary(l, "**TODO**");
 }
 
 void AssemblyVisitor::Visit(const Value & v)

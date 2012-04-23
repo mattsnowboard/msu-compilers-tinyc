@@ -26,6 +26,9 @@ class AssignStmt;
 class DeclStmt;
 class ReturnStmt;
 
+class LessThan;
+class GreaterThan;
+
 class AssemblyVisitor : public StatementVisitor
 {
 public:
@@ -52,6 +55,9 @@ public:
     virtual void Visit(const ReturnStmt &r);
     
     virtual void Visit(const FuncCall &f);
+
+    virtual void Visit(const LessThan &l);
+    virtual void Visit(const GreaterThan &g);
 
 private:
 	void VisitBinary(const Binary &b, const std::string &op);

@@ -7,6 +7,8 @@
 #include "StatementVisitor.h"
 #include "DeclStmt.h"
 #include "DecAssignStmt.h"
+#include "LessThan.h"
+#include "GreaterThan.h"
 #include <string>
 
 class FunctionBlock : public StatementVisitor
@@ -132,6 +134,9 @@ public:
     virtual void Visit(const ReturnStmt &r) {}
     
     virtual void Visit(const FuncCall &f) {}
+
+    virtual void Visit(const LessThan &l){}
+    virtual void Visit(const GreaterThan &g){}
 
 private:
     FunctionBlock(const FunctionBlock &s);
