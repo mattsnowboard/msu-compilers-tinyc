@@ -35,7 +35,7 @@ test:	t0 t1 t2 t3 t4 t5 t6 t7 t8 t10 t11 t12 t13
 #	$@	target name
 #	$^	source files
 #
-tinyc:		$(OBJS) tinyc.o y.tab.o lex.yy.o symbol.o
+tinyc:		$(OBJS) tinyc.o y.tab.o lex.yy.o SymbolTable.o
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
 tinyc.o: tinyc.cpp y.tab.h
