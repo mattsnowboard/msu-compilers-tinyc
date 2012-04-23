@@ -5,6 +5,7 @@ y.tab.*
 y.output
 \#*#
 .gdbinit
+*.log
 # the name of the executable
 tinyc
 # make depend stuff

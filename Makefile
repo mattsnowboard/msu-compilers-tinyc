@@ -17,19 +17,8 @@ all:	test
 
 # Generate and run all test files
 test:	t0 t1 t2 t3 t4 t5 t6 t7 t8 t10 t11 t12 t13
-	./t0
-	./t1
-	./t2
-	./t3
-	./t4
-	./t5
-	./t6
-	./t7
-	./t8
-	./t10
-	./t11
-	./t12
-	./t13
+	chmod +x run_tests.sh
+	./run_tests.sh
 
 # Build our tiny Compiler using bison and flex files
 #	$@	target name
@@ -116,5 +105,5 @@ lex.yy.o: lex.yy.c
 # clean
 
 clean: 
-	$(RM) -f *.o *.s *.output t1? t? lex.yy.c y.tab.[hc] tinyc .D_TARGET
+	$(RM) -f *.o *.s *.output t1? t? lex.yy.c y.tab.[hc] tinyc .D_TARGET *.log
 	$(RM) -rf $(DEPDIR)
