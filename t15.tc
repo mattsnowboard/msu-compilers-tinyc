@@ -1,0 +1,17 @@
+int foo() {
+    return 1;
+}
+int foo(int i) {
+    return 2;
+}
+int foo(int i, int j) {
+    return 7;
+}
+
+int main()
+{
+    int total = foo() + foo(2) + foo(1,2);
+    // should be 1 + 2 + 4 = 7
+    write total;
+    return 0;
+}
