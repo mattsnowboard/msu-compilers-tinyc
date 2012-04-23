@@ -22,6 +22,7 @@ class ReturnStmt;
 
 class LessThan;
 class GreaterThan;
+class IfStmt;
 
 class StatementVisitor
 {
@@ -48,6 +49,8 @@ public:
 
     virtual void Visit(const LessThan &l) = 0;
     virtual void Visit(const GreaterThan &g) = 0;
+
+    virtual void Visit(const IfStmt &i) = 0;
 };
 
 #endif

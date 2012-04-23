@@ -7,10 +7,10 @@ class IfStmt : public Conditional
 {
 public:
 
-    IfStmt(Numerical *cond, StatementList *stmts) :
-        Conditional(cond, stmts)
+    IfStmt(Expr *cond, StatementList *stmts, int lineNum) :
+        Conditional(cond, stmts, lineNum)
     {}
-
+/*
     virtual void Execute()
     {
         if (_cond)
@@ -22,12 +22,12 @@ public:
             }
         }
     }
-
+*/
     virtual IfStmt* Clone()
     {
-        Numerical *c = (_cond) ? _cond->Clone() : NULL;
+        Expr *c = (_cond) ? _cond->Clone() : NULL;
         StatementList *s = (_stmts) ? _stmts->Clone() : NULL;
-        IfStmt *ifstmt = new IfStmt(c, s);
+        IfStmt *ifstmt = new IfStmt(c, s, _line);
         return ifstmt;
     }
 

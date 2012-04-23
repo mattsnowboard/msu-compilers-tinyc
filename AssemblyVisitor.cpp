@@ -147,16 +147,46 @@ void AssemblyVisitor::Visit(const Subtract & s)
 
 void AssemblyVisitor::Visit(const GreaterThan &g)
 {
-    //@TODO find the proper assembly command
-    VisitBinary(g, "**TODO**");
+    //cmp arg2, arg1 does subtraction and sets flags
+    VisitBinary(g, "cmp");
+    _out << "" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const LessThan &l)
 {
 
-    //@TODO find the proper assembly command
-    VisitBinary(l, "**TODO**");
+    //cmp arg2, arg1 does subtraction and sets flags
+    VisitBinary(l, "cmp");
+    _out << "" << std::endl;
 }
+
+
+void AssemblyVisitor::Visit(const IfStmt & i)
+{
+
+    /** Notes
+    * jne = branch not equal
+    * je = branch equal
+    */
+
+    /*
+    *   Plan of Attack
+    *   Order in Assembly:
+    *
+    *
+    *   Evaluate the "if"
+    *   jne to ending tag
+    *
+    *   Put the stuff in the "if" down
+    *
+    *   Put ending tag at the end
+    *
+    */
+    //@TODO figure out how the hell do to this
+
+
+}
+
 
 void AssemblyVisitor::Visit(const Value & v)
 {
