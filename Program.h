@@ -2,7 +2,10 @@
 #define _PROGRAM_H
 
 #include <list>
+#include <stdexcept>
+#include <iostream>
 #include "FunctionBlock.h"
+#include "FunctionTable.h"
 
 #include "StatementVisitor.h"
 
@@ -19,6 +22,15 @@ public:
      */
     void AddFunction(FunctionBlock *f)
     {
+        // add to function table
+        FunctionTable &ft = FunctionTable::GetInstance();
+        if (ft.DoesExist(f->GetName(), f->GetParamCount())) {
+            // re-declare is an error
+            std::cerr << "Function '" << f->GetName() << "' redeclared with "
+                      << f->GetParamCount() << " arguments" << std::endl;
+            throw std::logic_error("Function redeclared");
+        }
+        ft.AddDeclaration(f->GetName(), f->GetParamCount());
         _funcs.push_back(f);
     }
 

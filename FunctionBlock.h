@@ -70,6 +70,14 @@ public:
         return _params;
     }
 
+    /**
+     * Helper to just get the number of input parameters
+     */
+    unsigned GetParamCount() const
+    {
+        return _params->GetParams().size();
+    }
+
     StatementList const* GetStatements() const
     {
         return _statements;

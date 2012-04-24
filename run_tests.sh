@@ -133,8 +133,28 @@ echo "**************************************************************************
 echo
 echo "Tests of new functionality"
 echo 
+
 echo "********************************************************************************"
-echo "Test 15: TODO"
+echo "Test 15: Test function overloading"
+echo "Expect: 7"
+make t15 >>./make.log
+./t15
+echo
+
+echo "********************************************************************************"
+echo "Test 16: Test lots of adds"
 echo "Expect:"
+echo "7"
+echo "14"
+echo ">>END"
+make t16 >>./make.log
+./t16
+echo
+
+echo "********************************************************************************"
+echo "Test 17: Test nested function call adds (bug fix)"
+echo "Expect: 31"
+make t17 >>./make.log
+./t17
 echo
 
