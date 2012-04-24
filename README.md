@@ -6,6 +6,13 @@
  - Jason Harris (harri757)
  - Camden Smith (csmith)
 
+# Project 5 additions
+
+ - Function overriding: You can declare functions of same name, different
+   arguments. There is error checking for this and it will complain if you
+   call something with the wrong number of arguments (Matt's task)
+ - Added run_tests.sh Which will run all tests and print the expected output
+
 # Notes
 
  - If you try to use an undeclared variable, it gives an error and shows the 
