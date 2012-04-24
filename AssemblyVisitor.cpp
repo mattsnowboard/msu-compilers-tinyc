@@ -24,6 +24,7 @@
 
 #include "LessThan.h"
 #include "GreaterThan.h"
+#include "WhileStmt.h"
 
 void AssemblyVisitor::Visit(const Program & p)
 {
@@ -195,6 +196,13 @@ void AssemblyVisitor::Visit(const IfStmt & i)
     *
     */
     //@TODO figure out how the hell do to this
+
+
+}
+
+void AssemblyVisitor::Visit(const WhileStmt& w)
+{
+
 
 
 }

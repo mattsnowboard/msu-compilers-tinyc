@@ -6,10 +6,10 @@
 class WhileStmt : public Conditional
 {
 public:
-    WhileStmt(Numerical *cond, StatementList *stmts) :
-        Conditional(cond, stmts)
+    WhileStmt(Expr *cond, StatementList *stmts, int lineNum) :
+        Conditional(cond, stmts, lineNum)
     {}
-
+/*
     virtual void Execute()
     {
         if (_cond)
@@ -25,12 +25,12 @@ public:
             }
         }
     }
-
+*/
     virtual WhileStmt* Clone()
     {
-        Numerical *c = (_cond) ? _cond->Clone() : NULL;
+        Expr *c = (_cond) ? _cond->Clone() : NULL;
         StatementList *s = (_stmts) ? _stmts->Clone() : NULL;
-        WhileStmt *wstmt = new WhileStmt(c, s);
+        WhileStmt *wstmt = new WhileStmt(c, s, _line);
         return wstmt;
     }
 
