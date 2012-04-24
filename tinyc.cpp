@@ -37,10 +37,14 @@ int main(int argc, char **argv)
 
     yyin = file;
 
-    do
-    {
-        yyparse();
-    } while (!feof(yyin));
+    try {
+        do {
+            yyparse();
+        } while (!feof(yyin));
+    } catch (std::exception &e) {
+        std::cerr << "Compilation error, stopping..." << std::endl;
+        return 1;
+    }
 
     // Here is where we use a visitor to create the assembly
     AssemblyVisitor asmv(std::cout);

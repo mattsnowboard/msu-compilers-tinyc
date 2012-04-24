@@ -74,7 +74,7 @@ echo
 
 echo "********************************************************************************"
 echo "Test 9: undeclared variables"
-echo "Expect: Undefined variable: x, on line 15"
+echo "Expect: Undefined variable: 'x', on line 15"
 make t9
 rm t9.s
 echo
@@ -158,3 +158,30 @@ make t17 >>./make.log
 ./t17
 echo
 
+echo "********************************************************************************"
+echo "Test 18: Function call with missing parameters"
+echo "Expect: Undefined function called: 'foo', with 0 arguments, on line 9"
+make t18
+rm t18.s
+echo
+
+echo "********************************************************************************"
+echo "Test 19: Function call with extra parameters"
+echo "Expect: Undefined function called: 'foo', with 2 arguments, on line 9"
+make t19
+rm t19.s
+echo
+
+echo "********************************************************************************"
+echo "Test 20: Function redeclared"
+echo "Expect: Function 'foo' redeclared with 1 arguments, on line 7"
+make t20
+rm t20.s
+echo
+
+echo "********************************************************************************"
+echo "Test 21: Call undefined function name"
+echo "Expect: Undefined function called: 'foo', with 0 arguments, on line 3"
+make t21
+rm t21.s
+echo

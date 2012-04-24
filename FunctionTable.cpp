@@ -45,7 +45,7 @@ void FunctionTable::AddDeclaration(const std::string &name, int argc)
             = _names.insert(std::make_pair(name, ArgsToLabelT()));
         nameFound = ret.first;
     } else if (isMain) {
-        throw std::logic_error("Function main redeclared");
+        throw std::logic_error("Function 'main' redeclared");
     }
 
     // special case for main

@@ -27,7 +27,8 @@ public:
         if (ft.DoesExist(f->GetName(), f->GetParamCount())) {
             // re-declare is an error
             std::cerr << "Function '" << f->GetName() << "' redeclared with "
-                      << f->GetParamCount() << " arguments" << std::endl;
+                      << f->GetParamCount() << " arguments, on line "
+                      << f->GetLine() << std::endl;
             throw std::logic_error("Function redeclared");
         }
         ft.AddDeclaration(f->GetName(), f->GetParamCount());

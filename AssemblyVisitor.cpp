@@ -60,8 +60,8 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
     FunctionTable &ft = FunctionTable::GetInstance();
     if (!ft.DoesExist(f.GetName(), f.GetParamCount())) {
         // error, undefined function
-        std::cerr << "Undefined function found: " << f.GetName()
-                  << ", with " << f.GetParamCount() << " arguments, on line "
+        std::cerr << "FATAL: Undefined function found: '" << f.GetName()
+                  << "', with " << f.GetParamCount() << " arguments, on line "
                   << f.GetLine() << std::endl;
         throw std::logic_error("Undefined function definition");
     }
@@ -210,8 +210,8 @@ void AssemblyVisitor::Visit(const Variable & v)
 {
     // Look up in current symbol table, push some offset of ebp on stack
     if (!_currTable->DoesExist(v.GetName())) {
-        std::cerr << "Undefined variable: " << v.GetName()
-                  << ", on line " << v.GetLine() << std::endl;
+        std::cerr << "FATAL: Undefined variable: '" << v.GetName()
+                  << "', on line " << v.GetLine() << std::endl;
         throw std::logic_error("Undefined variable");
     }
     int off = _currTable->GetOffset(v.GetName());
@@ -225,8 +225,8 @@ void AssemblyVisitor::Visit(const AssignStmt & a)
     value->Accept(*this);
     // after visiting the RHS of the assignment, the answer is on the stack
     if (!_currTable->DoesExist(a.GetName())) {
-        std::cerr << "FATAL: Undefined variable: " << a.GetName()
-                  << ", on line " << a.GetLine() << std::endl;
+        std::cerr << "FATAL: Undefined variable: '" << a.GetName()
+                  << "', on line " << a.GetLine() << std::endl;
         throw std::logic_error("Undefined variable");
     }
     int off = _currTable->GetOffset(a.GetName());
@@ -240,8 +240,8 @@ void AssemblyVisitor::Visit(const DecAssignStmt & a)
     value->Accept(*this);
     // after visiting the RHS of the assignment, the answer is on the stack
     if (!_currTable->DoesExist(a.GetName())) {
-        std::cerr << "FATAL: Undefined variable: " << a.GetName()
-                  << ", on line " << a.GetLine() << std::endl;
+        std::cerr << "FATAL: Undefined variable: '" << a.GetName()
+                  << "', on line " << a.GetLine() << std::endl;
         throw std::logic_error("Undefined variable");
     }
     int off = _currTable->GetOffset(a.GetName());
@@ -281,8 +281,8 @@ void AssemblyVisitor::Visit(const FuncCall & f)
     FunctionTable &ft = FunctionTable::GetInstance();
     if (!ft.DoesExist(f.GetName(), l.size())) {
         // error, undefined function
-        std::cerr << "Undefined function called: " << f.GetName()
-                  << ", with " << l.size() << " arguments, on line "
+        std::cerr << "FATAL: Undefined function called: '" << f.GetName()
+                  << "', with " << l.size() << " arguments, on line "
                   << f.GetLine() << std::endl;
         throw std::logic_error("Undefined function call");
     }

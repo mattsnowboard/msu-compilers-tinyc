@@ -1,0 +1,11 @@
+int foo(int a)
+{
+    return a;
+}
+
+int main()
+{
+    // this should be a compiler error
+    int b = foo(1, 2);
+    return 1;
+}
