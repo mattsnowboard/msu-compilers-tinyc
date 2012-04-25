@@ -219,17 +219,18 @@ void AssemblyVisitor::Visit(const IfStmt & i)
     const Expr *cond = i.GetCondition();
     const StatementList *block= i.GetStatements();
     StatementList::ListT blockStmts = block->GetStatements();
+    int curIfNum = _ifStmtNum++;
 
    cond->Accept(*this);
-   _out << _compare << " if_stmt_num_" << _ifStmtNum << std::endl;
+   _out << _compare << " if_stmt_num_" << curIfNum << std::endl;
 
     for (StatementList::ListT::const_iterator it = blockStmts.begin();
          it != blockStmts.end();
          ++it) 
     {(*it)->Accept(*this);}
 
-   _out << "if_stmt_num_" << _ifStmtNum <<":" << std::endl;
-   _ifStmtNum++;
+   _out << "if_stmt_num_" << curIfNum <<":" << std::endl;
+
 
 
 }
@@ -256,15 +257,17 @@ void AssemblyVisitor::Visit(const WhileStmt& w)
     const StatementList *block= w.GetStatements();
     StatementList::ListT blockStmts = block->GetStatements();
 
+    int curWhileNum = _whileStmtNum++;
+
     //put a label to begin the while statement, we'll jump here
     //unconditionally at the end of the while loop
-    _out << "while_stmt_num_begin" << _whileStmtNum << ":" << std::endl;
+    _out << "while_stmt_num_begin" << curWhileNum << ":" << std::endl;
 
     //place the condition into the code
     cond->Accept(*this);
 
     //Do the proper comparison to jump to the end of the while statement.
-    _out << _compare << " while_stmt_num_end" << _whileStmtNum << std::endl;
+    _out << _compare << " while_stmt_num_end" << curWhileNum << std::endl;
 
     //place the while statement block into assembly
     for (StatementList::ListT::const_iterator it = blockStmts.begin();
@@ -274,13 +277,11 @@ void AssemblyVisitor::Visit(const WhileStmt& w)
 
     //As we are still in the "block", place an unconditional jump to
     //just above our original condition
-    _out << "\tjmp while_stmt_num_begin /*Unconditional Jump to just above condition*/" << _whileStmtNum << std::endl;
+    _out << "\tjmp while_stmt_num_begin" << curWhileNum << "/*Unconditional Jump to just above condition*/" << std::endl;
    
     //place a label at the end, we'll jump here when our condition isn't met
-   _out << "while_stmt_num_end" << _whileStmtNum <<":" << std::endl;
+   _out << "while_stmt_num_end" << curWhileNum <<":" << std::endl;
 
-   //increase our counter for naming
-   _whileStmtNum++;
 
 
 }
