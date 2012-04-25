@@ -148,8 +148,12 @@ public:
     virtual void Visit(const LessThan &l){}
     virtual void Visit(const GreaterThan &g){}
     virtual void Visit(const IfStmt &i){}
+<<<<<<< HEAD
     virtual void Visit(const WhileStmt &i){}
 
+=======
+    virtual void Visit(const WhileStmt &w){}
+>>>>>>> e8d5fdc88d2150e45f7577bb0d755b27f7da41b1
 
 private:
     FunctionBlock(const FunctionBlock &s);
