@@ -14,7 +14,8 @@
 #include "Variable.h"
 #include "Statement.h"
 #include "StatementList.h"
-
+#include "IfStmt.h"
+#include "WhileStmt.h"
 #include "SymbolTable.h"
 #include "AssignStmt.h"
 #include "DecAssignStmt.h"
@@ -92,6 +93,17 @@ extern "C" void * AddStatementToList(void *stmtlist, void *stmt)
     StatementList* s = (StatementList*)stmtlist;
     s->AddItem((Statement*)stmt);
     return s;
+}
+extern "C" void * CreateIfStmt(void *cond, void *stmtlist, int lineno)
+{
+    IfStmt* ifst = new IfStmt((Expr*)cond, (StatementList*) stmtlist, lineno);
+    return ifst;
+}
+
+extern "C" void * CreateWhileStmt(void *cond, void *stmtlist, int lineno)
+{
+    WhileStmt* wst = new WhileStmt((Expr*)cond, (StatementList*)stmtlist, lineno);
+    return wst;
 }
 
 extern "C" void * CreateWriteStmt(void *expr, int lineno)

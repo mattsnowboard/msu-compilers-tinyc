@@ -15,6 +15,8 @@ extern int lineno;  /* defined in micro.y */
 ("write") {return WRITE;}
 ("int")   {return INT;}
 ("return") {return RETURN;}
+("if")	{return IF;}
+("while")	{return WHILE;}
 
 [0-9]+ { yylval.ival = atoi(yytext); return NUM; }
 

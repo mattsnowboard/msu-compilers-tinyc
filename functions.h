@@ -66,7 +66,19 @@ void * AddStatementToList(void *stmtlist, void *stmt);
  * @param Numerical* expr
  * @return Statement* (WriteStmt)
  */
+void * CreateWhileStmt(void *cond, void *stmtlist, int lineno);
+
+/**
+
+ * Create a Write Statement
+
+ * @param Numerical* expr
+
+ * @return Statement* (WriteStmt)
+
+ */
 void * CreateWriteStmt(void *expr, int lineno);
+
 /**
  * Create Assignment Statement
  * @param char* name

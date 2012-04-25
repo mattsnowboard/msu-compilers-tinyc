@@ -4,5 +4,10 @@ int main() {
 	x = 2;
 	y = 3;
 	write y;
+	if(x=2)
+	{
+	y=5;
+	}
+	write y;
 }
 

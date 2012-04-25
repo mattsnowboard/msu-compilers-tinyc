@@ -17,11 +17,11 @@ int  lineno = 1; /* number of current source line */
     char *sval;		
 }
 
-%token WRITE INT ASSIGN DELIM RETURN 
+%token WRITE INT ASSIGN DELIM RETURN IF WHILE 
 %token<ival> NUM
 %token<sval> VAR
 
-%type<pval> PROGRAM FUNCDEF FUNCDECL PARAMDEFLIST PARAMCALLLIST STMTLIST STMT ASSIGNMENT DECL OUTPUT RETURNSTMT EXPRESSION FUNCCALL EXPR TERM UNARY NUMBER TYPE DECASSIGN
+%type<pval> PROGRAM FUNCDEF FUNCDECL PARAMDEFLIST PARAMCALLLIST STMTLIST STMT ASSIGNMENT DECL OUTPUT RETURNSTMT EXPRESSION FUNCCALL EXPR TERM UNARY NUMBER TYPE DECASSIGN IFSTMT WHILESTMT
 
 %%
 
@@ -44,11 +44,22 @@ STMTLIST : STMT DELIM { $$ = CreateStatementList($1);}
          | STMTLIST DELIM {$$ = $1; }
          | { $$ = CreateStatementList(NULL); }
 
+
 STMT : ASSIGNMENT  { $$ = $1; }
      | OUTPUT { $$ = $1; }
      | DECL { $$ = $1; }
      | DECASSIGN { $$ = $1; }
      | RETURNSTMT { $$ = $1; }
+	 | IFSTMT { $$ = $1; }
+	 | WHILESTMT { $$ = $1; }
+
+
+IFSTMT : IF '(' EXPRESSION ')' '\n' '{' '\n' STMT '}' {
+    $$ = CreateIfStmt($3, $8, lineno);
+}
+WHILESTMT : WHILE '(' EXPRESSION ')' '\n' '{' '\n' STMT '}' {
+    $$ = CreateWhileStmt($3, $8, lineno);
+}
 
 RETURNSTMT : RETURN EXPRESSION { $$ = CreateReturn($2, lineno); }
 

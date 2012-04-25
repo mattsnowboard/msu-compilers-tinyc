@@ -10,6 +10,7 @@
 #include "LessThan.h"
 #include "GreaterThan.h"
 #include "IfStmt.h"
+#include "WhileStmt.h"
 #include <string>
 
 class FunctionBlock : public StatementVisitor
@@ -147,6 +148,8 @@ public:
     virtual void Visit(const LessThan &l){}
     virtual void Visit(const GreaterThan &g){}
     virtual void Visit(const IfStmt &i){}
+    virtual void Visit(const WhileStmt &i){}
+
 
 private:
     FunctionBlock(const FunctionBlock &s);

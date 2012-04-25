@@ -195,7 +195,9 @@ void AssemblyVisitor::Visit(const IfStmt & i)
     *
     */
     //@TODO figure out how the hell do to this
-
+}
+void AssemblyVisitor::Visit(const WhileStmt & i)
+{
 
 }
 
