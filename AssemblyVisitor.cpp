@@ -24,6 +24,7 @@
 
 #include "LessThan.h"
 #include "GreaterThan.h"
+#include "WhileStmt.h"
 
 void AssemblyVisitor::Visit(const Program & p)
 {
@@ -55,10 +56,22 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
 {
     // get the current SymbolTable and store it on a stack of symbol tables?
     _currTable = f.GetSymbolTable();
+
+    // look up function in table
+    FunctionTable &ft = FunctionTable::GetInstance();
+    if (!ft.DoesExist(f.GetName(), f.GetParamCount())) {
+        // error, undefined function
+        std::cerr << "FATAL: Undefined function found: '" << f.GetName()
+                  << "', with " << f.GetParamCount() << " arguments, on line "
+                  << f.GetLine() << std::endl;
+        throw std::logic_error("Undefined function definition");
+    }
+    std::string label = ft.GetLabel(f.GetName(),  f.GetParamCount());
+
     // Print prolog
-    _out << ".global " << f.GetName() << std::endl
-         << ".type " << f.GetName() << ", @function" << std::endl
-         << f.GetName() << ":" << std::endl
+    _out << ".global " << label << std::endl
+         << ".type " << label << ", @function" << std::endl
+         << label << ":" << std::endl
          << "\tpushl %ebp /* base pointer on stack */" << std::endl
          << "\tmovl  %esp, %ebp /* change base pointer */" << std::endl;
     
@@ -106,7 +119,7 @@ void AssemblyVisitor::Visit(const Divide & d)
     _out << "\tcltd" << std::endl
          << "\tidiv %ebx" << std::endl;
     // push result
-	_out << "push %eax" << std::endl;
+	_out << "pushl %eax" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const Modulus & d)
@@ -127,7 +140,7 @@ void AssemblyVisitor::Visit(const Modulus & d)
     _out << "\tcltd" << std::endl
          << "\tidiv %ebx" << std::endl;
     // push result (remainder)
-	_out << "push %edx" << std::endl;
+	_out << "pushl %edx" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const Multiply & m)
@@ -189,6 +202,13 @@ void AssemblyVisitor::Visit(const IfStmt & i)
 
 }
 
+void AssemblyVisitor::Visit(const WhileStmt& w)
+{
+
+
+
+}
+
 
 void AssemblyVisitor::Visit(const Value & v)
 {
@@ -200,8 +220,8 @@ void AssemblyVisitor::Visit(const Variable & v)
 {
     // Look up in current symbol table, push some offset of ebp on stack
     if (!_currTable->DoesExist(v.GetName())) {
-        std::cerr << "Undefined variable: " << v.GetName()
-                  << ", on line " << v.GetLine() << std::endl;
+        std::cerr << "FATAL: Undefined variable: '" << v.GetName()
+                  << "', on line " << v.GetLine() << std::endl;
         throw std::logic_error("Undefined variable");
     }
     int off = _currTable->GetOffset(v.GetName());
@@ -215,8 +235,8 @@ void AssemblyVisitor::Visit(const AssignStmt & a)
     value->Accept(*this);
     // after visiting the RHS of the assignment, the answer is on the stack
     if (!_currTable->DoesExist(a.GetName())) {
-        std::cerr << "FATAL: Undefined variable: " << a.GetName()
-                  << ", on line " << a.GetLine() << std::endl;
+        std::cerr << "FATAL: Undefined variable: '" << a.GetName()
+                  << "', on line " << a.GetLine() << std::endl;
         throw std::logic_error("Undefined variable");
     }
     int off = _currTable->GetOffset(a.GetName());
@@ -230,8 +250,8 @@ void AssemblyVisitor::Visit(const DecAssignStmt & a)
     value->Accept(*this);
     // after visiting the RHS of the assignment, the answer is on the stack
     if (!_currTable->DoesExist(a.GetName())) {
-        std::cerr << "FATAL: Undefined variable: " << a.GetName()
-                  << ", on line " << a.GetLine() << std::endl;
+        std::cerr << "FATAL: Undefined variable: '" << a.GetName()
+                  << "', on line " << a.GetLine() << std::endl;
         throw std::logic_error("Undefined variable");
     }
     int off = _currTable->GetOffset(a.GetName());
@@ -266,13 +286,31 @@ void AssemblyVisitor::Visit(const FuncCall & f)
     // visit the parameters (which will push them, then call the function
     ExprList const* params = f.GetParams();
     ExprList::ListT l = params->GetExprs();
+
+    // look up in table
+    FunctionTable &ft = FunctionTable::GetInstance();
+    if (!ft.DoesExist(f.GetName(), l.size())) {
+        // error, undefined function
+        std::cerr << "FATAL: Undefined function called: '" << f.GetName()
+                  << "', with " << l.size() << " arguments, on line "
+                  << f.GetLine() << std::endl;
+        throw std::logic_error("Undefined function call");
+    }
+    std::string label = ft.GetLabel(f.GetName(), l.size());
+
     for (ExprList::ListT::const_iterator it = l.begin();
          it != l.end();
          ++it) {
         (*it)->Accept(*this);
     }
     // now all params are on stack
-    _out << "\tcall " << f.GetName() << std::endl;
+    _out << "\tcall " << label << std::endl;
+    // BUG FIX, clean up parameters we pushed
+    // @todo This hard codes the 4 here
+    int paramC = 4 * l.size();
+    if (paramC != 0) {
+        _out << "\taddl $" << (paramC) << ", %esp" << std::endl;
+    }
     // this is an expression so take the result from %eax and push it
     _out << "\tpushl %eax" << std::endl;
 }
@@ -294,7 +332,7 @@ void AssemblyVisitor::VisitBinary(const Binary &b, const std::string &op)
     // do op (example addl %edx, %eax // will do %eax = %eax + %edx)
     _out << "\t" << op << " %edx, %eax" << std::endl;
     // push result
-	_out << "\tpush %eax" << std::endl;
+	_out << "\tpushl %eax" << std::endl;
 }
 
 void AssemblyVisitor::VisitUnary(const Unary &u, const std::string &op)
@@ -311,5 +349,5 @@ void AssemblyVisitor::VisitUnary(const Unary &u, const std::string &op)
     // do op (example negl %eax // will do %eax = - %eax)
     _out << "\t" << op << " %eax" << std::endl;
     // push result
-	_out << "push %eax" << std::endl;
+	_out << "pushl %eax" << std::endl;
 }

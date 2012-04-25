@@ -1,0 +1,16 @@
+int foo(int a)
+{
+    return a;
+}
+
+// not allowed
+int foo(int a)
+{
+    write a;
+    return 0;
+}
+
+int main()
+{
+    return 1;
+}

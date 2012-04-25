@@ -10,6 +10,7 @@
 #include "LessThan.h"
 #include "GreaterThan.h"
 #include "IfStmt.h"
+#include "WhileStmt.h"
 #include <string>
 
 class FunctionBlock : public StatementVisitor
@@ -68,6 +69,14 @@ public:
     ParamDefList const * GetParameters() const
     {
         return _params;
+    }
+
+    /**
+     * Helper to just get the number of input parameters
+     */
+    unsigned GetParamCount() const
+    {
+        return _params->GetParams().size();
     }
 
     StatementList const* GetStatements() const
@@ -139,6 +148,7 @@ public:
     virtual void Visit(const LessThan &l){}
     virtual void Visit(const GreaterThan &g){}
     virtual void Visit(const IfStmt &i){}
+    virtual void Visit(const WhileStmt &w){}
 
 private:
     FunctionBlock(const FunctionBlock &s);

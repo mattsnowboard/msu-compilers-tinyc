@@ -1,4 +1,4 @@
-SRCS := functions.cpp SymbolTable.cpp AssemblyVisitor.cpp
+SRCS := functions.cpp SymbolTable.cpp AssemblyVisitor.cpp FunctionTable.cpp
 OBJS := $(SRCS:%.cpp=%.o)
 
 CXXFLAGS = -Wall -g
@@ -24,7 +24,7 @@ test:	tinyc
 #	$@	target name
 #	$^	source files
 #
-tinyc:		$(OBJS) tinyc.o y.tab.o lex.yy.o SymbolTable.o
+tinyc:		$(OBJS) tinyc.o y.tab.o lex.yy.o
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
 tinyc.o: tinyc.cpp y.tab.h
@@ -105,5 +105,6 @@ lex.yy.o: lex.yy.c
 # clean
 
 clean: 
-	$(RM) -f *.o *.s *.output t1? t? lex.yy.c y.tab.[hc] tinyc .D_TARGET *.log
+	$(RM) -f *.o *.s *.output t2? t1? t? lex.yy.c y.tab.[hc] tinyc \
+		.D_TARGET *.log
 	$(RM) -rf $(DEPDIR)

@@ -1,0 +1,26 @@
+// making sure that many adds in a row works
+int add(int i, int j, int k)
+{
+    return i + j + k;
+}
+
+int addMore(int x, int y)
+{
+    int temp = 1 + x;
+    temp = temp + y;
+    // this is returning (1 + x) + y + x + y = 1 + 2x + 2y
+    return temp + x + y;
+}
+
+int main()
+{
+    int a = 1;
+    int b = 2;
+    int c = 4;
+    // just test 3 operand add = 7
+    write a + b + c;
+    // then test more complex add
+    // 7 + (1 + 2 + 4) = 14
+    write add(a, b, c) + addMore(a, b);
+    return 0;
+}
