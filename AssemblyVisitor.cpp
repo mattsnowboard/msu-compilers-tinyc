@@ -167,6 +167,8 @@ void AssemblyVisitor::Visit(const IfStmt & i)
     /** Notes
     * jne = branch not equal
     * je = branch equal
+    * jl = branch less
+    * jg = branch greater
     */
 
     /*
