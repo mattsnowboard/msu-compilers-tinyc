@@ -251,22 +251,35 @@ void AssemblyVisitor::Visit(const WhileStmt& w)
     *
     */
 
+    //Set up the variables below
     const Expr *cond = w.GetCondition();
     const StatementList *block= w.GetStatements();
     StatementList::ListT blockStmts = block->GetStatements();
 
+    //put a label to begin the while statement, we'll jump here
+    //unconditionally at the end of the while loop
     _out << "while_stmt_num_begin" << _whileStmtNum << ":" << std::endl;
 
+    //place the condition into the code
     cond->Accept(*this);
+
+    //Do the proper comparison to jump to the end of the while statement.
     _out << _compare << " while_stmt_num_end" << _whileStmtNum << std::endl;
 
+    //place the while statement block into assembly
     for (StatementList::ListT::const_iterator it = blockStmts.begin();
          it != blockStmts.end();
          ++it) 
     {(*it)->Accept(*this);}
 
+    //As we are still in the "block", place an unconditional jump to
+    //just above our original condition
     _out << "\tjmp while_stmt_num_begin /*Unconditional Jump to just above condition*/" << _whileStmtNum << std::endl;
+   
+    //place a label at the end, we'll jump here when our condition isn't met
    _out << "while_stmt_num_end" << _whileStmtNum <<":" << std::endl;
+
+   //increase our counter for naming
    _whileStmtNum++;
 
 
