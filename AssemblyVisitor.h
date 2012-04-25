@@ -2,6 +2,7 @@
 #define _ASSEMBLYVISITOR_H
 
 #include "StatementVisitor.h"
+#include <string>
 
 #include <iostream>
 
@@ -36,7 +37,11 @@ class AssemblyVisitor : public StatementVisitor
 public:
     AssemblyVisitor(std::ostream &out) :
         _out(out)
-    {}
+    {
+        _whileStmtNum = 0;
+        _ifStmtNum = 0;
+        _compare = "";
+    }
 
     virtual void Visit(const Program &p);
     virtual void Visit(const FunctionBlock &f);
@@ -67,6 +72,11 @@ public:
 private:
 	void VisitBinary(const Binary &b, const std::string &op);
 	void VisitUnary(const Unary &b, const std::string &op);
+    
+    std::string _compare;
+
+    int _whileStmtNum;
+    int _ifStmtNum;
 
     std::ostream &_out;
     SymbolTable const *_currTable;

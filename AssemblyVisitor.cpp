@@ -25,6 +25,7 @@
 #include "LessThan.h"
 #include "GreaterThan.h"
 #include "WhileStmt.h"
+#include <list>
 
 void AssemblyVisitor::Visit(const Program & p)
 {
@@ -163,6 +164,14 @@ void AssemblyVisitor::Visit(const GreaterThan &g)
     //cmp arg2, arg1 does subtraction and sets flags
     VisitBinary(g, "cmp");
     _out << "" << std::endl;
+        /*
+    *   I'm going to use this for the if and while loops.  This is
+    *   the condition they're going to want to branch on.  Note:
+    *   it is the opposite of the compare.  That is, Greater Than
+    *   will branch on jl (branch lesser)
+    */
+    _compare = "jl";
+
 }
 
 void AssemblyVisitor::Visit(const LessThan &l)
@@ -171,6 +180,14 @@ void AssemblyVisitor::Visit(const LessThan &l)
     //cmp arg2, arg1 does subtraction and sets flags
     VisitBinary(l, "cmp");
     _out << "" << std::endl;
+
+    /*
+    *   I'm going to use this for the if and while loops.  This is
+    *   the condition they're going to want to branch on.  Note:
+    *   it is the opposite of the compare.  That is, Less Than
+    *   will branch on jg (branch greater)
+    */
+    _compare = "jg";
 }
 
 
@@ -199,12 +216,58 @@ void AssemblyVisitor::Visit(const IfStmt & i)
     */
     //@TODO figure out how the hell do to this
 
+    const Expr *cond = i.GetCondition();
+    const StatementList *block= i.GetStatements();
+    StatementList::ListT blockStmts = block->GetStatements();
+
+   cond->Accept(*this);
+   _out << _compare << " if_stmt_num_" << _ifStmtNum << std::endl;
+
+    for (StatementList::ListT::const_iterator it = blockStmts.begin();
+         it != blockStmts.end();
+         ++it) 
+    {(*it)->Accept(*this);}
+
+   _out << "if_stmt_num_" << _ifStmtNum <<":" << std::endl;
+   _ifStmtNum++;
+
 
 }
 
 void AssemblyVisitor::Visit(const WhileStmt& w)
 {
 
+    /*
+    *   Plan of Attack
+    *   Order in Assembly:
+    *   Place a while_stmt_num label
+    *   evaluate the condition
+    *   do a jump on that condition
+    *
+    *   put the stuff of the while loop here
+    *   
+    *   jump to while_stmt_num label
+    *   put while_stmt_num_end label
+    *
+    */
+
+    const Expr *cond = w.GetCondition();
+    const StatementList *block= w.GetStatements();
+    StatementList::ListT blockStmts = block->GetStatements();
+
+    _out << "while_stmt_num_begin" << _whileStmtNum << ":" << std::endl;
+
+    cond->Accept(*this);
+    _out << _compare << " while_stmt_num_end" << _whileStmtNum << std::endl;
+
+    for (StatementList::ListT::const_iterator it = blockStmts.begin();
+         it != blockStmts.end();
+         ++it) 
+    {(*it)->Accept(*this);}
+
+    _out << "\tjmp while_stmt_num_begin /*Unconditional Jump to just above condition*/" << _whileStmtNum << std::endl;
+   _out << "while_stmt_num_end" << _whileStmtNum <<":" << std::endl;
+   _whileStmtNum++;
 
 
 }
