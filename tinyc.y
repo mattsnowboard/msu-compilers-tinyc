@@ -52,6 +52,7 @@ STMT : ASSIGNMENT DELIM  { $$ = $1; }
      | DECL DELIM { $$ = $1; }
      | DECASSIGN DELIM { $$ = $1; }
      | RETURNSTMT DELIM { $$ = $1; }
+     | FUNCCALL DELIM { $$ = $1; }
 	 | IFSTMT { $$ = $1; }
 	 | WHILESTMT { $$ = $1; }
 
