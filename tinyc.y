@@ -39,7 +39,7 @@ PARAMCALLLIST : EXPRESSION { $$ = CreateExprList($1);}
               | PARAMCALLLIST ',' EXPRESSION { $$ = AddExprToList($1, $3); }
               | { $$ = CreateExprList(NULL); /* empty param list */ }
 
-BLOCK : '{' STMTLIST '}' { $$ = $2; }
+BLOCK : '{' STMTLIST '}' { $$ = CreateBlock($2, lineno); }
 
 STMTLIST : STMT { $$ = CreateStatementList($1);}
          | STMTLIST STMT { $$ = AddStatementToList($1, $2); }

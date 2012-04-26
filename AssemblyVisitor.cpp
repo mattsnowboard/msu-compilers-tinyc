@@ -4,6 +4,7 @@
 
 #include "Program.h"
 #include "FunctionBlock.h"
+#include "Block.h"
 
 #include "Binary.h"
 #include "Unary.h"
@@ -25,7 +26,9 @@
 #include "LessThan.h"
 #include "GreaterThan.h"
 #include "WhileStmt.h"
+#include "IfStmt.h"
 #include "EqualToStmt.h"
+#include "NotEqualToStmt.h"
 #include <list>
 
 void AssemblyVisitor::Visit(const Program & p)
@@ -56,9 +59,6 @@ void AssemblyVisitor::Visit(const Program & p)
 
 void AssemblyVisitor::Visit(const FunctionBlock & f)
 {
-    // get the current SymbolTable and store it on a stack of symbol tables?
-    _currTable = f.GetSymbolTable();
-
     // look up function in table
     FunctionTable &ft = FunctionTable::GetInstance();
     if (!ft.DoesExist(f.GetName(), f.GetParamCount())) {
@@ -85,15 +85,10 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
              << " /* make space for locals */" << std::endl;
     }
 
-    // visit statements
-    StatementList const *stmts = f.GetStatements();
-    StatementList::ListT slist = stmts->GetStatements();
-    for (StatementList::ListT::const_iterator it = slist.begin();
-         it != slist.end();
-         ++it) {
-        (*it)->Accept(*this);
-    }
-    
+    // visit the block
+    Block const *block = f.GetBlock();
+    block->Accept(*this);
+
     // print ending label for returns
     _out << "function_" << label << "_EP:" << std::endl;
     // Print epilog
@@ -102,9 +97,19 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
          << "\tret" << std::endl;
 }
 
-virtual void Visit(const Block &b)
+void AssemblyVisitor::Visit(const Block &b)
 {
+    // get the current SymbolTable and store it on a stack of symbol tables?
+    _currTable = b.GetSymbolTable();
 
+    // visit statements
+    StatementList const *stmts = b.GetStatements();
+    StatementList::ListT slist = stmts->GetStatements();
+    for (StatementList::ListT::const_iterator it = slist.begin();
+         it != slist.end();
+         ++it) {
+        (*it)->Accept(*this);
+    }
 }
 
 void AssemblyVisitor::Visit(const Add & a)
@@ -241,23 +246,14 @@ void AssemblyVisitor::Visit(const IfStmt & i)
     *   Put ending tag at the end
     *
     */
-    //@TODO figure out how the hell do to this
-
-
-
     const Expr *cond = i.GetCondition();
-    const StatementList *block= i.GetStatements();
-    StatementList::ListT blockStmts = block->GetStatements();
+    const Block *block= i.GetBlock();
     int curIfNum = _ifStmtNum++;
 
     cond->Accept(*this);
     _out << "\t" << _compare << " if_stmt_num_" << curIfNum << std::endl;
 
-    for (StatementList::ListT::const_iterator it = blockStmts.begin();
-         it != blockStmts.end();
-         ++it) {
-        {(*it)->Accept(*this);}
-    }
+    block->Accept(*this);
 
     _out << "if_stmt_num_" << curIfNum <<":" << std::endl;
 }
@@ -281,8 +277,7 @@ void AssemblyVisitor::Visit(const WhileStmt& w)
 
     //Set up the variables below
     const Expr *cond = w.GetCondition();
-    const StatementList *block= w.GetStatements();
-    StatementList::ListT blockStmts = block->GetStatements();
+    const Block *block= w.GetBlock();
 
     int curWhileNum = _whileStmtNum++;
 
@@ -297,12 +292,7 @@ void AssemblyVisitor::Visit(const WhileStmt& w)
     _out << "\t" << _compare << " while_stmt_num_end" << curWhileNum
          << std::endl;
 
-    //place the while statement block into assembly
-    for (StatementList::ListT::const_iterator it = blockStmts.begin();
-         it != blockStmts.end();
-         ++it) {
-        {(*it)->Accept(*this);}
-    }
+    block->Accept(*this);
 
     //As we are still in the "block", place an unconditional jump to
     //just above our original condition

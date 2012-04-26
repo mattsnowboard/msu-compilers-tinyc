@@ -2,26 +2,18 @@
 #define _CONDITIONAL_H
 
 #include "Statement.h"
-#include "StatementList.h"
 #include <list>
+
+class Block;
+class Expr;
 
 class Conditional : public Statement
 {
 public:
-    Conditional(Expr *cond, StatementList *stmts, int lineNum) :
-        _cond(cond), _stmts(stmts), _value(lineNum)
+    Conditional(Expr *cond, Block *block, int lineNum) :
+        _cond(cond), _block(block), _value(lineNum)
     {}
-    virtual ~Conditional()
-    {
-        if (_cond) {
-            delete _cond;
-            _cond = NULL;
-        }
-        if (_stmts) {
-            delete _stmts;
-            _stmts = NULL;
-        }
-    }
+    virtual ~Conditional();
     
     virtual int Get() const { return _value; }
 
@@ -29,13 +21,13 @@ public:
         return _cond;
     }
 
-    StatementList const* GetStatements() const {
-        return _stmts;
+    Block const* GetBlock() const {
+        return _block;
     }
 
 protected:
     Expr *_cond;
-    StatementList *_stmts;
+    Block *_block;
     int _value;
 };
 

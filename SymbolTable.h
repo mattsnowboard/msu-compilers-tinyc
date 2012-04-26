@@ -15,7 +15,7 @@ public:
 
 	void Clear();
 
-    void SetParent(SymbolTable *parent)
+    void SetParent(const SymbolTable *parent)
     {
         _parent = parent;
     }
@@ -30,7 +30,7 @@ private:
 
 	std::map<std::string, int> _VarMap;	
 
-    SymbolTable *_parent;
+    const SymbolTable *_parent;
 };
 
 #endif

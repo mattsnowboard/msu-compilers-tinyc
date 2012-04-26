@@ -6,17 +6,11 @@
 class WhileStmt : public Conditional
 {
 public:
-    WhileStmt(Expr *cond, StatementList *stmts, int lineNum) :
-        Conditional(cond, stmts, lineNum)
+    WhileStmt(Expr *cond, Block *block, int lineNum) :
+        Conditional(cond, block, lineNum)
     {}
 
-    virtual WhileStmt* Clone()
-    {
-        Expr *c = (_cond) ? _cond->Clone() : NULL;
-        StatementList *s = (_stmts) ? _stmts->Clone() : NULL;
-        WhileStmt *wstmt = new WhileStmt(c, s, _line);
-        return wstmt;
-    }
+    virtual WhileStmt* Clone();
 
     virtual void Accept(StatementVisitor &v) const
     {

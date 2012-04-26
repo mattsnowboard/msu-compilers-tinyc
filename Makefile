@@ -1,4 +1,4 @@
-SRCS := functions.cpp SymbolTable.cpp AssemblyVisitor.cpp FunctionTable.cpp
+SRCS := functions.cpp SymbolTable.cpp AssemblyVisitor.cpp FunctionTable.cpp FunctionBlock.cpp WhileStmt.cpp IfStmt.cpp Conditional.cpp
 OBJS := $(SRCS:%.cpp=%.o)
 
 CXXFLAGS = -Wall -g

@@ -4,6 +4,7 @@
 
 
 #include "Program.h"
+#include "Block.h"
 
 #include "Add.h"
 #include "Subtract.h"
@@ -12,6 +13,9 @@
 #include "Negate.h"
 #include "Value.h"
 #include "Variable.h"
+#include "GreaterThan.h"
+#include "LessThan.h"
+
 #include "Statement.h"
 #include "StatementList.h"
 #include "IfStmt.h"
@@ -31,6 +35,7 @@
 #include "Modulus.h"
 #include "EqualToStmt.h"
 #include "NotEqualToStmt.h"
+
 #include <iostream>
 
 extern "C" {
@@ -120,16 +125,22 @@ extern "C" void * CreateDecAssignStatement(const char *name, void *expr, int lin
  * Everything below added on or after Tue, Apr 3, 2012 
  */
 
+extern "C" void * CreateBlock(void *list, int lineno)
+{
+    Block* b = new Block(NULL, lineno);
+    b->SetStatementList((StatementList*) list);
+    return b;
+}
 
 extern "C" void * CreateIfStmt(void *cond, void *stmtlist, int lineno)
 {
-    IfStmt* ifst = new IfStmt((Expr*)cond, (StatementList*) stmtlist, lineno);
+    IfStmt* ifst = new IfStmt((Expr*)cond, (Block*) stmtlist, lineno);
     return ifst;
 }
 
 extern "C" void * CreateWhileStmt(void *cond, void *stmtlist, int lineno)
 {
-    WhileStmt* wst = new WhileStmt((Expr*)cond, (StatementList*)stmtlist, lineno);
+    WhileStmt* wst = new WhileStmt((Expr*)cond, (Block*)stmtlist, lineno);
     return wst;
 }
 
@@ -190,8 +201,8 @@ extern "C" void * CreateFunctionBlock(const char *name,void *paramList, int line
 extern "C" void * AddToFunctionBlock(void * fb, void * stmtlist)
 {
     FunctionBlock *funcblock = (FunctionBlock*) fb;
-    StatementList *sl = (StatementList*) stmtlist;
-    funcblock->SetStatementList(sl);
+    Block *sl = (Block*) stmtlist;
+    funcblock->SetBlock(sl);
     return funcblock;
 }
 

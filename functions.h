@@ -103,6 +103,13 @@ void * CreateDecAssignStatement(const char *name, void *expr, int lineno);
  */
 
 /**
+ * Create a Block from a statement list
+ * @param StatementList*
+ * @return Block*
+ */
+void * CreateBlock(void *list, int lineno);
+
+/**
  * Create a Return Statement
  * @param Exp*
  * #reteturn Expr* (ReturnStatement)

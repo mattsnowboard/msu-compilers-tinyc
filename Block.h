@@ -1,28 +1,24 @@
 #ifndef _BLOCK_H
 #define _BLOCK_H
 
-#include "ParamDefList.h"
+#include "Statement.h"
 #include "StatementList.h"
 #include "SymbolTable.h"
 #include "StatementVisitor.h"
-#include "DeclStmt.h"
 #include "DecAssignStmt.h"
-#include "LessThan.h"
-#include "GreaterThan.h"
+#include "DeclStmt.h"
+#include "Conditional.h"
 #include "IfStmt.h"
 #include "WhileStmt.h"
-#include "EqualToStmt.h"
-#include "NotEqualToStmt.h"
 #include <string>
+#include <stdexcept>
 
-class Block : public Statement, StatementVisitor
+class Block : public Statement, public StatementVisitor
 {
 public:
     Block(Block *parent = NULL, int lineNo = 0) :
         Statement(lineNo),
         _localCnt(0),
-        _nestedLocalCnt(0),
-        _nestedOffset(0),
         _statements(NULL),
         _parent(parent)
     {
@@ -40,6 +36,7 @@ public:
     {
         // don't care if we overwrite, we don't own it
         _parent = parent;
+        _table.SetParent(_parent->GetSymbolTable());
     }
 
     void SetStatementList(StatementList *sl)
@@ -53,8 +50,7 @@ public:
     void ParseLocals()
     {
         // look for declarations
-        _localCnt = _nestedOffset;
-        StatementList::ListT stmts = sl->GetStatements();
+        StatementList::ListT stmts = _statements->GetStatements();
         for (StatementList::ListT::const_iterator it = stmts.begin();
              it != stmts.end();
              ++it) {
@@ -71,6 +67,11 @@ public:
     {
         return &_table;
     }
+
+    SymbolTable * GetSymbolTable()
+    {
+        return &_table;
+    }
     
     // figure out how much space we need in total
     int GetLocalTotal() const
@@ -80,7 +81,7 @@ public:
 
     void SetNestedOffset(int off)
     {
-        _nestedOffset = off;
+        _localCnt = off;
     }
 
     // Support the Visitor Pattern
@@ -89,15 +90,33 @@ public:
         v.Visit(*this);
     }
 
+    // I'm getting sloppy
+    virtual void Accept(StatementVisitor &v)
+    {
+        v.Visit(*this);
+    }
+
+    virtual Block* Clone()
+    {
+        // this probably isn't correct
+        Block *b = new Block(_parent, _line);
+        StatementList *sl = (_statements) ? _statements->Clone() : NULL;
+        b->SetStatementList(sl);
+        return b;
+    }
+
     // StatementVisitor implementation
     // Used to find the declarations and add to symbol table
     virtual void Visit(const Program &p) {}
     virtual void Visit(const FunctionBlock &f) {}
     virtual void Visit(const Block &b)
     {
-        b.SetNestedOffset(_localCnt);
-        b.ParseLocals();
-        _localCnt += b.GetLocalTotal();
+        throw std::logic_error("My Visitor const trick didn't work");
+    }
+    virtual void Visit(Block &b)
+    {
+        Block &bNC = const_cast<Block&>(b);
+        VisitBlock(bNC);
     }
 
     virtual void Visit(const Add &a) {}
@@ -128,15 +147,32 @@ public:
 
     virtual void Visit(const LessThan &l){}
     virtual void Visit(const GreaterThan &g){}
-    virtual void Visit(const IfStmt &i){}
+    virtual void Visit(const IfStmt &i)
+    {
+        Block *b = const_cast<Block*>(i.GetBlock());
+        VisitBlock(*b);
+    }
 
-    virtual void Visit(const WhileStmt &i){}
+    virtual void Visit(const WhileStmt &i)
+    {
+        Block *b = const_cast<Block*>(i.GetBlock());
+        VisitBlock(*b);
+    }
+
     virtual void Visit(const EqualToStmt &e){}
     virtual void Visit(const NotEqualToStmt &e){}
 
+    void VisitBlock(Block &b)
+    {
+        b.SetParent(this);
+        b.SetNestedOffset(_localCnt);
+        b.ParseLocals();
+        _localCnt += b.GetLocalTotal();
+    }
+
 private:
-    FunctionBlock(const FunctionBlock &s);
-    FunctionBlock& operator=(const FunctionBlock &s);
+    Block(const Block &s);
+    Block& operator=(const Block &s);
 
     int _localCnt;
     int _nestedLocalCnt;

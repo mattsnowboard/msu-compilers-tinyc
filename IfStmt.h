@@ -7,17 +7,11 @@ class IfStmt : public Conditional
 {
 public:
 
-    IfStmt(Expr *cond, StatementList *stmts, int lineNum) :
-        Conditional(cond, stmts, lineNum)
+    IfStmt(Expr *cond, Block *block, int lineNum) :
+        Conditional(cond, block, lineNum)
     {}
 
-    virtual IfStmt* Clone()
-    {
-        Expr *c = (_cond) ? _cond->Clone() : NULL;
-        StatementList *s = (_stmts) ? _stmts->Clone() : NULL;
-        IfStmt *ifstmt = new IfStmt(c, s, _line);
-        return ifstmt;
-    }
+    virtual IfStmt* Clone();
 
     virtual void Accept(StatementVisitor &v) const
     {
