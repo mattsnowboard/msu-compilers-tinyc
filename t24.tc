@@ -1,0 +1,18 @@
+// conditional function call
+
+int foo()
+{
+    int x = 1;
+    int y = 2;
+    write x + y;
+}
+
+int main()
+{
+    int z = 9;
+    if (z > 2) {
+        foo();
+    }
+
+    return 0
+}

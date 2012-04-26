@@ -185,3 +185,31 @@ echo "Expect: Undefined function called: 'foo', with 0 arguments, on line 3"
 make t21
 rm t21.s
 echo
+
+echo "********************************************************************************"
+echo "Test 22: Simple IF"
+echo "Expect: 1"
+make t22 >>./make.log
+rm t22.s
+echo
+
+echo "********************************************************************************"
+echo "Test 23: IF multiple statemnts and an if that is false"
+echo "Expect: 4"
+make t23 >>./make.log
+rm t23.s
+echo
+
+echo "********************************************************************************"
+echo "Test 24: IF function call"
+echo "Expect: 3"
+make t24 >>./make.log
+rm t24.s
+echo
+
+echo "********************************************************************************"
+echo "Test 25: nested IF "
+echo "Expect: 100"
+make t25 >>./make.log
+rm t25.s
+echo

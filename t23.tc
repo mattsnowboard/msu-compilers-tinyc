@@ -1,0 +1,20 @@
+// test multiple statement if
+
+int main()
+{
+    int abc = 1;
+    // true
+    if (abc > 0) {
+       int temp = abc;
+       abc = temp + 1;
+       abc = abc * 2; // 4
+    }
+    // false
+    if (abc < 0) {
+       abc = -500;
+    }
+
+    write abc;
+
+    return 0;
+}
