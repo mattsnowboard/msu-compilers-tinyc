@@ -143,7 +143,7 @@ void AssemblyVisitor::Visit(const Modulus & d)
     _out << "\tcltd" << std::endl
          << "\tidiv %ebx" << std::endl;
     // push result (remainder)
-	_out << "pushl %edx /* Modulus result to stack */" << std::endl;
+	_out << "\tpushl %edx /* Modulus result to stack */" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const Multiply & m)
