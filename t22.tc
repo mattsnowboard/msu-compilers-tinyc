@@ -1,11 +1,12 @@
-int main() {
-	int x;
-	int y;
-	x = 5;
-	y = 3;
-	if( x > y )
-	{
-		write x;
-	}
-	return 0;
+int main()
+{
+    int i = 0;
+    if (4 > 2) {
+       i = 1;
+    }
+
+    write i;
+
+    return 0;
 }
+

@@ -12,9 +12,9 @@ int  lineno = 1; /* number of current source line */
 %}
 
 %union {
-    void *pval;		
-    int ival;		
-    char *sval;		
+    void *pval;
+    int ival;
+    char *sval;
 }
 
 %token WRITE INT ASSIGN DELIM RETURN IF WHILE 
@@ -54,10 +54,12 @@ STMT : ASSIGNMENT  { $$ = $1; }
 	 | WHILESTMT { $$ = $1; }
 
 
-IFSTMT : IF '(' EXPRESSION ')' '{' STMTLIST '}' {
+
+IFSTMT : IF '(' EXPRESSION ')' '{'  STMTLIST '}' {
     $$ = CreateIfStmt($3, $6, lineno);
 }
-WHILESTMT : WHILE '(' EXPRESSION ')' '{'  STMTLIST '}' {
+WHILESTMT : WHILE '(' EXPRESSION ')' '{' STMTLIST '}' {
+
     $$ = CreateWhileStmt($3, $6, lineno);
 }
 

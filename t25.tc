@@ -1,0 +1,28 @@
+// nested ifs
+
+int main()
+{
+int x = 0;
+int y = 1;
+
+if (x < y) {
+   int a = 100;
+   if (a > 40) {
+      int b = a;
+      if (b > 99) {
+         // CORRECT
+         write 100;
+      }
+      if (b < 99) {
+         write -3000;
+      }
+   }
+
+   if (a < 40 ){
+      write -2000;
+   }
+}
+
+
+return 0;
+}

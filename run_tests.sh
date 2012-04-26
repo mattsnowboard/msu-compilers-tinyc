@@ -187,10 +187,57 @@ rm t21.s
 echo
 
 echo "********************************************************************************"
-echo "Test 22: If statement"
-echo "Expect: "
-echo "5"
-echo ">>>END"
-make t22
+echo "Test 22: Simple IF"
+echo "Expect: 1"
+make t22 >>./make.log
 rm t22.s
 echo
+
+echo "********************************************************************************"
+echo "Test 23: IF multiple statemnts and an if that is false"
+echo "Expect: 4"
+make t23 >>./make.log
+rm t23.s
+echo
+
+echo "********************************************************************************"
+echo "Test 24: IF function call"
+echo "Expect: 3"
+make t24 >>./make.log
+rm t24.s
+echo
+
+echo "********************************************************************************"
+echo "Test 25: nested IF "
+echo "Expect: 100"
+make t25 >>./make.log
+rm t25.s
+echo
+
+echo "********************************************************************************"
+echo "Test 26: Simple WHILE"
+echo "Expect:"
+echo "5"
+echo "4"
+echo "3"
+echo "2"
+echo "1"
+echo ">>END"
+make t26 >>./make.log
+rm t26.s
+echo
+
+echo "********************************************************************************"
+echo "Test 27: nested WHILE"
+echo "Expect:"
+echo "1"
+echo "2"
+echo "1"
+echo "3"
+echo "2"
+echo "1"
+echo ">>END"
+make t27 >>./make.log
+rm t27.s
+echo
+
