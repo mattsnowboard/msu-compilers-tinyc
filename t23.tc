@@ -3,9 +3,10 @@
 int main()
 {
     int abc = 1;
+    int temp = 0;
     // true
     if (abc > 0) {
-       int temp = abc;
+       temp = abc;
        abc = temp + 1;
        abc = abc * 2; // 4
     }
