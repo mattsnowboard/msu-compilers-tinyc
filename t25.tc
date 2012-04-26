@@ -4,11 +4,12 @@ int main()
 {
 int x = 0;
 int y = 1;
-
+int a = 100;
+int b = a;
 if (x < y) {
-   int a = 100;
+
    if (a > 40) {
-      int b = a;
+         b = a;
       if (b > 99) {
          // CORRECT
          write 100;
