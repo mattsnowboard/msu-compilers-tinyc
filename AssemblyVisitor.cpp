@@ -172,7 +172,7 @@ void AssemblyVisitor::Visit(const GreaterThan &g)
     *   it is the opposite of the compare.  That is, Greater Than
     *   will branch on jl (branch lesser)
     */
-    _compare = "jl";
+    _compare = "jle";
 
 }
 
@@ -188,8 +188,10 @@ void AssemblyVisitor::Visit(const LessThan &l)
     *   the condition they're going to want to branch on.  Note:
     *   it is the opposite of the compare.  That is, Less Than
     *   will branch on jg (branch greater)
+    *   
+    *  Actually it's jge since that's opposite of jl
     */
-    _compare = "jg";
+    _compare = "jge";
 }
 
 void AssemblyVisitor::Visit(const EqualToStmt &e)
