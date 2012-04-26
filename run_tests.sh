@@ -190,28 +190,28 @@ echo "**************************************************************************
 echo "Test 22: Simple IF"
 echo "Expect: 1"
 make t22 >>./make.log
-rm t22.s
+./t22
 echo
 
 echo "********************************************************************************"
 echo "Test 23: IF multiple statemnts and an if that is false"
 echo "Expect: 4"
 make t23 >>./make.log
-rm t23.s
+./t23
 echo
 
 echo "********************************************************************************"
 echo "Test 24: IF function call"
 echo "Expect: 3"
 make t24 >>./make.log
-rm t24.s
+./t24
 echo
 
 echo "********************************************************************************"
 echo "Test 25: nested IF "
 echo "Expect: 100"
 make t25 >>./make.log
-rm t25.s
+./t25
 echo
 
 echo "********************************************************************************"
@@ -224,7 +224,7 @@ echo "2"
 echo "1"
 echo ">>END"
 make t26 >>./make.log
-rm t26.s
+./t26
 echo
 
 echo "********************************************************************************"
@@ -238,6 +238,6 @@ echo "2"
 echo "1"
 echo ">>END"
 make t27 >>./make.log
-rm t27.s
+./t27
 echo
 
