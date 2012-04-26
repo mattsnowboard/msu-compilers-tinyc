@@ -41,28 +41,28 @@ PARAMCALLLIST : EXPRESSION { $$ = CreateExprList($1);}
 
 BLOCK : '{' STMTLIST '}' { $$ = $2; }
 
-STMTLIST : STMT DELIM { $$ = CreateStatementList($1);}
-         | STMTLIST STMT DELIM { $$ = AddStatementToList($1, $2); }
+STMTLIST : STMT { $$ = CreateStatementList($1);}
+         | STMTLIST STMT { $$ = AddStatementToList($1, $2); }
          | STMTLIST DELIM {$$ = $1; }
          | { $$ = CreateStatementList(NULL); }
 
 
-STMT : ASSIGNMENT  { $$ = $1; }
-     | OUTPUT { $$ = $1; }
-     | DECL { $$ = $1; }
-     | DECASSIGN { $$ = $1; }
-     | RETURNSTMT { $$ = $1; }
+STMT : ASSIGNMENT DELIM  { $$ = $1; }
+     | OUTPUT DELIM { $$ = $1; }
+     | DECL DELIM { $$ = $1; }
+     | DECASSIGN DELIM { $$ = $1; }
+     | RETURNSTMT DELIM { $$ = $1; }
 	 | IFSTMT { $$ = $1; }
 	 | WHILESTMT { $$ = $1; }
 
 
 
-IFSTMT : IF '(' EXPRESSION ')' BLOCK {
-    $$ = CreateIfStmt($3, $5, lineno);
+IFSTMT : IF EXPRESSION BLOCK {
+    $$ = CreateIfStmt($2, $3, lineno);
 }
-WHILESTMT : WHILE '(' EXPRESSION ')' BLOCK {
+WHILESTMT : WHILE EXPRESSION BLOCK {
 
-    $$ = CreateWhileStmt($3, $5, lineno);
+    $$ = CreateWhileStmt($2, $3, lineno);
 }
 
 RETURNSTMT : RETURN EXPRESSION { $$ = CreateReturn($2, lineno); }
