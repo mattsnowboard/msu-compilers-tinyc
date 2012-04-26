@@ -79,7 +79,8 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
     // make space for locals
     int localCount = f.GetVariableSpace();
     if (localCount != 0) {
-        _out << "\taddl $" << (localCount) << ", %esp" << std::endl;
+        _out << "\taddl $" << (localCount) << ", %esp"
+             << " /* make space for locals */" << std::endl;
     }
 
     // visit statements
@@ -92,7 +93,7 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
     }
     
     // Print epilog
-    _out << "\tmovl %ebp, %esp" << std::endl
+    _out << "\tmovl %ebp, %esp /* epilogue */" << std::endl
          << "\tpopl %ebp /* restore base pointer */" << std::endl
          << "\tret" << std::endl;
 }
@@ -114,13 +115,13 @@ void AssemblyVisitor::Visit(const Divide & d)
     l->Accept(*this);
     r->Accept(*this);
     // grab results into registers
-	_out << "\tpopl %ebx" << std::endl; // right
-	_out << "\tpopl %eax" << std::endl; // left
+	_out << "\tpopl %ebx /* left operand */" << std::endl; // right
+	_out << "\tpopl %eax /* right operand */" << std::endl; // left
     // need to divide %eax by %ebx
     _out << "\tcltd" << std::endl
          << "\tidiv %ebx" << std::endl;
     // push result
-	_out << "pushl %eax" << std::endl;
+	_out << "pushl %eax /* Division result to stack */" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const Modulus & d)
@@ -135,13 +136,13 @@ void AssemblyVisitor::Visit(const Modulus & d)
     l->Accept(*this);
     r->Accept(*this);
     // grab results into registers
-	_out << "\tpopl %ebx" << std::endl; // right
-	_out << "\tpopl %eax" << std::endl; // left
+	_out << "\tpopl %ebx /* left operand */" << std::endl; // right
+	_out << "\tpopl %eax /* right operand */" << std::endl; // left
     // need to divide %eax by %ebx
     _out << "\tcltd" << std::endl
          << "\tidiv %ebx" << std::endl;
     // push result (remainder)
-	_out << "pushl %edx" << std::endl;
+	_out << "pushl %edx /* Modulus result to stack */" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const Multiply & m)
@@ -223,18 +224,16 @@ void AssemblyVisitor::Visit(const IfStmt & i)
     StatementList::ListT blockStmts = block->GetStatements();
     int curIfNum = _ifStmtNum++;
 
-   cond->Accept(*this);
-   _out << _compare << " if_stmt_num_" << curIfNum << std::endl;
+    cond->Accept(*this);
+    _out << "\t" << _compare << " if_stmt_num_" << curIfNum << std::endl;
 
     for (StatementList::ListT::const_iterator it = blockStmts.begin();
          it != blockStmts.end();
-         ++it) 
-    {(*it)->Accept(*this);}
+         ++it) {
+        {(*it)->Accept(*this);}
+    }
 
-   _out << "if_stmt_num_" << curIfNum <<":" << std::endl;
-
-
-
+    _out << "if_stmt_num_" << curIfNum <<":" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const WhileStmt& w)
@@ -269,13 +268,15 @@ void AssemblyVisitor::Visit(const WhileStmt& w)
     cond->Accept(*this);
 
     //Do the proper comparison to jump to the end of the while statement.
-    _out << _compare << " while_stmt_num_end" << curWhileNum << std::endl;
+    _out << "\t" << _compare << " while_stmt_num_end" << curWhileNum
+         << std::endl;
 
     //place the while statement block into assembly
     for (StatementList::ListT::const_iterator it = blockStmts.begin();
          it != blockStmts.end();
-         ++it) 
-    {(*it)->Accept(*this);}
+         ++it) {
+        {(*it)->Accept(*this);}
+    }
 
     //As we are still in the "block", place an unconditional jump to
     //just above our original condition
@@ -302,7 +303,8 @@ void AssemblyVisitor::Visit(const Variable & v)
         throw std::logic_error("Undefined variable");
     }
     int off = _currTable->GetOffset(v.GetName());
-    _out << "\tpushl " << off << "(%ebp)" << std::endl;
+    _out << "\tpushl " << off << "(%ebp) /* push variable " << v.GetName()
+         << ", on stack */" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const AssignStmt & a)
@@ -317,7 +319,8 @@ void AssemblyVisitor::Visit(const AssignStmt & a)
         throw std::logic_error("Undefined variable");
     }
     int off = _currTable->GetOffset(a.GetName());
-    _out << "\tpopl " << off << "(%ebp)" << std::endl;
+    _out << "\tpopl " << off << "(%ebp) /* Assign to variable " << a.GetName()
+         << " */" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const DecAssignStmt & a)
@@ -332,7 +335,8 @@ void AssemblyVisitor::Visit(const DecAssignStmt & a)
         throw std::logic_error("Undefined variable");
     }
     int off = _currTable->GetOffset(a.GetName());
-    _out << "\tpopl " << off << "(%ebp)" << std::endl;
+    _out << "\tpopl " << off << "(%ebp) /* Assign to variable " << a.GetName()
+         << " */" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const WriteStmt & w)
@@ -355,7 +359,7 @@ void AssemblyVisitor::Visit(const ReturnStmt & r)
     // return statement means writing something to eax
     Expr const *val = r.GetExpr();
     val->Accept(*this);
-    _out << "\tpopl %eax" << std::endl;
+    _out << "\tpopl %eax /* Return statement */" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const FuncCall & f)
@@ -386,10 +390,11 @@ void AssemblyVisitor::Visit(const FuncCall & f)
     // @todo This hard codes the 4 here
     int paramC = 4 * l.size();
     if (paramC != 0) {
-        _out << "\taddl $" << (paramC) << ", %esp" << std::endl;
+        _out << "\taddl $" << (paramC) << ", %esp "
+             << "/* Clean up parameters */" << std::endl;
     }
     // this is an expression so take the result from %eax and push it
-    _out << "\tpushl %eax" << std::endl;
+    _out << "\tpushl %eax /* function return to stack */" << std::endl;
 }
 
 void AssemblyVisitor::VisitBinary(const Binary &b, const std::string &op)
@@ -409,7 +414,7 @@ void AssemblyVisitor::VisitBinary(const Binary &b, const std::string &op)
     // do op (example addl %edx, %eax // will do %eax = %eax + %edx)
     _out << "\t" << op << " %edx, %eax" << std::endl;
     // push result
-	_out << "\tpushl %eax" << std::endl;
+	_out << "\tpushl %eax /* result of binary operation */" << std::endl;
 }
 
 void AssemblyVisitor::VisitUnary(const Unary &u, const std::string &op)
@@ -426,5 +431,5 @@ void AssemblyVisitor::VisitUnary(const Unary &u, const std::string &op)
     // do op (example negl %eax // will do %eax = - %eax)
     _out << "\t" << op << " %eax" << std::endl;
     // push result
-	_out << "pushl %eax" << std::endl;
+	_out << "pushl %eax /* result of unary operation */" << std::endl;
 }
