@@ -185,3 +185,11 @@ echo "Expect: Undefined function called: 'foo', with 0 arguments, on line 3"
 make t21
 rm t21.s
 echo
+
+echo "********************************************************************************"
+echo "Test 22: If Statement"
+echo "Expect: 5"
+make t22 >>./make.log
+./t22
+rm t22.s
+echo
