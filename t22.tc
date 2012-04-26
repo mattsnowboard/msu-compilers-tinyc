@@ -1,0 +1,11 @@
+int main() {
+	int x;
+	int y;
+	x = 5;
+	y = 3;
+	if( x > y )
+	{
+		write x;
+	}
+	return 0;
+}
