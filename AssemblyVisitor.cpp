@@ -99,6 +99,11 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
          << "\tret" << std::endl;
 }
 
+virtual void Visit(const Block &b)
+{
+
+}
+
 void AssemblyVisitor::Visit(const Add & a)
 {
     VisitBinary(a, "addl");

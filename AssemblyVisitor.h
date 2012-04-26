@@ -9,6 +9,7 @@
 class Program;
 class FunctionBlock;
 class SymbolTable;
+class Block;
 
 class Unary;
 class Binary;
@@ -47,6 +48,7 @@ public:
 
     virtual void Visit(const Program &p);
     virtual void Visit(const FunctionBlock &f);
+    virtual void Visit(const Block &b);
 
     virtual void Visit(const Add &a);
     virtual void Visit(const Divide &d);

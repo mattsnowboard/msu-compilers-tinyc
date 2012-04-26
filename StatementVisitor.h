@@ -3,6 +3,7 @@
 
 class Program;
 class FunctionBlock;
+class Block;
 
 class Add;
 class Divide;
@@ -32,6 +33,7 @@ class StatementVisitor
 public:
     virtual void Visit(const Program &p) = 0;
     virtual void Visit(const FunctionBlock &f) = 0;
+    virtual void Visit(const Block &b) = 0;
 
     virtual void Visit(const Add &a) = 0;
     virtual void Visit(const Divide &d) = 0;

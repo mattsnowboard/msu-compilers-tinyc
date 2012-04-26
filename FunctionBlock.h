@@ -43,6 +43,7 @@ public:
         _block = b;
 
         // look for declarations
+        _block->ParseLocals();
         _totalLocalSpace = _block->GetLocalTotal();
     }
 

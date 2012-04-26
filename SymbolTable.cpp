@@ -23,7 +23,7 @@ int SymbolTable::GetOffset(const std::string &name) const
         // must be in a parent
         return _parent->GetOffset(name);
     }
-    return (found->second) + _off;
+    return (found->second);
 }
 
 void SymbolTable::AddVar(const std::string &name, int offset)
@@ -49,11 +49,3 @@ void SymbolTable::Cleanup()
 {
     _VarMap.clear();
 }
-
-
-
-
-
-
-
-

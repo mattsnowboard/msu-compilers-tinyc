@@ -48,10 +48,12 @@ public:
             throw std::runtime_error("Statement list already set!");
         }
         _statements = sl;
+    }
 
+    void ParseLocals()
+    {
         // look for declarations
-        _localCnt = 0;
-        _nestedLocalCnt = 0;
+        _localCnt = _nestedOffset;
         StatementList::ListT stmts = sl->GetStatements();
         for (StatementList::ListT::const_iterator it = stmts.begin();
              it != stmts.end();
@@ -73,7 +75,7 @@ public:
     // figure out how much space we need in total
     int GetLocalTotal() const
     {
-        return _localCnt + _nestedLocalCnt;
+        return _localCnt;
     }
 
     void SetNestedOffset(int off)
@@ -93,8 +95,9 @@ public:
     virtual void Visit(const FunctionBlock &f) {}
     virtual void Visit(const Block &b)
     {
-        b.SetNestedOffset(_nestedLocalCnt);
-        _nestedLocalCnt += b.GetLocalTotal();
+        b.SetNestedOffset(_localCnt);
+        b.ParseLocals();
+        _localCnt += b.GetLocalTotal();
     }
 
     virtual void Visit(const Add &a) {}
@@ -110,13 +113,13 @@ public:
     virtual void Visit(const AssignStmt &a) {}
     virtual void Visit(const DecAssignStmt &a)
     {
-        _table.AddVar(a.GetName(), _localCnt);
+        _table.AddVar(a.GetName(), _localCnt - 4);
         _localCnt -= 4;
     }
     virtual void Visit(const WriteStmt &w) {}
     virtual void Visit(const DeclStmt &d)
     {
-        _table.AddVar(d.GetName(), _localCnt);
+        _table.AddVar(d.GetName(), _localCnt - 4);
         _localCnt -= 4;
     }
     virtual void Visit(const ReturnStmt &r) {}
