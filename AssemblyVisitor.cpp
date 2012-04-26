@@ -69,6 +69,7 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
         throw std::logic_error("Undefined function definition");
     }
     std::string label = ft.GetLabel(f.GetName(),  f.GetParamCount());
+    _curFunctionLabel = label;
 
     // Print prolog
     _out << ".global " << label << std::endl
@@ -93,6 +94,8 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
         (*it)->Accept(*this);
     }
     
+    // print ending label for returns
+    _out << "function_" << label << "_EP:" << std::endl;
     // Print epilog
     _out << "\tmovl %ebp, %esp /* epilogue */" << std::endl
          << "\tpopl %ebp /* restore base pointer */" << std::endl
@@ -382,7 +385,8 @@ void AssemblyVisitor::Visit(const ReturnStmt & r)
     // return statement means writing something to eax
     Expr const *val = r.GetExpr();
     val->Accept(*this);
-    _out << "\tpopl %eax /* Return statement */" << std::endl;
+    _out << "\tpopl %eax " << std::endl;
+    _out << "\tjmp " << "function_" << _curFunctionLabel << "_EP /* Return statement */" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const FuncCall & f)

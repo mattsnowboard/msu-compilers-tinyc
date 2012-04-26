@@ -269,3 +269,10 @@ echo "Expect: 0"
 make t31 >>./make.log
 ./t31
 echo
+
+echo "********************************************************************************"
+echo "Test 32: Fibonacci recursion test"
+echo "Expect: 8"
+make t32 >>./make.log
+./t32
+echo
