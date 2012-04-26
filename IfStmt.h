@@ -10,19 +10,7 @@ public:
     IfStmt(Expr *cond, StatementList *stmts, int lineNum) :
         Conditional(cond, stmts, lineNum)
     {}
-/*
-    virtual void Execute()
-    {
-        if (_cond)
-        {
-            _cond->Evaluate();
-       	    if (_cond->Get() != 0) {
-                // true, execute statement list
-                _stmts->Execute();
-            }ssssssssssss s     
-        }
-    }
-*/
+
     virtual IfStmt* Clone()
     {
         Expr *c = (_cond) ? _cond->Clone() : NULL;

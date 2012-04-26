@@ -9,21 +9,6 @@ public:
     WhileStmt(Expr *cond, StatementList *stmts, int lineNum) :
         Conditional(cond, stmts, lineNum)
     {}
-/*
-    virtual void Execute()
-    {
-        if (_cond)
-        {
-            _cond->Evaluate();
-       	    while (_cond->Get() != 0) {
-                // true, execute statement list
-                // hopefully this is not an infinite loop, we could implment
-                // a way to break out after a very large number of iterations
-                _stmts->Execute();
-                // DONT FORGET TO RE-EVALUATE
-                _cond->Evaluate();
-            }
-        }*/
 
     virtual WhileStmt* Clone()
     {
