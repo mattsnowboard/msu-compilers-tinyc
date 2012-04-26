@@ -199,7 +199,7 @@ void AssemblyVisitor::Visit(const EqualToStmt &e)
     VisitBinary(e, "cmp");
     _out << "" << std::endl;
 
-    _compare = "bne";
+    _compare = "jne";
 }
 
 void AssemblyVisitor::Visit(const NotEqualToStmt &e)
@@ -207,7 +207,7 @@ void AssemblyVisitor::Visit(const NotEqualToStmt &e)
     VisitBinary(e, "cmp");
     _out << "" << std::endl;
 
-    _compare = "be";
+    _compare = "je";
 }
 
 void AssemblyVisitor::Visit(const IfStmt & i)

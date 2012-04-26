@@ -1,0 +1,12 @@
+int main()
+{
+    int i = 0;
+    if (3 != 2) {
+       i = 1;
+    }
+
+    write i;
+
+    return 0;
+}
+
