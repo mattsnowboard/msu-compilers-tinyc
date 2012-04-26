@@ -43,6 +43,7 @@ public:
         _whileStmtNum = 0;
         _ifStmtNum = 0;
         _compare = "";
+        _curFunctionLabel = "";
     }
 
     virtual void Visit(const Program &p);
@@ -82,6 +83,7 @@ private:
 
     int _whileStmtNum;
     int _ifStmtNum;
+    std::string _curFunctionLabel;
 
     std::ostream &_out;
     SymbolTable const *_currTable;
