@@ -28,7 +28,7 @@ int  lineno = 1; /* number of current source line */
 PROGRAM : PROGRAM FUNCDEF { $$ = AddFunctionToProgram($2);}
         | FUNCDEF { $$ = AddFunctionToProgram($1);}
 
-FUNCDEF : FUNCDECL '{' STMTLIST '}' { $$ = AddToFunctionBlock($1, $3); }
+FUNCDEF : FUNCDECL BLOCK { $$ = AddToFunctionBlock($1, $2); }
 
 FUNCDECL : TYPE VAR '(' PARAMDEFLIST ')' {  $$ = CreateFunctionBlock($2, $4, lineno); }
 
@@ -55,7 +55,7 @@ STMT : ASSIGNMENT DELIM  { $$ = $1; }
      | FUNCCALL DELIM { $$ = $1; }
 	 | IFSTMT { $$ = $1; }
 	 | WHILESTMT { $$ = $1; }
-
+     | BLOCK { $$ = $1; }
 
 
 IFSTMT : IF EXPRESSION BLOCK {

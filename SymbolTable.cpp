@@ -8,13 +8,22 @@
 
 bool SymbolTable::DoesExist(const std::string &name) const
 {
-    return (_VarMap.find(name) != _VarMap.end());
+    bool exists = (_VarMap.find(name) != _VarMap.end());
+    if (!exists && _parent) {
+        // try going up the tree
+        exists = _parent->DoesExist(name);
+    }
+    return exists;
 }
 
 int SymbolTable::GetOffset(const std::string &name) const
 {
     std::map<std::string, int>::const_iterator found = _VarMap.find(name);
-    return (found->second);
+    if (found == _VarMap.end()) {
+        // must be in a parent
+        return _parent->GetOffset(name);
+    }
+    return (found->second) + _off;
 }
 
 void SymbolTable::AddVar(const std::string &name, int offset)

@@ -1,5 +1,5 @@
-#ifndef _FUNCTION_BLOCK_H
-#define _FUNCTION_BLOCK_H
+#ifndef _BLOCK_H
+#define _BLOCK_H
 
 #include "ParamDefList.h"
 #include "StatementList.h"
@@ -15,35 +15,31 @@
 #include "NotEqualToStmt.h"
 #include <string>
 
-class FunctionBlock : public StatementVisitor
+class Block : public Statement, StatementVisitor
 {
 public:
-    FunctionBlock(const std::string name, ParamDefList *params, int lineNum) :
-        _line(lineNum),
+    Block(Block *parent = NULL, int lineNo = 0) :
+        Statement(lineNo),
         _localCnt(0),
-        _name(name),
-        _params(params),
+        _nestedLocalCnt(0),
+        _nestedOffset(0),
         _statements(NULL),
-        _decls(NULL)
+        _parent(parent)
     {
-        _paramCnt = 8;
-        ParamDefList::ListT plist = _params->GetParams();
-        for (ParamDefList::ListT::reverse_iterator it = plist.rbegin();
-             it != plist.rend();
-             ++it) {
-            _table.AddVar(*it, _paramCnt);
-            _paramCnt += 4;
-        }
     }
 
-    virtual ~FunctionBlock()
+    virtual ~Block()
     {
-        if (_params) {
-            delete _params;
-        }
         if (_statements) {
             delete _statements;
         }
+        // we don't own _parent obviously
+    }
+
+    void SetParent(Block *parent)
+    {
+        // don't care if we overwrite, we don't own it
+        _parent = parent;
     }
 
     void SetStatementList(StatementList *sl)
@@ -54,7 +50,8 @@ public:
         _statements = sl;
 
         // look for declarations
-        _localCnt = -4;
+        _localCnt = 0;
+        _nestedLocalCnt = 0;
         StatementList::ListT stmts = sl->GetStatements();
         for (StatementList::ListT::const_iterator it = stmts.begin();
              it != stmts.end();
@@ -63,37 +60,25 @@ public:
         }
     }
 
-    const std::string& GetName() const 
-    {
-        return _name;
-    }
-
-    ParamDefList const * GetParameters() const
-    {
-        return _params;
-    }
-
-    /**
-     * Helper to just get the number of input parameters
-     */
-    unsigned GetParamCount() const
-    {
-        return _params->GetParams().size();
-    }
-
     StatementList const* GetStatements() const
     {
         return _statements;
     }
 
-    StatementList const* GetDeclarations() const
-    {
-        return _decls;
-    }
-
     SymbolTable const* GetSymbolTable() const
     {
         return &_table;
+    }
+    
+    // figure out how much space we need in total
+    int GetLocalTotal() const
+    {
+        return _localCnt + _nestedLocalCnt;
+    }
+
+    void SetNestedOffset(int off)
+    {
+        _nestedOffset = off;
     }
 
     // Support the Visitor Pattern
@@ -102,25 +87,15 @@ public:
         v.Visit(*this);
     }
 
-    int GetLine() const
-    {
-        return _line;
-    }
-
-    int GetVariableSpace() const
-    {
-        return _localCnt + 4;
-    }
-    
-    int GetParamSpace() const
-    {
-        return _paramCnt - 8;
-    }
-
     // StatementVisitor implementation
     // Used to find the declarations and add to symbol table
     virtual void Visit(const Program &p) {}
     virtual void Visit(const FunctionBlock &f) {}
+    virtual void Visit(const Block &b)
+    {
+        b.SetNestedOffset(_nestedLocalCnt);
+        _nestedLocalCnt += b.GetLocalTotal();
+    }
 
     virtual void Visit(const Add &a) {}
     virtual void Visit(const Divide &d) {}
@@ -160,14 +135,12 @@ private:
     FunctionBlock(const FunctionBlock &s);
     FunctionBlock& operator=(const FunctionBlock &s);
 
-    int _line;
     int _localCnt;
-    int _paramCnt;
-    std::string _name;
-    ParamDefList *_params;
+    int _nestedLocalCnt;
+    int _localOffset;
     StatementList *_statements;
-    StatementList *_decls;
     SymbolTable _table;
+    Block *_parent;
 };
 
 #endif
