@@ -214,3 +214,29 @@ make t25 >>./make.log
 rm t25.s
 echo
 
+echo "********************************************************************************"
+echo "Test 26: Simple WHILE"
+echo "Expect:"
+echo "5"
+echo "4"
+echo "3"
+echo "2"
+echo "1"
+echo ">>END"
+make t26 >>./make.log
+rm t26.s
+echo
+
+echo "********************************************************************************"
+echo "Test 27: nested WHILE"
+echo "Expect:"
+echo "1"
+echo "2"
+echo "1"
+echo "3"
+echo "2"
+echo "1"
+echo ">>END"
+make t27 >>./make.log
+rm t27.s
+echo
