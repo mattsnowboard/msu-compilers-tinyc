@@ -218,3 +218,14 @@ extern "C" void * AddFunctionToProgram(void * func)
     return NULL;
 }
 
+extern "C" void * CreateGreaterThan(void * left, void * right, int lineno)
+{
+    GreaterThan * g = new GreaterThan((Expr*)left,(Expr*) right, lineno);
+    return g;
+}
+
+extern "C" void * CreateLessThan(void * left, void* right, int lineno)
+{
+    LessThan * l = new LessThan((Expr*) left, (Expr*) right, lineno);
+    return l;
+}

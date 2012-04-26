@@ -54,10 +54,12 @@ STMT : ASSIGNMENT  { $$ = $1; }
 	 | WHILESTMT { $$ = $1; }
 
 
+
 IFSTMT : IF '(' EXPRESSION ')' '{'  STMTLIST '}' {
     $$ = CreateIfStmt($3, $6, lineno);
 }
 WHILESTMT : WHILE '(' EXPRESSION ')' '{' STMTLIST '}' {
+
     $$ = CreateWhileStmt($3, $6, lineno);
 }
 
@@ -77,6 +79,8 @@ FUNCCALL : VAR '(' PARAMCALLLIST ')' { $$ = CreateFunctionCall($1, $3, lineno); 
 
 EXPR : EXPR '+' TERM  {$$ = CreateAdd($1, $3, lineno);}
 EXPR : EXPR '-' TERM {$$ = CreateSubtract($1, $3, lineno);}
+EXPR : EXPR '>' TERM {$$ = CreateGreaterThan($1, $3, lineno);}
+EXPR : EXPR '<' TERM {$$ = CreateLessThan($1, $3, lineno);}
 EXPR : TERM  {$$ = $1;}
 
 TERM : TERM '*' UNARY  {$$ = CreateMultiply($1, $3, lineno);}
