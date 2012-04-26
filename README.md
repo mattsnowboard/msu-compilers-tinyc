@@ -12,6 +12,17 @@
    arguments. There is error checking for this and it will complain if you
    call something with the wrong number of arguments (Matt's task)
  - Added run_tests.sh Which will run all tests and print the expected output
+ - Added 'if' and 'while' (Jason and Cam)
+ - Added '<', '>', '!=', '==' comparisons (Jason and Cam)
+
+# Project 5 Honor's Option (Matt Durak)
+
+ - Expanded on my last Honor's option to add nested block-level scopes
+ - Can declare a variable in an arbitrily nested block (within {}) and only
+   access it at that level or deeper
+ - Child scopes can override parent
+ - Parent scope is accessible from child
+ - Tests t33, t34, and t35 show it working
 
 # Notes
 

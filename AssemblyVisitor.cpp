@@ -99,7 +99,8 @@ void AssemblyVisitor::Visit(const FunctionBlock & f)
 
 void AssemblyVisitor::Visit(const Block &b)
 {
-    // get the current SymbolTable and store it on a stack of symbol tables?
+    // save old table, get new
+    SymbolTable const *oldTable = _currTable;
     _currTable = b.GetSymbolTable();
 
     // visit statements
@@ -110,6 +111,8 @@ void AssemblyVisitor::Visit(const Block &b)
          ++it) {
         (*it)->Accept(*this);
     }
+
+    _currTable = oldTable;
 }
 
 void AssemblyVisitor::Visit(const Add & a)

@@ -1,0 +1,15 @@
+
+
+int main()
+{
+    int i = 500;
+    if (i == 500) {
+        int j = 400;
+        if (i > j) {
+            // assigning to variable in parent scope
+            // accessing variable in grandparent scope
+            i = j;
+        }
+        write i;
+    }
+}

@@ -1,0 +1,15 @@
+
+
+int main()
+{
+    int i = 0;
+    // create a block
+    {
+        // new scope
+        int i = 1;
+        write i;
+    }
+    write i;
+
+    return 0;
+}

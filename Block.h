@@ -111,10 +111,6 @@ public:
     virtual void Visit(const FunctionBlock &f) {}
     virtual void Visit(const Block &b)
     {
-        throw std::logic_error("My Visitor const trick didn't work");
-    }
-    virtual void Visit(Block &b)
-    {
         Block &bNC = const_cast<Block&>(b);
         VisitBlock(bNC);
     }

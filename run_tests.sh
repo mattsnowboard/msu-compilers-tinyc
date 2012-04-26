@@ -276,3 +276,27 @@ echo "Expect: 8"
 make t32 >>./make.log
 ./t32
 echo
+
+echo "********************************************************************************"
+echo "Test 33: scope nesting override variable test"
+echo "Expect:"
+echo "1"
+echo "0"
+echo ">>END"
+make t33 >>./make.log
+./t33
+echo
+
+echo "********************************************************************************"
+echo "Test 34: three level scope test"
+echo "Expect: 400"
+make t34 >>./make.log
+./t34
+echo
+
+echo "********************************************************************************"
+echo "Test 35: Undefined variable outside of scope"
+echo "Expect: Undefined variable: 'i', on line 7"
+make t35 >>./make.log
+rm t34.s
+echo
