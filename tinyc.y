@@ -21,7 +21,7 @@ int  lineno = 1; /* number of current source line */
 %token<ival> NUM
 %token<sval> VAR
 
-%type<pval> PROGRAM FUNCDEF FUNCDECL PARAMDEFLIST PARAMCALLLIST STMTLIST STMT ASSIGNMENT DECL OUTPUT RETURNSTMT EXPRESSION FUNCCALL EXPR TERM UNARY NUMBER TYPE DECASSIGN IFSTMT WHILESTMT
+%type<pval> PROGRAM FUNCDEF FUNCDECL PARAMDEFLIST PARAMCALLLIST STMTLIST STMT ASSIGNMENT DECL OUTPUT RETURNSTMT EXPRESSION FUNCCALL EXPR TERM UNARY NUMBER TYPE DECASSIGN IFSTMT WHILESTMT BLOCK
 
 %%
 
@@ -39,6 +39,8 @@ PARAMCALLLIST : EXPRESSION { $$ = CreateExprList($1);}
               | PARAMCALLLIST ',' EXPRESSION { $$ = AddExprToList($1, $3); }
               | { $$ = CreateExprList(NULL); /* empty param list */ }
 
+BLOCK : '{' STMTLIST '}' { $$ = $2; }
+
 STMTLIST : STMT DELIM { $$ = CreateStatementList($1);}
          | STMTLIST STMT DELIM { $$ = AddStatementToList($1, $2); }
          | STMTLIST DELIM {$$ = $1; }
@@ -55,12 +57,12 @@ STMT : ASSIGNMENT  { $$ = $1; }
 
 
 
-IFSTMT : IF '(' EXPRESSION ')' '{'  STMTLIST '}' {
-    $$ = CreateIfStmt($3, $6, lineno);
+IFSTMT : IF '(' EXPRESSION ')' BLOCK {
+    $$ = CreateIfStmt($3, $5, lineno);
 }
-WHILESTMT : WHILE '(' EXPRESSION ')' '{' STMTLIST '}' {
+WHILESTMT : WHILE '(' EXPRESSION ')' BLOCK {
 
-    $$ = CreateWhileStmt($3, $6, lineno);
+    $$ = CreateWhileStmt($3, $5, lineno);
 }
 
 RETURNSTMT : RETURN EXPRESSION { $$ = CreateReturn($2, lineno); }
