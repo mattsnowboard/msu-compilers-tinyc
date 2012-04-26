@@ -25,6 +25,7 @@
 #include "LessThan.h"
 #include "GreaterThan.h"
 #include "WhileStmt.h"
+#include "EqualToStmt.h"
 #include <list>
 
 void AssemblyVisitor::Visit(const Program & p)
@@ -191,6 +192,21 @@ void AssemblyVisitor::Visit(const LessThan &l)
     _compare = "jg";
 }
 
+void AssemblyVisitor::Visit(const EqualToStmt &e)
+{
+    VisitBinary(e, "cmp");
+    _out << "" << std::endl;
+
+    _compare = "bne";
+}
+
+void AssemblyVisitor::Visit(const NotEqualToStmt &e)
+{
+    VisitBinary(e, "cmp");
+    _out << "" << std::endl;
+
+    _compare = "be";
+}
 
 void AssemblyVisitor::Visit(const IfStmt & i)
 {

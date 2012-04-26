@@ -24,6 +24,8 @@ class LessThan;
 class GreaterThan;
 class IfStmt;
 class WhileStmt;
+class EqualToStmt;
+class NotEqualToStmt;
 
 class StatementVisitor
 {
@@ -54,6 +56,8 @@ public:
 
     virtual void Visit(const IfStmt &i) = 0;
     virtual void Visit(const WhileStmt &w) = 0;
+    virtual void Visit(const EqualToStmt &e) = 0;
+    virtual void Visit(const NotEqualToStmt &e)= 0;
 };
 
 #endif

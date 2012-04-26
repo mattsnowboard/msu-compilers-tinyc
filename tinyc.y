@@ -84,6 +84,8 @@ EXPR : EXPR '+' TERM  {$$ = CreateAdd($1, $3, lineno);}
 EXPR : EXPR '-' TERM {$$ = CreateSubtract($1, $3, lineno);}
 EXPR : EXPR '>' TERM {$$ = CreateGreaterThan($1, $3, lineno);}
 EXPR : EXPR '<' TERM {$$ = CreateLessThan($1, $3, lineno);}
+EXPR : EXPR '==' TERM {$$ = CreateEqualTo($1, $3, lineno);}
+EXPR : EXPR '!=' TERM {$$ = CreateNotEqualTo($1, $3, lineno);}
 EXPR : TERM  {$$ = $1;}
 
 TERM : TERM '*' UNARY  {$$ = CreateMultiply($1, $3, lineno);}
