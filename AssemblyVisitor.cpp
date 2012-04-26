@@ -380,8 +380,8 @@ void AssemblyVisitor::Visit(const ReturnStmt & r)
     // return statement means writing something to eax
     Expr const *val = r.GetExpr();
     val->Accept(*this);
-    _out << "\tpopl %eax /* Return statement */" << std::endl;
-    _out << "jmp " << "function_" << _curFunctionLabel << "_EP" << std::endl;
+    _out << "\tpopl %eax " << std::endl;
+    _out << "\tjmp " << "function_" << _curFunctionLabel << "_EP /* Return statement */" << std::endl;
 }
 
 void AssemblyVisitor::Visit(const FuncCall & f)
