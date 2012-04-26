@@ -29,6 +29,8 @@
 #include "ParamDefList.h"
 #include "ReturnStatement.h"
 #include "Modulus.h"
+#include "EqualToStmt.h"
+#include "NotEqualToStmt.h"
 #include <iostream>
 
 extern "C" {
@@ -228,4 +230,16 @@ extern "C" void * CreateLessThan(void * left, void* right, int lineno)
 {
     LessThan * l = new LessThan((Expr*) left, (Expr*) right, lineno);
     return l;
+}
+
+extern "C" void * CreateEqualTo(void * left, void* right, int lineno)
+{
+    EqualToStmt * e = new EqualToStmt((Expr*) left, (Expr*) right, lineno);
+    return e;
+}
+
+extern "C" void * CreateNotEqualTo(void * left, void * right, int lineno)
+{
+    NotEqualToStmt * e = new NotEqualToStmt((Expr * ) left, (Expr*) right, lineno);
+    return e;
 }

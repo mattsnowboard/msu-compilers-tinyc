@@ -31,6 +31,8 @@ class LessThan;
 class GreaterThan;
 class IfStmt;
 class WhileStmt;
+class EqualToStmt;
+class NotEqualToStmt;
 
 class AssemblyVisitor : public StatementVisitor
 {
@@ -68,6 +70,9 @@ public:
 
     virtual void Visit(const IfStmt &i);
     virtual void Visit(const WhileStmt &w);
+
+    virtual void Visit(const EqualToStmt &e);
+    virtual void Visit(const NotEqualToStmt &e);
 
 private:
 	void VisitBinary(const Binary &b, const std::string &op);

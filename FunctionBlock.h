@@ -11,6 +11,8 @@
 #include "GreaterThan.h"
 #include "IfStmt.h"
 #include "WhileStmt.h"
+#include "EqualToStmt.h"
+#include "NotEqualToStmt.h"
 #include <string>
 
 class FunctionBlock : public StatementVisitor
@@ -129,6 +131,7 @@ public:
     virtual void Visit(const Value &v) {}
     virtual void Visit(const Variable &v) {}
 
+
     virtual void Visit(const AssignStmt &a) {}
     virtual void Visit(const DecAssignStmt &a)
     {
@@ -150,7 +153,8 @@ public:
     virtual void Visit(const IfStmt &i){}
 
     virtual void Visit(const WhileStmt &i){}
-
+    virtual void Visit(const EqualToStmt &e){}
+    virtual void Visit(const NotEqualToStmt &e){}
 
 private:
     FunctionBlock(const FunctionBlock &s);
