@@ -94,17 +94,7 @@ extern "C" void * AddStatementToList(void *stmtlist, void *stmt)
     s->AddItem((Statement*)stmt);
     return s;
 }
-extern "C" void * CreateIfStmt(void *cond, void *stmtlist, int lineno)
-{
-    IfStmt* ifst = new IfStmt((Expr*)cond, (StatementList*) stmtlist, lineno);
-    return ifst;
-}
 
-extern "C" void * CreateWhileStmt(void *cond, void *stmtlist, int lineno)
-{
-    WhileStmt* wst = new WhileStmt((Expr*)cond, (StatementList*)stmtlist, lineno);
-    return wst;
-}
 
 extern "C" void * CreateWriteStmt(void *expr, int lineno)
 {
@@ -128,6 +118,18 @@ extern "C" void * CreateDecAssignStatement(const char *name, void *expr, int lin
  * Everything below added on or after Tue, Apr 3, 2012 
  */
 
+
+extern "C" void * CreateIfStmt(void *cond, void *stmtlist, int lineno)
+{
+    IfStmt* ifst = new IfStmt((Expr*)cond, (StatementList*) stmtlist, lineno);
+    return ifst;
+}
+
+extern "C" void * CreateWhileStmt(void *cond, void *stmtlist, int lineno)
+{
+    WhileStmt* wst = new WhileStmt((Expr*)cond, (StatementList*)stmtlist, lineno);
+    return wst;
+}
 
 extern "C" void * CreateReturn(void *expr, int lineno)
 {

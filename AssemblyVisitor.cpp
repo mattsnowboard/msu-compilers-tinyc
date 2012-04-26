@@ -215,11 +215,8 @@ void AssemblyVisitor::Visit(const IfStmt & i)
     *
     */
     //@TODO figure out how the hell do to this
-<<<<<<< HEAD
-}
-void AssemblyVisitor::Visit(const WhileStmt & i)
-{
-=======
+
+
 
     const Expr *cond = i.GetCondition();
     const StatementList *block= i.GetStatements();
@@ -286,9 +283,6 @@ void AssemblyVisitor::Visit(const WhileStmt& w)
    
     //place a label at the end, we'll jump here when our condition isn't met
    _out << "while_stmt_num_end" << curWhileNum <<":" << std::endl;
-
-
->>>>>>> e8d5fdc88d2150e45f7577bb0d755b27f7da41b1
 
 }
 

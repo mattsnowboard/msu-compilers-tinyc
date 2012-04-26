@@ -23,14 +23,8 @@ public:
                 // DONT FORGET TO RE-EVALUATE
                 _cond->Evaluate();
             }
-        }
-<<<<<<< HEAD
-    }*/
+        }*/
 
-=======
-    }
-*/
->>>>>>> e8d5fdc88d2150e45f7577bb0d755b27f7da41b1
     virtual WhileStmt* Clone()
     {
         Expr *c = (_cond) ? _cond->Clone() : NULL;
