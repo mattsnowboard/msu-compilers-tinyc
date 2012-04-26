@@ -241,3 +241,31 @@ make t27 >>./make.log
 ./t27
 echo
 
+
+echo "********************************************************************************"
+echo "Test 28: Simple IF Equality"
+echo "Expect: 1"
+make t28 >>./make.log
+./t28
+echo
+
+echo "********************************************************************************"
+echo "Test 29: Simple IF NotEquality"
+echo "Expect: 1"
+make t29 >>./make.log
+./t29
+echo
+
+echo "********************************************************************************"
+echo "Test 30: Simple IF Equality"
+echo "Expect: 0"
+make t30 >>./make.log
+./t30
+echo
+
+echo "********************************************************************************"
+echo "Test 31: Simple IF Equality"
+echo "Expect: 0"
+make t31 >>./make.log
+./t31
+echo

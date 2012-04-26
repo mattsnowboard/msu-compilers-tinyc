@@ -105,6 +105,6 @@ lex.yy.o: lex.yy.c
 # clean
 
 clean: 
-	$(RM) -f *.o *.s *.output t2? t1? t? lex.yy.c y.tab.[hc] tinyc \
+	$(RM) -f *.o *.s *.output t3? t2? t1? t? lex.yy.c y.tab.[hc] tinyc \
 		.D_TARGET *.log
 	$(RM) -rf $(DEPDIR)
