@@ -1,5 +1,9 @@
 # TinyC Compiler
 
+A project for CSE450 Compilers
+
+The assignment was to create a simple "C-like" compiler which compiles to assembly.
+
 # Authors
 
  - Matt Durak (durakmat)
